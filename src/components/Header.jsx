@@ -1,7 +1,7 @@
 import { LogOut } from "lucide-react";
 import { Navbar } from "./Navbar";
 
-export function Header() {
+export default function Header() {
   return (
     <header>
       <div>
@@ -12,7 +12,7 @@ export function Header() {
         />
         {/*Replace with logged in user*/}
         <p>Hello, username!</p>
-        <button>
+        <button title="Click to log out">
           Log out
           <LogOut size={16} />
         </button>
