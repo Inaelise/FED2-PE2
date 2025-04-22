@@ -16,7 +16,7 @@ export function Navbar() {
           </NavLink>
         </li>
         <li title="Go to create venue">
-          <NavLink>
+          <NavLink to="create-venue">
             <CirclePlus size={16} strokeWidth={1.5} /> Add venue
           </NavLink>
         </li>
