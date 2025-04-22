@@ -4,6 +4,7 @@ import Home from "./components/Home";
 import SpecificVenue from "./components/SpecificVenue";
 import Profile from "./components/Profile";
 import PageNotFound from "./components/PageNotFound";
+import CreateVenue from "./components/CreateVenue";
 
 function App() {
   return (
@@ -12,6 +13,7 @@ function App() {
         <Route index element={<Home />} />
         <Route path="venue/:id" element={<SpecificVenue />} />
         <Route path="profile" element={<Profile />} />
+        <Route path="create-venue" element={<CreateVenue />} />
         <Route path="*" element={<PageNotFound />} />
       </Route>
     </Routes>
