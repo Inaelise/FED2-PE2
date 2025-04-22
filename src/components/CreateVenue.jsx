@@ -26,6 +26,34 @@ export default function CreateVenue() {
             <label htmlFor="guests"></label>
             <input id="guests" />
           </div>
+          <fieldset>
+            <legend>Amenities</legend>
+            <div>
+              <label>
+                <input type="checkbox" />
+                Free wifi
+              </label>
+            </div>
+            <div>
+              <label>
+                <input type="checkbox" />
+                Breakfast
+              </label>
+            </div>
+            <div>
+              <label>
+                <input type="checkbox" />
+                Parking
+              </label>
+            </div>
+            <div>
+              <label>
+                <input type="checkbox" />
+                Pets
+              </label>
+            </div>
+          </fieldset>
+          <div>{/* Add rating here */}</div>
           <div>
             <label htmlFor="country">Country</label>
             <input id="country" />
