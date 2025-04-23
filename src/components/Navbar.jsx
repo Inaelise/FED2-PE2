@@ -1,5 +1,5 @@
 import { CirclePlus, CircleUser, Hotel } from "lucide-react";
-import { NavLink } from "react-router-dom";
+import { NavLink } from "react-router";
 
 export function Navbar() {
   return (
