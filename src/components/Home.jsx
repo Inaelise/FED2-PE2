@@ -1,7 +1,14 @@
+import { useEffect, useState } from "react";
+import SearchBar from "./SearchBar";
 import VenueCard from "./VenueCard";
 
-export default function Home({ venues }) {
+export default function Home({ venues, onSearch }) {
+  const [searchQuery, setSearchQuery] = useState("");
   console.log(venues);
+
+  useEffect(() => {
+    setSearchQuery("");
+  }, []);
   return (
     <>
       <meta
@@ -12,7 +19,14 @@ export default function Home({ venues }) {
       <main>
         <div>
           <h1>Find your place in the world</h1>
-          {/* Add searchbar here */}
+          <SearchBar
+            onSearch={(query) => {
+              setSearchQuery(query);
+              onSearch(query);
+            }}
+            venues={venues}
+            query={searchQuery}
+          />
         </div>
         <div>
           {venues.length > 0 ? (
