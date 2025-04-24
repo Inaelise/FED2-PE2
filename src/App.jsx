@@ -7,53 +7,66 @@ import PageNotFound from "./components/PageNotFound";
 import CreateVenue from "./components/CreateVenue";
 import { useEffect, useState } from "react";
 
-const API_URL = "https://v2.api.noroff.dev/holidaze/venues?sort=created";
+const API_URL = "https://v2.api.noroff.dev/holidaze/venues";
 
 function App() {
   const [venues, setVenues] = useState([]);
-  const [filteredVenues, setFilteredVenues] = useState([]);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [currentPage, setCurrentPage] = useState(1);
+  const [meta, setMeta] = useState(null);
 
   useEffect(() => {
-    async function fetchVenues() {
+    console.log("Fetching venues...", currentPage, searchQuery);
+    async function fetchVenues(page = currentPage, query = searchQuery) {
       try {
-        const response = await fetch(API_URL);
+        const baseUrl = query
+          ? `https://v2.api.noroff.dev/holidaze/venues/search?q=${encodeURIComponent(
+              query
+            )}`
+          : API_URL;
+
+        const url = new URL(baseUrl);
+        url.searchParams.append("limit", 9);
+        url.searchParams.append("page", page);
+        url.searchParams.append("sort", "created");
+
+        const response = await fetch(url);
         const json = await response.json();
+        console.log(json);
+
         setVenues(json.data);
-        setFilteredVenues(json.data);
+        setMeta(json.meta);
       } catch (error) {
         console.error("Error fetching venues:", error);
       }
     }
+    fetchVenues(currentPage, searchQuery);
+  }, [searchQuery, currentPage]);
 
-    fetchVenues();
-  }, []);
-
-  const handleSearch = (searchQuery) => {
-    if (!searchQuery) {
-      setFilteredVenues(venues);
-      return;
-    }
-
-    const query = searchQuery.toLowerCase();
-
-    const filtered = venues.filter((venue) => {
-      const name = venue.name?.toLowerCase() || "";
-      const country = venue.location?.country?.toLowerCase() || "";
-      const city = venue.location?.city?.toLowerCase() || "";
-
-      return (
-        name.includes(query) || country.includes(query) || city.includes(query)
-      );
-    });
-    setFilteredVenues(filtered);
+  const handleSearch = (query) => {
+    setSearchQuery(query);
+    setCurrentPage(1);
   };
+
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }, [currentPage, venues]);
 
   return (
     <Routes>
       <Route path="/" element={<Layout />}>
         <Route
           index
-          element={<Home venues={filteredVenues} onSearch={handleSearch} />}
+          element={
+            <Home
+              venues={venues}
+              onSearch={handleSearch}
+              currentPage={currentPage}
+              setCurrentPage={setCurrentPage}
+              meta={meta}
+              searchQuery={searchQuery}
+            />
+          }
         />
         <Route path="venue/:id" element={<SpecificVenue />} />
         <Route path="profile" element={<Profile />} />
