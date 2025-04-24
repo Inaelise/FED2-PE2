@@ -16,7 +16,6 @@ function App() {
   const [meta, setMeta] = useState(null);
 
   useEffect(() => {
-    console.log("Fetching venues...", currentPage, searchQuery);
     async function fetchVenues(page = currentPage, query = searchQuery) {
       try {
         const baseUrl = query
@@ -32,7 +31,6 @@ function App() {
 
         const response = await fetch(url);
         const json = await response.json();
-        console.log(json);
 
         setVenues(json.data);
         setMeta(json.meta);
