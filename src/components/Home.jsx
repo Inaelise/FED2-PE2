@@ -1,14 +1,14 @@
-import { useEffect, useState } from "react";
 import SearchBar from "./SearchBar";
 import VenueCard from "./VenueCard";
+import Pagination from "./Pagination";
 
-export default function Home({ venues, onSearch }) {
-  const [searchQuery, setSearchQuery] = useState("");
-  console.log(venues);
-
-  useEffect(() => {
-    setSearchQuery("");
-  }, []);
+export default function Home({
+  venues,
+  onSearch,
+  currentPage,
+  setCurrentPage,
+  meta,
+}) {
   return (
     <>
       <meta
@@ -19,14 +19,7 @@ export default function Home({ venues, onSearch }) {
       <main>
         <div>
           <h1>Find your place in the world</h1>
-          <SearchBar
-            onSearch={(query) => {
-              setSearchQuery(query);
-              onSearch(query);
-            }}
-            venues={venues}
-            query={searchQuery}
-          />
+          <SearchBar onSearch={onSearch} query={""} />
         </div>
         <div>
           {venues.length > 0 ? (
@@ -49,6 +42,11 @@ export default function Home({ venues, onSearch }) {
             <p>No venues found.</p>
           )}
         </div>
+        <Pagination
+          meta={meta}
+          currentPage={currentPage}
+          setCurrentPage={setCurrentPage}
+        />
       </main>
     </>
   );
