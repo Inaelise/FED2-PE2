@@ -1,64 +1,163 @@
-import { MapPin, Plus, Minus, SquarePen } from "lucide-react";
+import {
+  MapPin,
+  Plus,
+  Minus,
+  SquarePen,
+  MoveRight,
+  Check,
+  X,
+  Star,
+} from "lucide-react";
+import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+import { DateRange } from "react-date-range";
+import "react-date-range/dist/styles.css";
+import "react-date-range/dist/theme/default.css";
+
+import { addDays } from "date-fns";
 
 export default function SpecificVenue() {
+  const { id } = useParams();
+  const [venue, setVenue] = useState(null);
+  const [guests, setGuests] = useState(1);
+  const [dateRange, setDateRange] = useState([
+    {
+      startDate: new Date(),
+      endDate: addDays(new Date(), 1),
+      key: "selection",
+    },
+  ]);
+
+  useEffect(() => {
+    const apiUrl = `https://v2.api.noroff.dev/holidaze/venues/${id}?_owner=true&_bookings=true&_customer=true`;
+    async function fetchVenue() {
+      try {
+        const response = await fetch(apiUrl);
+        const json = await response.json();
+        setVenue(json.data);
+        console.log(json);
+      } catch (error) {
+        console.error("Error fetching venue:", error);
+      }
+    }
+
+    fetchVenue();
+  }, [id]);
+
+  if (!venue) {
+    return <h2>Venue not found</h2>;
+  }
+
   return (
     <>
-      <meta name="description" content="" />
-      <title></title>
+      <meta name="description" content={venue.description} />
+      <title>{venue.name}</title>
       <main>
-        <h1>Venue name</h1>
-        <p>
+        <h1>{venue.name}</h1>
+        <div>
           <MapPin />
-          Location
-        </p>
-        <div>{/* Add image gallery here */}</div>
+          <p>
+            {venue.location.city}, {venue.location.country}
+          </p>
+        </div>
+        <div>
+          <div>
+            <Star /> <p>{venue.rating}</p>
+          </div>
+          {/* Add image gallery here */}
+        </div>
         <section>
           <h2>Description</h2>
           <SquarePen />
-          <p>Description text goes here</p>
+          <p>{venue.description}</p>
         </section>
         <section>
           <h2>Amenities</h2>
-          <ul>{/* Add list of amenities here */}</ul>
+          <ul>
+            {Object.entries(venue.meta).map(([key, value]) => (
+              <li key={key}>
+                {value ? <Check strokeWidth={1} /> : <X strokeWidth={1} />}
+                <p>{key}</p>
+              </li>
+            ))}
+          </ul>
         </section>
         <section>
           <h2>Bookings</h2>
-          <div>
-            <img src="#" alt="User avatar" title="User name" />
-            <div>
-              <p>{/* Username goes here */}</p>
-              <p>{/* Guest amount goes here */}</p>
-            </div>
-          </div>
-          <p>{/* Booking date goes here */}</p>
+          <ul>
+            {venue.bookings.map((booking) => (
+              <li key={booking.id}>
+                <img
+                  src={booking.customer.avatar.url}
+                  alt={booking.customer.avatar.alt}
+                />
+                <div>
+                  <p>{booking.customer.name}</p>
+                  <p>{booking.guests} guests</p>
+                </div>
+                <p>
+                  {new Date(booking.dateFrom).toLocaleDateString("no-NO")}
+                  <MoveRight />
+                  {new Date(booking.dateTo).toLocaleDateString("no-NO")}
+                </p>
+              </li>
+            ))}
+          </ul>
         </section>
         <section>
-          <button></button>
           <h2>Book your stay</h2>
-          <p>{/* Max guests here */}</p>
-          <p>{/* Price here */}</p>
+          <p>Max {venue.maxGuests} guests</p>
           <div>
+            <p>{venue.price} kr</p>
+            <p>per night</p>
+          </div>
+          <form>
             <p>Select guests</p>
             <div>
-              <button>
+              <button
+                type="button"
+                onClick={() => setGuests((prev) => Math.max(1, prev - 1))}
+                disabled={guests === 1}
+              >
                 <Minus />
               </button>
-              <p>{/* Guest amount here */}</p>
-              <button>
+              <p>{guests}</p>
+              <button
+                type="button"
+                onClick={() =>
+                  setGuests((prev) => Math.min(venue.maxGuests, prev + 1))
+                }
+                disabled={guests === venue.maxGuests}
+              >
                 <Plus />
               </button>
             </div>
-            <div>{/* Calendar goes here */}</div>
-          </div>
+            <div>
+              <DateRange
+                editableDateInputs={true}
+                onChange={(item) => setDateRange([item.selection])}
+                moveRangeOnFirstSelection={false}
+                ranges={dateRange}
+                minDate={new Date()}
+              />
+            </div>
+            <button>Book now</button>
+          </form>
         </section>
         <section>
           <h2>Location & owner</h2>
-          <p>{/* Address goes here */}</p>
           <div>
-            <img src="#" alt="User avatar" />
+            <p>{venue.location.address}</p>
+            <p>
+              {venue.location.zip} {venue.location.city}
+            </p>
+            <p>{venue.location.country}</p>
+          </div>
+          <div>
+            <img src={venue.owner.avatar.url} alt={venue.owner.avatar.alt} />
             <div>
-              <p>{/* owners name goes here */}</p>
-              <p>{/* owners email goes here */}</p>
+              <p>{venue.owner.name}</p>
+              <p>{venue.owner.email}</p>
             </div>
           </div>
         </section>
