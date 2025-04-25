@@ -13,8 +13,8 @@ import { useParams } from "react-router-dom";
 import { DateRange } from "react-date-range";
 import "react-date-range/dist/styles.css";
 import "react-date-range/dist/theme/default.css";
-
 import { addDays } from "date-fns";
+import ImageGallery from "./ImageGallery";
 
 export default function SpecificVenue() {
   const { id } = useParams();
@@ -64,7 +64,7 @@ export default function SpecificVenue() {
           <div>
             <Star /> <p>{venue.rating}</p>
           </div>
-          {/* Add image gallery here */}
+          <ImageGallery media={venue.media} />
         </div>
         <section>
           <h2>Description</h2>
