@@ -1,7 +1,17 @@
-import { CirclePlus, CircleUser, Hotel } from "lucide-react";
+import {
+  CirclePlus,
+  CircleUser,
+  Hotel,
+  LogIn,
+  UserRoundPlus,
+} from "lucide-react";
 import { NavLink } from "react-router";
+import { useState } from "react";
+import LoginModal from "./LoginModal";
 
 export function Navbar() {
+  const [isOpen, setIsOpen] = useState(false);
+
   return (
     <nav>
       <ul>
@@ -21,6 +31,15 @@ export function Navbar() {
           </NavLink>
         </li>
       </ul>
+      <button onClick={() => setIsOpen(true)}>
+        <LogIn size={16} strokeWidth={1.5} />
+        Login
+      </button>
+      {isOpen && <LoginModal onClose={() => setIsOpen(false)} />}
+      <button>
+        <UserRoundPlus size={16} strokeWidth={1.5} />
+        Register
+      </button>
     </nav>
   );
 }
