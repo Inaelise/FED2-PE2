@@ -1,7 +1,7 @@
 import { X } from "lucide-react";
 import { Link } from "react-router-dom";
 
-export default function LoginModal({ onClose }) {
+export default function LoginModal({ onClose, switchModal }) {
   return (
     <div>
       <button onClick={onClose}>
@@ -10,9 +10,7 @@ export default function LoginModal({ onClose }) {
       <h1>Login</h1>
       <div>
         <p>Don't have an account?</p>
-        <Link to="/register">
-          <p>Register here</p>
-        </Link>
+        <p onClick={() => switchModal("register")}>Register here</p>
       </div>
       <form>
         <label htmlFor="email">Email</label>
