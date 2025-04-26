@@ -8,9 +8,14 @@ import {
 import { NavLink } from "react-router";
 import { useState } from "react";
 import LoginModal from "./LoginModal";
+import RegisterModal from "./RegisterModal";
 
 export function Navbar() {
-  const [isOpen, setIsOpen] = useState(false);
+  const [openModal, setOpenModal] = useState(null);
+
+  const switchModal = (modal) => {
+    setOpenModal(modal);
+  };
 
   return (
     <nav>
@@ -31,15 +36,27 @@ export function Navbar() {
           </NavLink>
         </li>
       </ul>
-      <button onClick={() => setIsOpen(true)}>
+      <button onClick={() => setOpenModal("login")}>
         <LogIn size={16} strokeWidth={1.5} />
         Login
       </button>
-      {isOpen && <LoginModal onClose={() => setIsOpen(false)} />}
-      <button>
+      <button onClick={() => setOpenModal("register")}>
         <UserRoundPlus size={16} strokeWidth={1.5} />
         Register
       </button>
+      {openModal === "login" && (
+        <LoginModal
+          onClose={() => setOpenModal(null)}
+          switchModal={switchModal}
+        />
+      )}
+
+      {openModal === "register" && (
+        <RegisterModal
+          onClose={() => setOpenModal(null)}
+          switchModal={switchModal}
+        />
+      )}
     </nav>
   );
 }
