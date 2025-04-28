@@ -19,19 +19,22 @@ export default function ImageGallery({ media }) {
 
       {media.length > 1 && (
         <div>
-          {media.map((img, index) => (
-            <img
-              key={index}
-              src={img.url}
-              alt={img.alt}
-              onClick={() => setMainImage(img)}
-              className={`h-24 w-32 object-cover rounded cursor-pointer transition-transform duration-300 ${
-                mainImage.url === img.url
-                  ? "ring-4 ring-blue-500 scale-105"
-                  : ""
-              }`}
-            />
-          ))}
+          {media.map(
+            (img) =>
+              img.url && (
+                <img
+                  key={img.url}
+                  src={img.url}
+                  alt={img.alt}
+                  onClick={() => setMainImage(img)}
+                  className={`h-24 w-32 object-cover rounded cursor-pointer transition-transform duration-300 ${
+                    mainImage.url === img.url
+                      ? "ring-4 ring-blue-500 scale-105"
+                      : ""
+                  }`}
+                />
+              )
+          )}
         </div>
       )}
     </div>
