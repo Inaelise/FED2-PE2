@@ -1,8 +1,25 @@
 import { LogOut } from "lucide-react";
 import { Navbar } from "./Navbar";
 import { NavLink } from "react-router-dom";
+import { remove } from "../storage/remove";
+import { Navigate } from "react-router-dom";
+import { useState } from "react";
+import ConfirmationModal from "./ConfirmationModal";
 
 export default function Header() {
+  const [showConfirmation, setShowConfirmation] = useState(false);
+
+  function handleLogout() {
+    remove("token");
+    remove("user");
+    Navigate("/");
+  }
+
+  function handleConfirmation() {
+    setShowConfirmation(false);
+    handleLogout();
+  }
+
   return (
     <header>
       <div>
@@ -15,10 +32,19 @@ export default function Header() {
         </NavLink>
         {/*Replace with logged in user*/}
         <p>Hello, username!</p>
-        <button title="Click to log out">
+        <button
+          onClick={() => setShowConfirmation(true)}
+          title="Click to log out"
+        >
           Log out
           <LogOut size={16} />
         </button>
+        {showConfirmation && (
+          <ConfirmationModal
+            onConfirm={handleConfirmation}
+            onCancel={() => setShowConfirmation(false)}
+          />
+        )}
       </div>
       <Navbar />
     </header>
