@@ -1,4 +1,4 @@
-import { load } from "../components/storage/load";
+import { load } from "../storage/load";
 
 export const API_KEY = "c498996c-21dc-480e-979a-7cd703127955";
 
