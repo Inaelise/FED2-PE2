@@ -3,6 +3,7 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { headers } from "../api/headers";
+import { API_AUTH_REGISTER } from "../api/constants";
 
 const schema = yup.object({
   venueManager: yup.boolean().optional(),
@@ -30,7 +31,6 @@ export default function RegisterModal({ onClose, switchModal }) {
   } = useForm({ resolver: yupResolver(schema) });
 
   async function registerUser({ venueManager, name, email, password }) {
-    const url = "https://v2.api.noroff.dev/auth/register";
     const options = {
       method: "POST",
       headers: headers("application/json"),
@@ -38,7 +38,7 @@ export default function RegisterModal({ onClose, switchModal }) {
     };
 
     try {
-      const response = await fetch(url, options);
+      const response = await fetch(API_AUTH_REGISTER, options);
       if (!response.ok) {
         throw new Error("Failed to register user.");
       }

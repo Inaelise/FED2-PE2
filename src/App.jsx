@@ -6,6 +6,7 @@ import Profile from "./components/Profile";
 import PageNotFound from "./components/PageNotFound";
 import CreateVenue from "./components/CreateVenue";
 import { useEffect, useState } from "react";
+import { API_HOLIDAZE_VENUES } from "./api/constants";
 
 const API_URL = "https://v2.api.noroff.dev/holidaze/venues";
 
@@ -19,10 +20,8 @@ function App() {
     async function fetchVenues(page = currentPage, query = searchQuery) {
       try {
         const baseUrl = query
-          ? `https://v2.api.noroff.dev/holidaze/venues/search?q=${encodeURIComponent(
-              query
-            )}`
-          : API_URL;
+          ? `${API_HOLIDAZE_VENUES}/search?q=${encodeURIComponent(query)}`
+          : API_HOLIDAZE_VENUES;
 
         const url = new URL(baseUrl);
         url.searchParams.append("limit", 9);

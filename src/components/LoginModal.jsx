@@ -4,6 +4,7 @@ import { headers } from "../api/headers";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { useForm } from "react-hook-form";
+import { API_AUTH_LOGIN } from "../api/constants";
 
 const schema = yup.object({
   email: yup
@@ -25,7 +26,6 @@ export default function LoginModal({ onClose, switchModal }) {
   } = useForm({ resolver: yupResolver(schema) });
 
   async function loginUser({ email, password }) {
-    const url = "https://v2.api.noroff.dev/auth/login";
     const options = {
       method: "POST",
       headers: headers("application/json"),
@@ -33,7 +33,7 @@ export default function LoginModal({ onClose, switchModal }) {
     };
 
     try {
-      const response = await fetch(url, options);
+      const response = await fetch(API_AUTH_LOGIN, options);
       if (!response.ok) {
         throw new Error("Failed to login user.");
       }
