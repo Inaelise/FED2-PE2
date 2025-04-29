@@ -1,3 +1,6 @@
+import ImageInput from "./ImageInput";
+import Rating from "./Rating";
+
 export default function CreateVenue() {
   return (
     <>
@@ -23,7 +26,7 @@ export default function CreateVenue() {
             <input id="price" />
           </div>
           <div>
-            <label htmlFor="guests"></label>
+            <label htmlFor="guests">Max guests</label>
             <input id="guests" />
           </div>
           <fieldset>
@@ -53,7 +56,10 @@ export default function CreateVenue() {
               </label>
             </div>
           </fieldset>
-          <div>{/* Add rating here */}</div>
+          <div>
+            <p>Rating</p>
+            <Rating />
+          </div>
           <div>
             <label htmlFor="country">Country</label>
             <input id="country" />
@@ -70,13 +76,7 @@ export default function CreateVenue() {
             <label htmlFor="zip">Zip code</label>
             <input id="zip" />
           </div>
-          <div>
-            <label htmlFor="images">Images</label>
-            <p>(URL)</p>
-            <input id="images" placeholder="https://exampleurl.com" />
-            {/* Images display here */}
-            <button>Add</button>
-          </div>
+          <ImageInput />
           <button type="submit">Create venue</button>
         </form>
       </main>
