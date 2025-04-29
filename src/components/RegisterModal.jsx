@@ -10,7 +10,7 @@ const schema = yup.object({
   name: yup
     .string()
     .min(3, "Your name should be at least 3 characters.")
-    .max(20, "Your name can't be longer than 20 characters")
+    .max(20, "Your name can't be longer than 20 characters.")
     .required("Please enter a username."),
   email: yup
     .string()
