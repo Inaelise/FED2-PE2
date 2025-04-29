@@ -1,6 +1,5 @@
 import { load } from "../storage/load";
-
-export const API_KEY = "c498996c-21dc-480e-979a-7cd703127955";
+import { API_KEY } from "./constants";
 
 export const headers = (contentType) => {
   const token = load("token");
