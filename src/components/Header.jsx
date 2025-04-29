@@ -2,7 +2,7 @@ import { LogOut } from "lucide-react";
 import { Navbar } from "./Navbar";
 import { NavLink } from "react-router-dom";
 import { remove } from "../storage/remove";
-import { Navigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import ConfirmationModal from "./ConfirmationModal";
 import { load } from "../storage/load";
@@ -12,10 +12,12 @@ export default function Header() {
 
   const activeUser = load("user");
 
+  const navigate = useNavigate();
+
   function handleLogout() {
     remove("token");
     remove("user");
-    Navigate("/");
+    navigate("/");
   }
 
   function handleConfirmation() {
