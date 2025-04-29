@@ -5,9 +5,12 @@ import { remove } from "../storage/remove";
 import { Navigate } from "react-router-dom";
 import { useState } from "react";
 import ConfirmationModal from "./ConfirmationModal";
+import { load } from "../storage/load";
 
 export default function Header() {
   const [showConfirmation, setShowConfirmation] = useState(false);
+
+  const activeUser = load("user");
 
   function handleLogout() {
     remove("token");
@@ -30,8 +33,7 @@ export default function Header() {
             title="Go to home"
           />
         </NavLink>
-        {/*Replace with logged in user*/}
-        <p>Hello, username!</p>
+        {activeUser && <p>Hello, {activeUser}!</p>}
         <button
           onClick={() => setShowConfirmation(true)}
           title="Click to log out"
