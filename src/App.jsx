@@ -4,17 +4,17 @@ import Home from "./components/Home";
 import SpecificVenue from "./components/SpecificVenue";
 import Profile from "./components/Profile";
 import PageNotFound from "./components/PageNotFound";
-import CreateVenue from "./components/CreateVenue";
+import CreateVenueForm from "./components/CreateVenueForm";
 import { useEffect, useState } from "react";
 import { API_HOLIDAZE_VENUES } from "./api/constants";
-
-const API_URL = "https://v2.api.noroff.dev/holidaze/venues";
+import { useLocation } from "react-router-dom";
 
 function App() {
   const [venues, setVenues] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [meta, setMeta] = useState(null);
+  const location = useLocation();
 
   useEffect(() => {
     async function fetchVenues(page = currentPage, query = searchQuery) {
@@ -38,7 +38,7 @@ function App() {
       }
     }
     fetchVenues(currentPage, searchQuery);
-  }, [searchQuery, currentPage]);
+  }, [searchQuery, currentPage, location.state]);
 
   const handleSearch = (query) => {
     setSearchQuery(query);
@@ -67,7 +67,7 @@ function App() {
         />
         <Route path="venue/:id" element={<SpecificVenue />} />
         <Route path="profile" element={<Profile />} />
-        <Route path="create-venue" element={<CreateVenue />} />
+        <Route path="create-venue" element={<CreateVenueForm />} />
         <Route path="*" element={<PageNotFound />} />
       </Route>
     </Routes>
