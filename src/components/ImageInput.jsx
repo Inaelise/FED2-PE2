@@ -1,10 +1,14 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { X } from "lucide-react";
 
-export default function ImageInput({ onChange }) {
+export default function ImageInput({ onChange, value = [] }) {
   const [imageUrl, setImageUrl] = useState("");
   const [images, setImages] = useState([]);
   const [error, setError] = useState(false);
+
+  useEffect(() => {
+    setImages(value);
+  }, [value]);
 
   const handleAddImage = (e) => {
     e.preventDefault();

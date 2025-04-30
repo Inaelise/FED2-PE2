@@ -1,14 +1,18 @@
 import starFilled from "/images/filled-star.png";
 import starEmpty from "/images/empty-star.png";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
-export default function Rating({ onChange }) {
+export default function Rating({ onChange, value = 0 }) {
   const [rating, setRating] = useState(0);
   const [hover, setHover] = useState(0);
 
-  function handleClick(value) {
+  useEffect(() => {
     setRating(value);
-    onChange(value);
+  }, [value]);
+
+  function handleClick(val) {
+    setRating(val);
+    onChange(val);
   }
 
   return (
