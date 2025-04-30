@@ -15,11 +15,13 @@ import "react-date-range/dist/styles.css";
 import "react-date-range/dist/theme/default.css";
 import { addDays } from "date-fns";
 import ImageGallery from "./ImageGallery";
+import EditVenueModal from "./EditVenueModal";
 
 export default function SpecificVenue() {
   const { id } = useParams();
   const [venue, setVenue] = useState(null);
   const [guests, setGuests] = useState(1);
+  const [openModal, setOpenModal] = useState(false);
   const [dateRange, setDateRange] = useState([
     {
       startDate: new Date(),
@@ -68,7 +70,10 @@ export default function SpecificVenue() {
         </div>
         <section>
           <h2>Description</h2>
-          <SquarePen />
+          <button onClick={() => setOpenModal(true)}>
+            <SquarePen />
+          </button>
+          {openModal && <EditVenueModal onClose={() => setOpenModal(false)} />}
           <p>{venue.description}</p>
         </section>
         <section>
