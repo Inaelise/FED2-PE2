@@ -10,7 +10,7 @@ import { useNavigate } from "react-router-dom";
 const schema = yup.object({
   name: yup
     .string()
-    .max(20, "The venue name can't be longer than 20 characters.")
+    .max(30, "The venue name can't be longer than 30 characters.")
     .required("Please enter a venue name."),
   description: yup.string().required("Please enter a description."),
   price: yup
@@ -38,10 +38,7 @@ const schema = yup.object({
     country: yup.string().required("Please enter a country."),
     city: yup.string().required("Please enter a city."),
     address: yup.string().required("Please enter an address."),
-    zip: yup
-      .string()
-      .matches(/^\d+$/, "Please enter a valid zip code.")
-      .required("Please enter a zip code."),
+    zip: yup.string().required("Please enter a zip code."),
   }),
 });
 
@@ -63,29 +60,11 @@ export default function CreateVenueForm() {
     },
   });
 
-  async function createVenue({
-    name,
-    description,
-    price,
-    maxGuests,
-    rating,
-    media,
-    meta,
-    location,
-  }) {
+  async function createVenue(data) {
     const options = {
       method: "POST",
       headers: headers("application/json"),
-      body: JSON.stringify({
-        name,
-        description,
-        price,
-        maxGuests,
-        rating,
-        media,
-        meta,
-        location,
-      }),
+      body: JSON.stringify(data),
     };
 
     try {
