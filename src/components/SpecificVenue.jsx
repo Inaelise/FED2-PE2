@@ -16,6 +16,7 @@ import "react-date-range/dist/theme/default.css";
 import { addDays } from "date-fns";
 import ImageGallery from "./ImageGallery";
 import EditVenueModal from "./EditVenueModal";
+import { API_HOLIDAZE_VENUES } from "../api/constants";
 
 export default function SpecificVenue() {
   const { id } = useParams();
@@ -31,7 +32,7 @@ export default function SpecificVenue() {
   ]);
 
   useEffect(() => {
-    const apiUrl = `https://v2.api.noroff.dev/holidaze/venues/${id}?_owner=true&_bookings=true&_customer=true`;
+    const apiUrl = `${API_HOLIDAZE_VENUES}/${id}?_owner=true&_bookings=true&_customer=true`;
     async function fetchVenue() {
       try {
         const response = await fetch(apiUrl);
@@ -45,6 +46,11 @@ export default function SpecificVenue() {
 
     fetchVenue();
   }, [id]);
+
+  const handleUpdate = (updatedVenue) => {
+    setVenue(updatedVenue);
+    setOpenModal(false);
+  };
 
   if (!venue) {
     return <h2>Venue not found</h2>;
@@ -73,31 +79,38 @@ export default function SpecificVenue() {
           <button onClick={() => setOpenModal(true)}>
             <SquarePen />
           </button>
-          {openModal && <EditVenueModal onClose={() => setOpenModal(false)} />}
+          {openModal && (
+            <EditVenueModal
+              venue={venue}
+              onClose={() => setOpenModal(false)}
+              onUpdate={handleUpdate}
+            />
+          )}
           <p>{venue.description}</p>
         </section>
         <section>
           <h2>Amenities</h2>
           <ul>
-            {Object.entries(venue.meta).map(([key, value]) => (
-              <li key={key}>
-                {value ? <Check strokeWidth={1} /> : <X strokeWidth={1} />}
-                <p>{key}</p>
-              </li>
-            ))}
+            {venue.meta &&
+              Object.entries(venue.meta).map(([key, value]) => (
+                <li key={key}>
+                  {value ? <Check strokeWidth={1} /> : <X strokeWidth={1} />}
+                  <p>{key}</p>
+                </li>
+              ))}
           </ul>
         </section>
         <section>
           <h2>Bookings</h2>
           <ul>
-            {venue.bookings.map((booking) => (
+            {venue.bookings?.map((booking) => (
               <li key={booking.id}>
                 <img
-                  src={booking.customer.avatar.url}
-                  alt={booking.customer.avatar.alt}
+                  src={booking.customer?.avatar?.url}
+                  alt={booking.customer?.avatar?.alt}
                 />
                 <div>
-                  <p>{booking.customer.name}</p>
+                  <p>{booking.customer?.name}</p>
                   <p>{booking.guests} guests</p>
                 </div>
                 <p>
@@ -152,19 +165,24 @@ export default function SpecificVenue() {
         <section>
           <h2>Location & owner</h2>
           <div>
-            <p>{venue.location.address}</p>
+            <p>{venue.location?.address}</p>
             <p>
-              {venue.location.zip} {venue.location.city}
+              {venue.location?.zip} {venue.location?.city}
             </p>
-            <p>{venue.location.country}</p>
+            <p>{venue.location?.country}</p>
           </div>
-          <div>
-            <img src={venue.owner.avatar.url} alt={venue.owner.avatar.alt} />
+          {venue.owner && (
             <div>
-              <p>{venue.owner.name}</p>
-              <p>{venue.owner.email}</p>
+              <img
+                src={venue.owner.avatar?.url}
+                alt={venue.owner.avatar?.alt || "Owner avatar"}
+              />
+              <div>
+                <p>{venue.owner.name}</p>
+                <p>{venue.owner.email}</p>
+              </div>
             </div>
-          </div>
+          )}
         </section>
       </main>
     </>
