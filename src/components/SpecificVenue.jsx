@@ -18,7 +18,7 @@ import ImageGallery from "./ImageGallery";
 import EditVenueModal from "./EditVenueModal";
 import { API_HOLIDAZE_VENUES } from "../api/constants";
 
-export default function SpecificVenue() {
+export default function SpecificVenue({ removeVenue }) {
   const { id } = useParams();
   const [venue, setVenue] = useState(null);
   const [guests, setGuests] = useState(1);
@@ -84,6 +84,7 @@ export default function SpecificVenue() {
               venue={venue}
               onClose={() => setOpenModal(false)}
               onUpdate={handleUpdate}
+              removeVenue={removeVenue}
             />
           )}
           <p>{venue.description}</p>

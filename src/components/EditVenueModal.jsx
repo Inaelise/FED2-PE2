@@ -7,6 +7,8 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { headers } from "../api/headers";
 import { API_HOLIDAZE_VENUES } from "../api/constants";
 import { useEffect } from "react";
+import { deleteVenue } from "../api/deleteVenue";
+import { useNavigate } from "react-router-dom";
 
 const schema = yup.object({
   name: yup
@@ -43,7 +45,13 @@ const schema = yup.object({
   }),
 });
 
-export default function EditVenueModal({ venue, onClose, onUpdate }) {
+export default function EditVenueModal({
+  venue,
+  onClose,
+  onUpdate,
+  removeVenue,
+}) {
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
@@ -85,6 +93,20 @@ export default function EditVenueModal({ venue, onClose, onUpdate }) {
       onClose();
     } catch (error) {
       console.error("Error:", error);
+    }
+  }
+
+  async function handleDelete() {
+    const confirmDelete = window.confirm(
+      "Are you sure you want to delete this venue?"
+    );
+    if (!confirmDelete) return;
+    try {
+      await deleteVenue(venue.id);
+      removeVenue(venue.id);
+      navigate("/");
+    } catch (error) {
+      console.error("Error deleting venue:", error);
     }
   }
 
@@ -184,7 +206,9 @@ export default function EditVenueModal({ venue, onClose, onUpdate }) {
         />
         <div>
           <button type="submit">Update</button>
-          <button type="button">Delete venue</button>
+          <button type="button" onClick={handleDelete}>
+            Delete venue
+          </button>
         </div>
       </form>
     </div>

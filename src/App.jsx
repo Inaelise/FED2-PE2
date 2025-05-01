@@ -40,6 +40,12 @@ function App() {
     fetchVenues(currentPage, searchQuery);
   }, [searchQuery, currentPage, location.state]);
 
+  const removeVenue = (venueId) => {
+    setVenues((prevVenues) =>
+      prevVenues.filter((venue) => venue.id !== venueId)
+    );
+  };
+
   const handleSearch = (query) => {
     setSearchQuery(query);
     setCurrentPage(1);
@@ -65,7 +71,10 @@ function App() {
             />
           }
         />
-        <Route path="venue/:id" element={<SpecificVenue />} />
+        <Route
+          path="venue/:id"
+          element={<SpecificVenue removeVenue={removeVenue} />}
+        />
         <Route path="profile" element={<Profile />} />
         <Route path="create-venue" element={<CreateVenueForm />} />
         <Route path="*" element={<PageNotFound />} />
