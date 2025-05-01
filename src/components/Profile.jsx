@@ -1,17 +1,46 @@
-import PastelStreet from "/images/pastel-street-compressed.jpg";
+import { useEffect, useState } from "react";
+import { API_HOLIDAZE_PROFILES } from "../api/constants";
+import { load } from "../storage/load";
+import { headers } from "../api/headers";
 
 export default function Profile() {
+  const [user, setUser] = useState({});
+  const activeUser = load("user");
+
+  useEffect(() => {
+    const apiUrl = `${API_HOLIDAZE_PROFILES}/${activeUser}?_bookings=true&_venues=true`;
+
+    async function fetchProfile() {
+      const options = {
+        method: "GET",
+        headers: headers("application/json"),
+      };
+      try {
+        const response = await fetch(apiUrl, options);
+        const json = await response.json();
+        setUser(json.data);
+        console.log(json);
+      } catch (error) {
+        console.error("Error fetching profile:", error);
+      }
+    }
+    fetchProfile();
+  }, [activeUser]);
+
   return (
     <>
-      <meta name="description" content="" />
-      <title>{/* Add username */}</title>
+      <meta
+        name="description"
+        content={`This is the profile of ${user.name}.`}
+      />
+      <title>{user.name}</title>
       <main>
-        <img src={<PastelStreet />} alt="" />
+        <img src={user.banner.url} alt={user.banner.alt} />
         <div>
-          <img src="#" alt="" />
+          <img src={user.avatar.url} alt={user.avatar.alt} />
           <div>
-            <h1>{/* Add username */}This is the profile page</h1>
-            <p>{/* Add user title */}</p>
+            <h1>{user.name}</h1>
+            <p>{user.venueManager ? "Venue manager" : "Customer"}</p>
           </div>
           <button title="Click to edit profile">Edit profile</button>
         </div>
