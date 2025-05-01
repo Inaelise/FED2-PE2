@@ -1,14 +1,9 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { X } from "lucide-react";
 
 export default function ImageInput({ onChange, value = [] }) {
   const [imageUrl, setImageUrl] = useState("");
-  const [images, setImages] = useState([]);
   const [error, setError] = useState(false);
-
-  useEffect(() => {
-    setImages(value);
-  }, [value]);
 
   const handleAddImage = (e) => {
     e.preventDefault();
@@ -16,7 +11,7 @@ export default function ImageInput({ onChange, value = [] }) {
 
     if (!url) return;
 
-    if (images.some((img) => img.url === url)) {
+    if (value.some((img) => img.url === url)) {
       setError(true);
       return;
     }
@@ -26,16 +21,14 @@ export default function ImageInput({ onChange, value = [] }) {
       alt: "Venue image",
     };
 
-    const updateImages = [...images, newImage];
-    setImages(updateImages);
+    const updateImages = [...value, newImage];
     onChange?.(updateImages);
     setImageUrl("");
     setError(false);
   };
 
   const handleRemoveImage = (urlToRemove) => {
-    const updatedImages = images.filter((img) => img.url !== urlToRemove);
-    setImages(updatedImages);
+    const updatedImages = value.filter((img) => img.url !== urlToRemove);
     onChange?.(updatedImages);
   };
 
@@ -57,7 +50,7 @@ export default function ImageInput({ onChange, value = [] }) {
       <button onClick={handleAddImage}>Add</button>
       {error && <p>Image already added. Try a different url.</p>}
       <div>
-        {images.map((img) => (
+        {value.map((img) => (
           <div key={img.url}>
             <img src={img.url} alt={img.alt} />
             <button onClick={() => handleRemoveImage(img.url)}>

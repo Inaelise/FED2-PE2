@@ -49,6 +49,7 @@ export default function CreateVenueForm() {
     register,
     handleSubmit,
     setValue,
+    watch,
     formState: { errors },
   } = useForm({
     resolver: yupResolver(schema),
@@ -170,7 +171,10 @@ export default function CreateVenueForm() {
             <input id="zip" {...register("location.zip")} />
             <p>{errors.zip?.message}</p>
           </div>
-          <ImageInput onChange={(images) => setValue("media", images)} />
+          <ImageInput
+            value={watch("media")}
+            onChange={(images) => setValue("media", images)}
+          />
           <button type="submit">Create venue</button>
         </form>
       </main>
