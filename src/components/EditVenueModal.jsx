@@ -27,8 +27,7 @@ const schema = yup.object({
   rating: yup.number().max(5),
   media: yup.array().of(
     yup.object().shape({
-      url: yup.string().url("Please enter a valid URL."),
-      alt: yup.string(),
+      url: yup.string().url("Please enter a valid URL.").optional(),
     })
   ),
   meta: yup.object().shape({
