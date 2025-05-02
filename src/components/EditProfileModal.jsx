@@ -21,6 +21,7 @@ export default function EditProfileModal({ onClose, onUpdate, user }) {
   const {
     register,
     handleSubmit,
+    watch,
     formState: { errors },
   } = useForm({
     resolver: yupResolver(schema),
@@ -30,6 +31,9 @@ export default function EditProfileModal({ onClose, onUpdate, user }) {
       banner: { url: user.banner?.url, alt: "Profile banner" },
     },
   });
+
+  const avatarPreview = watch("avatar.url");
+  const bannerPreview = watch("banner.url");
 
   async function updateProfile({ venueManager, avatar, banner }) {
     const options = {
@@ -62,6 +66,20 @@ export default function EditProfileModal({ onClose, onUpdate, user }) {
         <X />
       </button>
       <h1>Edit profile</h1>
+      <div>
+        <img
+          src={bannerPreview?.trim() || "/images/default-img.png"}
+          onError={(e) => (e.target.src = "/images/default-img.png")}
+          alt="Banner preview"
+        />
+      </div>
+      <div>
+        <img
+          src={avatarPreview?.trim() || "/images/default-img-png"}
+          alt="Avatar preview"
+          onError={(e) => (e.target.src = "/images/default-img.png")}
+        />
+      </div>
       <form onSubmit={handleSubmit(updateProfile)}>
         <div>
           <input
