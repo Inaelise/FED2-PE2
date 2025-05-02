@@ -2,9 +2,11 @@ import { useEffect, useState } from "react";
 import { API_HOLIDAZE_PROFILES } from "../api/constants";
 import { load } from "../storage/load";
 import { headers } from "../api/headers";
+import EditProfileModal from "./EditProfileModal";
 
 export default function Profile() {
   const [user, setUser] = useState({});
+  const [openModal, setOpenModal] = useState(false);
   const activeUser = load("user");
 
   useEffect(() => {
@@ -27,6 +29,11 @@ export default function Profile() {
     fetchProfile();
   }, [activeUser]);
 
+  const handleUpdate = (updatedProfile) => {
+    setUser(updatedProfile);
+    setOpenModal(false);
+  };
+
   return (
     <>
       <meta
@@ -35,14 +42,26 @@ export default function Profile() {
       />
       <title>{user.name}</title>
       <main>
-        <img src={user.banner.url} alt={user.banner.alt} />
+        <img src={user.banner?.url} alt={user.banner?.alt} />
         <div>
-          <img src={user.avatar.url} alt={user.avatar.alt} />
+          <img src={user.avatar?.url} alt={user.avatar?.alt} />
           <div>
             <h1>{user.name}</h1>
             <p>{user.venueManager ? "Venue manager" : "Customer"}</p>
           </div>
-          <button title="Click to edit profile">Edit profile</button>
+          <button
+            title="Click to edit profile"
+            onClick={() => setOpenModal(true)}
+          >
+            Edit profile
+          </button>
+          {openModal && (
+            <EditProfileModal
+              onClose={() => setOpenModal(false)}
+              onUpdate={handleUpdate}
+              user={user}
+            />
+          )}
         </div>
         <div>{/* Add accordion here */}</div>
       </main>
