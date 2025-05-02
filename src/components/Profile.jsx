@@ -3,6 +3,7 @@ import { API_HOLIDAZE_PROFILES } from "../api/constants";
 import { load } from "../storage/load";
 import { headers } from "../api/headers";
 import EditProfileModal from "./EditProfileModal";
+import ProfileAccordion from "./ProfileAccordion";
 
 export default function Profile() {
   const [user, setUser] = useState({});
@@ -63,7 +64,7 @@ export default function Profile() {
             />
           )}
         </div>
-        <div>{/* Add accordion here */}</div>
+        <div>{<ProfileAccordion user={user} />}</div>
       </main>
     </>
   );
