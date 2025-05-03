@@ -14,18 +14,29 @@ export default function ProfileAccordion({ user }) {
         <h2>Your bookings ({user.bookings?.length})</h2>
         {open === "bookings" ? <ChevronUp /> : <ChevronDown />}
       </div>
-      {/* {open === "bookings" && (
+      {open === "bookings" && (
         <ul>
           {user.bookings.map((booking) => (
             <li key={booking.id}>
               <div>
-              <p>Venue name:</p>
-              <p></p>
+                <p>Venue name:</p>
+                <p>{booking.venue.name}</p>
+              </div>
+              <div>
+                <p>Dates:</p>
+                <p>
+                  {new Date(booking.dateFrom).toLocaleDateString("no-NO")} -{" "}
+                  {new Date(booking.dateTo).toLocaleDateString("no-NO")}
+                </p>
+              </div>
+              <div>
+                <p>Guests:</p>
+                <p>{booking.guests}</p>
               </div>
             </li>
           ))}
         </ul>
-      ) } */}
+      )}
       <div onClick={() => toggleSection("venues")}>
         <h2>Your venues({user.venues?.length})</h2>
         {open === "venues" ? <ChevronUp /> : <ChevronDown />}
