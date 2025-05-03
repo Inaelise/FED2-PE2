@@ -9,3 +9,5 @@ export const API_AUTH_REGISTER = `${API_BASE}/auth/register`;
 export const API_HOLIDAZE_VENUES = `${API_BASE}/holidaze/venues`;
 
 export const API_HOLIDAZE_PROFILES = `${API_BASE}/holidaze/profiles`;
+
+export const API_HOLIDAZE_BOOKINGS = `${API_BASE}/holidaze/bookings`;
