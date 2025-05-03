@@ -43,9 +43,9 @@ export default function Profile() {
       />
       <title>{user.name}</title>
       <main>
-        <img src={user.banner?.url} alt={user.banner?.alt} />
+        <img className="w-50" src={user.banner?.url} alt={user.banner?.alt} />
         <div>
-          <img src={user.avatar?.url} alt={user.avatar?.alt} />
+          <img className="w-50" src={user.avatar?.url} alt={user.avatar?.alt} />
           <div>
             <h1>{user.name}</h1>
             <p>{user.venueManager ? "Venue manager" : "Customer"}</p>
