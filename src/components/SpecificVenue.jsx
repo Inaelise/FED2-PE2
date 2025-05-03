@@ -1,35 +1,19 @@
-import {
-  MapPin,
-  Plus,
-  Minus,
-  SquarePen,
-  MoveRight,
-  Check,
-  X,
-  Star,
-} from "lucide-react";
+import { MapPin, SquarePen, MoveRight, Check, X, Star } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { DateRange } from "react-date-range";
+/* import { DateRange } from "react-date-range";
 import "react-date-range/dist/styles.css";
 import "react-date-range/dist/theme/default.css";
-import { addDays } from "date-fns";
+import { addDays } from "date-fns"; */
 import ImageGallery from "./ImageGallery";
 import EditVenueModal from "./EditVenueModal";
 import { API_HOLIDAZE_VENUES } from "../api/constants";
+import BookingForm from "./BookingForm";
 
 export default function SpecificVenue({ removeVenue }) {
   const { id } = useParams();
   const [venue, setVenue] = useState(null);
-  const [guests, setGuests] = useState(1);
   const [openModal, setOpenModal] = useState(false);
-  const [dateRange, setDateRange] = useState([
-    {
-      startDate: new Date(),
-      endDate: addDays(new Date(), 1),
-      key: "selection",
-    },
-  ]);
 
   useEffect(() => {
     const apiUrl = `${API_HOLIDAZE_VENUES}/${id}?_owner=true&_bookings=true&_customer=true`;
@@ -130,38 +114,11 @@ export default function SpecificVenue({ removeVenue }) {
             <p>{venue.price} kr</p>
             <p>per night</p>
           </div>
-          <form>
-            <p>Select guests</p>
-            <div>
-              <button
-                type="button"
-                onClick={() => setGuests((prev) => Math.max(1, prev - 1))}
-                disabled={guests === 1}
-              >
-                <Minus />
-              </button>
-              <p>{guests}</p>
-              <button
-                type="button"
-                onClick={() =>
-                  setGuests((prev) => Math.min(venue.maxGuests, prev + 1))
-                }
-                disabled={guests === venue.maxGuests}
-              >
-                <Plus />
-              </button>
-            </div>
-            <div>
-              <DateRange
-                editableDateInputs={true}
-                onChange={(item) => setDateRange([item.selection])}
-                moveRangeOnFirstSelection={false}
-                ranges={dateRange}
-                minDate={new Date()}
-              />
-            </div>
-            <button>Book now</button>
-          </form>
+          <BookingForm
+            venueId={venue.id}
+            maxGuests={venue.maxGuests}
+            price={venue.price}
+          />
         </section>
         <section>
           <h2>Location & owner</h2>
