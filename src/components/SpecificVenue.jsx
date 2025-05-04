@@ -5,11 +5,14 @@ import ImageGallery from "./ImageGallery";
 import EditVenueModal from "./EditVenueModal";
 import { API_HOLIDAZE_VENUES } from "../api/constants";
 import BookingForm from "./BookingForm";
+import { load } from "../storage/load";
 
 export default function SpecificVenue({ removeVenue }) {
   const { id } = useParams();
   const [venue, setVenue] = useState(null);
   const [openModal, setOpenModal] = useState(false);
+
+  const activeUser = load("user");
 
   useEffect(() => {
     const apiUrl = `${API_HOLIDAZE_VENUES}/${id}?_owner=true&_bookings=true&_customer=true`;
@@ -110,11 +113,15 @@ export default function SpecificVenue({ removeVenue }) {
             <p>{venue.price} kr</p>
             <p>per night</p>
           </div>
-          <BookingForm
-            venueId={venue.id}
-            maxGuests={venue.maxGuests}
-            price={venue.price}
-          />
+          {activeUser ? (
+            <BookingForm
+              venueId={venue.id}
+              maxGuests={venue.maxGuests}
+              price={venue.price}
+            />
+          ) : (
+            <p>Login to make a booking.</p>
+          )}
         </section>
         <section>
           <h2>Location & owner</h2>
