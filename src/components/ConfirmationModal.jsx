@@ -1,6 +1,11 @@
 import { X } from "lucide-react";
 
-export default function ConfirmationModal({ onCancel, onConfirm }) {
+export default function ConfirmationModal({
+  title = "Are you sure?",
+  message = "Please confirm your action",
+  onCancel,
+  onConfirm,
+}) {
   return (
     <div>
       <div>
@@ -8,8 +13,8 @@ export default function ConfirmationModal({ onCancel, onConfirm }) {
           <X />
         </button>
       </div>
-      <h2>Confirm logout</h2>
-      <p>Are you sure you want to logout?</p>
+      <h2>{title}</h2>
+      <p>{message}</p>
       <div>
         <button onClick={onConfirm}>Yes</button>
         <button onClick={onCancel}>No</button>
