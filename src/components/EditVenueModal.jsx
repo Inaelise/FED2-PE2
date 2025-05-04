@@ -6,9 +6,10 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { headers } from "../api/headers";
 import { API_HOLIDAZE_VENUES } from "../api/constants";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { deleteVenue } from "../api/deleteVenue";
 import { useNavigate } from "react-router-dom";
+import ConfirmationModal from "./ConfirmationModal";
 
 const schema = yup.object({
   name: yup
@@ -50,7 +51,10 @@ export default function EditVenueModal({
   onUpdate,
   removeVenue,
 }) {
+  const [showConfirmation, setShowConfirmation] = useState(false);
+  const [isDeleted, setIsDeleted] = useState(false);
   const navigate = useNavigate();
+
   const {
     register,
     handleSubmit,
@@ -71,7 +75,20 @@ export default function EditVenueModal({
     }
   }, [venue, reset, setValue]);
 
+  async function handleDelete() {
+    setIsDeleted(true);
+    try {
+      await deleteVenue(venue.id);
+      removeVenue(venue.id);
+      navigate("/");
+    } catch (error) {
+      console.error("Error deleting venue:", error);
+    }
+  }
+
   async function updateVenue(data) {
+    if (isDeleted) return;
+
     const options = {
       method: "PUT",
       headers: headers("application/json"),
@@ -92,20 +109,6 @@ export default function EditVenueModal({
       onClose();
     } catch (error) {
       console.error("Error:", error);
-    }
-  }
-
-  async function handleDelete() {
-    const confirmDelete = window.confirm(
-      "Are you sure you want to delete this venue?"
-    );
-    if (!confirmDelete) return;
-    try {
-      await deleteVenue(venue.id);
-      removeVenue(venue.id);
-      navigate("/");
-    } catch (error) {
-      console.error("Error deleting venue:", error);
     }
   }
 
@@ -205,9 +208,17 @@ export default function EditVenueModal({
         />
         <div>
           <button type="submit">Update</button>
-          <button type="button" onClick={handleDelete}>
+          <button type="button" onClick={() => setShowConfirmation(true)}>
             Delete venue
           </button>
+          {showConfirmation && (
+            <ConfirmationModal
+              title="Delete venue"
+              message={`Are you sure you want to delete venue with id:${venue.id}? This action cannot be undone.`}
+              onConfirm={handleDelete}
+              onCancel={() => setShowConfirmation(false)}
+            />
+          )}
         </div>
       </form>
     </div>
