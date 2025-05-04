@@ -45,6 +45,8 @@ export default function Header() {
         </button>
         {showConfirmation && (
           <ConfirmationModal
+            title="Logout confirmation"
+            message="Are you sure you want to logout?"
             onConfirm={handleConfirmation}
             onCancel={() => setShowConfirmation(false)}
           />
