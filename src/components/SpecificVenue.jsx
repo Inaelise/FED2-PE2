@@ -1,10 +1,6 @@
 import { MapPin, SquarePen, MoveRight, Check, X, Star } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-/* import { DateRange } from "react-date-range";
-import "react-date-range/dist/styles.css";
-import "react-date-range/dist/theme/default.css";
-import { addDays } from "date-fns"; */
 import ImageGallery from "./ImageGallery";
 import EditVenueModal from "./EditVenueModal";
 import { API_HOLIDAZE_VENUES } from "../api/constants";
