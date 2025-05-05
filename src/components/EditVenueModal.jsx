@@ -10,6 +10,7 @@ import { useEffect, useState } from "react";
 import { deleteVenue } from "../api/deleteVenue";
 import { useNavigate } from "react-router-dom";
 import ConfirmationModal from "./ConfirmationModal";
+import { useToast } from "../context/ToastContext";
 
 const schema = yup.object({
   name: yup
@@ -54,6 +55,7 @@ export default function EditVenueModal({
   const [showConfirmation, setShowConfirmation] = useState(false);
   const [isDeleted, setIsDeleted] = useState(false);
   const navigate = useNavigate();
+  const { showToast } = useToast();
 
   const {
     register,
@@ -79,10 +81,14 @@ export default function EditVenueModal({
     setIsDeleted(true);
     try {
       await deleteVenue(venue.id);
+      showToast({ message: "Venue deleted successfully!", type: "success" });
       removeVenue(venue.id);
       navigate("/");
     } catch (error) {
-      console.error("Error deleting venue:", error);
+      showToast({
+        message: error.message,
+        type: "error",
+      });
     }
   }
 
@@ -100,15 +106,20 @@ export default function EditVenueModal({
         `${API_HOLIDAZE_VENUES}/${venue.id}`,
         options
       );
-      if (!response.ok) {
-        throw new Error("Failed to update venue.");
-      }
       const json = await response.json();
-      console.log("Venue updated successfully:", json);
+
+      if (!response.ok) {
+        const errorMessage = json.errors
+          .map((error) => error.message)
+          .join("\r\n");
+        throw new Error(errorMessage);
+      }
+
+      showToast({ message: "Venue updated successfully!", type: "success" });
       onUpdate?.(json.data);
       onClose();
     } catch (error) {
-      console.error("Error:", error);
+      showToast({ message: error.message, type: "error" });
     }
   }
 
