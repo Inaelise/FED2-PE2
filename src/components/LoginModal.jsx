@@ -5,6 +5,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { useForm } from "react-hook-form";
 import { API_AUTH_LOGIN } from "../api/constants";
+import { useToast } from "../context/ToastContext";
 
 const schema = yup.object({
   email: yup
@@ -18,6 +19,8 @@ const schema = yup.object({
 });
 
 export default function LoginModal({ onClose, switchModal }) {
+  const { showToast } = useToast();
+
   const {
     register,
     handleSubmit,
@@ -34,17 +37,23 @@ export default function LoginModal({ onClose, switchModal }) {
 
     try {
       const response = await fetch(API_AUTH_LOGIN, options);
-      if (!response.ok) {
-        throw new Error("Failed to login user.");
-      }
       const json = await response.json();
+
+      if (!response.ok) {
+        const errorMessage = json.errors
+          .map((error) => error.message)
+          .join("\r\n");
+        throw new Error(errorMessage);
+      }
+
       save("token", json.data.accessToken);
       save("user", json.data.name);
-      console.log("Login successful:", json);
+
+      showToast({ message: "Login successful!", type: "success" });
       reset();
       onClose();
     } catch (error) {
-      console.error("Error:", error);
+      showToast({ message: error.message, type: "error" });
     }
   }
 
