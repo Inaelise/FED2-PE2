@@ -8,16 +8,21 @@ import CreateVenueForm from "./components/CreateVenueForm";
 import { useEffect, useState } from "react";
 import { API_HOLIDAZE_VENUES } from "./api/constants";
 import { useLocation } from "react-router-dom";
+import { CircleAlert } from "lucide-react";
 
 function App() {
   const [venues, setVenues] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [meta, setMeta] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
+  const [isError, setIsError] = useState(false);
   const location = useLocation();
 
   useEffect(() => {
     async function fetchVenues(page = currentPage, query = searchQuery) {
+      setIsLoading(true);
+      setIsError(false);
       try {
         const baseUrl = query
           ? `${API_HOLIDAZE_VENUES}/search?q=${encodeURIComponent(query)}`
@@ -35,6 +40,9 @@ function App() {
         setMeta(json.meta);
       } catch (error) {
         console.error("Error fetching venues:", error);
+        setIsError(true);
+      } finally {
+        setIsLoading(false);
       }
     }
     fetchVenues(currentPage, searchQuery);
@@ -61,14 +69,25 @@ function App() {
         <Route
           index
           element={
-            <Home
-              venues={venues}
-              onSearch={handleSearch}
-              currentPage={currentPage}
-              setCurrentPage={setCurrentPage}
-              meta={meta}
-              searchQuery={searchQuery}
-            />
+            isLoading ? (
+              <div className="flex justify-center items-center h-screen">
+                <div className="size-6 border-6 border-solid border-gray-300 border-t-black rounded-full animate-spin" />
+              </div>
+            ) : isError ? (
+              <div>
+                <CircleAlert />
+                <p>Oops, something went wrong. Could not load data.</p>
+              </div>
+            ) : (
+              <Home
+                venues={venues}
+                onSearch={handleSearch}
+                currentPage={currentPage}
+                setCurrentPage={setCurrentPage}
+                meta={meta}
+                searchQuery={searchQuery}
+              />
+            )
           }
         />
         <Route
