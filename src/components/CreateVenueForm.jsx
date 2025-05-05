@@ -6,6 +6,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { headers } from "../api/headers";
 import { API_HOLIDAZE_VENUES } from "../api/constants";
 import { useNavigate } from "react-router-dom";
+import { useToast } from "../context/ToastContext";
 
 const schema = yup.object({
   name: yup
@@ -44,6 +45,7 @@ const schema = yup.object({
 
 export default function CreateVenueForm() {
   const navigate = useNavigate();
+  const { showToast } = useToast();
 
   const {
     register,
@@ -70,14 +72,19 @@ export default function CreateVenueForm() {
 
     try {
       const response = await fetch(API_HOLIDAZE_VENUES, options);
-      if (!response.ok) {
-        throw new Error("Failed to create venue.");
-      }
       const json = await response.json();
-      console.log("Venue created successfully:", json);
+
+      if (!response.ok) {
+        const errorMessage = json.errors
+          .map((error) => error.message)
+          .join("\r\n");
+        throw new Error(errorMessage);
+      }
+
+      showToast({ message: "Venue created successfully!", type: "success" });
       navigate("/", { state: { reload: true } });
     } catch (error) {
-      console.error("Error:", error);
+      showToast({ message: error.message, type: "error" });
     }
   }
 
