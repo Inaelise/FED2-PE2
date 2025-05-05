@@ -39,8 +39,7 @@ function App() {
 
         setVenues(json.data);
         setMeta(json.meta);
-      } catch (error) {
-        console.error("Error fetching venues:", error);
+      } catch {
         setIsError(true);
       } finally {
         setIsLoading(false);
