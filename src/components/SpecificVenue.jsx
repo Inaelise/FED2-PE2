@@ -59,9 +59,11 @@ export default function SpecificVenue({ removeVenue }) {
         </div>
         <section>
           <h2>Description</h2>
-          <button onClick={() => setOpenModal(true)}>
-            <SquarePen />
-          </button>
+          {activeUser === venue.owner.name && (
+            <button onClick={() => setOpenModal(true)}>
+              <SquarePen />
+            </button>
+          )}
           {openModal && (
             <EditVenueModal
               venue={venue}
