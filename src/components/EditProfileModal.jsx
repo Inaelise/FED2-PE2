@@ -5,6 +5,7 @@ import * as yup from "yup";
 import { useForm } from "react-hook-form";
 import { API_HOLIDAZE_PROFILES } from "../api/constants";
 import { load } from "../storage/load";
+import { useToast } from "../context/ToastContext";
 
 const schema = yup.object({
   venueManager: yup.boolean().optional(),
@@ -17,6 +18,7 @@ const schema = yup.object({
 });
 
 export default function EditProfileModal({ onClose, onUpdate, user }) {
+  const { showToast } = useToast();
   const activeUser = load("user");
   const {
     register,
@@ -47,16 +49,20 @@ export default function EditProfileModal({ onClose, onUpdate, user }) {
         `${API_HOLIDAZE_PROFILES}/${activeUser}`,
         options
       );
+      const json = await response.json();
 
       if (!response.ok) {
-        throw new Error("Failed to update profile.");
+        const errorMessage = json.errors
+          .map((error) => error.message)
+          .join("\r\n");
+        throw new Error(errorMessage);
       }
-      const json = await response.json();
-      console.log("Profile updated successfully:", json);
+
+      showToast({ message: "Profile updated successfully!", type: "success" });
       onUpdate?.(json.data);
       onClose();
     } catch (error) {
-      console.error("Error:", error);
+      showToast({ message: error.message, type: "error" });
     }
   }
 
