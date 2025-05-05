@@ -9,6 +9,7 @@ import { useEffect, useState } from "react";
 import { API_HOLIDAZE_VENUES } from "./api/constants";
 import { useLocation } from "react-router-dom";
 import { CircleAlert } from "lucide-react";
+import LoadingSpinner from "./components/LoadingSpinner";
 
 function App() {
   const [venues, setVenues] = useState([]);
@@ -70,9 +71,7 @@ function App() {
           index
           element={
             isLoading ? (
-              <div className="flex justify-center items-center h-screen">
-                <div className="size-6 border-6 border-solid border-gray-300 border-t-black rounded-full animate-spin" />
-              </div>
+              <LoadingSpinner />
             ) : isError ? (
               <div>
                 <CircleAlert />
