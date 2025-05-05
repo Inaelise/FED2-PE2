@@ -4,10 +4,14 @@ import { load } from "../storage/load";
 import { headers } from "../api/headers";
 import EditProfileModal from "./EditProfileModal";
 import ProfileAccordion from "./ProfileAccordion";
+import LoadingSpinner from "./LoadingSpinner";
+import { CircleAlert } from "lucide-react";
 
 export default function Profile() {
   const [user, setUser] = useState({});
   const [openModal, setOpenModal] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [isError, setIsError] = useState(false);
   const activeUser = load("user");
 
   useEffect(() => {
@@ -18,15 +22,28 @@ export default function Profile() {
         method: "GET",
         headers: headers("application/json"),
       };
+
+      setIsLoading(true);
+      setIsError(false);
       try {
         const response = await fetch(apiUrl, options);
         const json = await response.json();
+
+        if (!response.ok) {
+          const errorMessage = json.errors
+            .map((error) => error.message)
+            .join("\r\n");
+          throw new Error(errorMessage);
+        }
+
         setUser(json.data);
-        console.log(json);
-      } catch (error) {
-        console.error("Error fetching profile:", error);
+      } catch {
+        setIsError(true);
+      } finally {
+        setIsLoading(false);
       }
     }
+
     fetchProfile();
   }, [activeUser]);
 
@@ -39,33 +56,47 @@ export default function Profile() {
     <>
       <meta
         name="description"
-        content={`This is the profile of ${user.name}.`}
+        content={`This is the profile of ${user?.name || "User undefined"}.`}
       />
-      <title>{user.name}</title>
-      <main>
-        <img className="w-50" src={user.banner?.url} alt={user.banner?.alt} />
+      <title>{user.name || "User profile"}</title>
+
+      {isLoading ? (
+        <LoadingSpinner />
+      ) : isError ? (
         <div>
-          <img className="w-50" src={user.avatar?.url} alt={user.avatar?.alt} />
-          <div>
-            <h1>{user.name}</h1>
-            <p>{user.venueManager ? "Venue manager" : "Customer"}</p>
-          </div>
-          <button
-            title="Click to edit profile"
-            onClick={() => setOpenModal(true)}
-          >
-            Edit profile
-          </button>
-          {openModal && (
-            <EditProfileModal
-              onClose={() => setOpenModal(false)}
-              onUpdate={handleUpdate}
-              user={user}
-            />
-          )}
+          <CircleAlert />
+          <p>Oops, something went wrong. Could not find profile.</p>
         </div>
-        <div>{<ProfileAccordion user={user} />}</div>
-      </main>
+      ) : (
+        <main>
+          <img className="w-50" src={user.banner?.url} alt={user.banner?.alt} />
+          <div>
+            <img
+              className="w-50"
+              src={user.avatar?.url}
+              alt={user.avatar?.alt}
+            />
+            <div>
+              <h1>{user.name}</h1>
+              <p>{user.venueManager ? "Venue manager" : "Customer"}</p>
+            </div>
+            <button
+              title="Click to edit profile"
+              onClick={() => setOpenModal(true)}
+            >
+              Edit profile
+            </button>
+            {openModal && (
+              <EditProfileModal
+                onClose={() => setOpenModal(false)}
+                onUpdate={handleUpdate}
+                user={user}
+              />
+            )}
+          </div>
+          <div>{<ProfileAccordion user={user} />}</div>
+        </main>
+      )}
     </>
   );
 }
