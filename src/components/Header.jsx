@@ -6,17 +6,18 @@ import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import ConfirmationModal from "./ConfirmationModal";
 import { load } from "../storage/load";
+import { useToast } from "../context/ToastContext";
 
 export default function Header() {
   const [showConfirmation, setShowConfirmation] = useState(false);
-
   const activeUser = load("user");
-
+  const { showToast } = useToast();
   const navigate = useNavigate();
 
   function handleLogout() {
     remove("token");
     remove("user");
+    showToast({ message: "Logout successful!", type: "success" });
     navigate("/");
   }
 
