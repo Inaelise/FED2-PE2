@@ -9,12 +9,14 @@ import { addDays } from "date-fns";
 import { Plus, Minus } from "lucide-react";
 import { headers } from "../api/headers";
 import { API_HOLIDAZE_BOOKINGS } from "../api/constants";
+import { useToast } from "../context/ToastContext";
 
 const schema = yup.object().shape({
   guests: yup.number().required("Please fill out number of guests."),
 });
 
 export default function BookingForm({ venueId, maxGuests, price }) {
+  const { showToast } = useToast();
   const [guests, setGuests] = useState(1);
   const [dateRange, setDateRange] = useState([
     {
@@ -48,13 +50,21 @@ export default function BookingForm({ venueId, maxGuests, price }) {
 
     try {
       const response = await fetch(API_HOLIDAZE_BOOKINGS, options);
-      if (!response.ok) {
-        throw new Error("Booking failed.");
-      }
       const json = await response.json();
-      console.log("Booking created successfully", json);
+
+      if (!response.ok) {
+        const errorMessage = json.errors
+          .map((error) => error.message)
+          .join("\r\n");
+        throw new Error(errorMessage);
+      }
+
+      showToast({
+        message: "Booking successful! Find bookings in your profile.",
+        type: "success",
+      });
     } catch (error) {
-      console.error("Error", error);
+      showToast({ message: error.message, type: "error" });
     }
   }
 
