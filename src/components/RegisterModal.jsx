@@ -4,6 +4,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { headers } from "../api/headers";
 import { API_AUTH_REGISTER } from "../api/constants";
+import { useToast } from "../context/ToastContext";
 
 const schema = yup.object({
   venueManager: yup.boolean().optional(),
@@ -23,6 +24,8 @@ const schema = yup.object({
 });
 
 export default function RegisterModal({ onClose, switchModal }) {
+  const { showToast } = useToast();
+
   const {
     register,
     handleSubmit,
@@ -39,15 +42,20 @@ export default function RegisterModal({ onClose, switchModal }) {
 
     try {
       const response = await fetch(API_AUTH_REGISTER, options);
-      if (!response.ok) {
-        throw new Error("Failed to register user.");
-      }
       const json = await response.json();
-      console.log("Registration successful:", json);
+
+      if (!response.ok) {
+        const errorMessage = json.errors
+          .map((error) => error.message)
+          .join("\r\n");
+        throw new Error(errorMessage);
+      }
+
+      showToast({ message: "Registration successful!", type: "success" });
       reset();
       onClose();
     } catch (error) {
-      console.error("Error:", error);
+      showToast({ message: error.message, type: "error" });
     }
   }
 
