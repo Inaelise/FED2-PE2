@@ -1,12 +1,18 @@
 import { useEffect, useState } from "react";
-import { API_HOLIDAZE_PROFILES } from "../api/constants";
 import { load } from "../storage/load";
-import { headers } from "../api/headers";
 import EditProfileModal from "./EditProfileModal";
 import ProfileAccordion from "./ProfileAccordion";
 import LoadingSpinner from "./LoadingSpinner";
 import { CircleAlert } from "lucide-react";
+import { getProfile } from "../api/profile/read";
 
+/**
+ * Profile component that displays user information and allows editing.
+ *
+ * @component
+ * @param {Object} props - Component props.
+ * @returns {JSX.Element} The rendered profile component.
+ */
 export default function Profile() {
   const [user, setUser] = useState({});
   const [openModal, setOpenModal] = useState(false);
@@ -15,28 +21,13 @@ export default function Profile() {
   const activeUser = load("user");
 
   useEffect(() => {
-    const apiUrl = `${API_HOLIDAZE_PROFILES}/${activeUser}?_bookings=true&_venues=true`;
-
     async function fetchProfile() {
-      const options = {
-        method: "GET",
-        headers: headers("application/json"),
-      };
-
       setIsLoading(true);
       setIsError(false);
+
       try {
-        const response = await fetch(apiUrl, options);
-        const json = await response.json();
-
-        if (!response.ok) {
-          const errorMessage = json.errors
-            .map((error) => error.message)
-            .join("\r\n");
-          throw new Error(errorMessage);
-        }
-
-        setUser(json.data);
+        const profile = await getProfile(activeUser);
+        setUser(profile);
       } catch {
         setIsError(true);
       } finally {
