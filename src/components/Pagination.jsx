@@ -14,7 +14,9 @@ export default function Pagination({ meta, currentPage, setCurrentPage }) {
       >
         Previous
       </button>
-      <span>{meta.currentPage}</span>
+      <span>
+        {meta.currentPage} of {meta.pageCount}
+      </span>
       <button
         onClick={() => goToPage(currentPage + 1)}
         disabled={meta.isLastPage}
