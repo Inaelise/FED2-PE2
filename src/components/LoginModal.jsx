@@ -1,11 +1,10 @@
 import { X } from "lucide-react";
 import { save } from "../storage/save";
-import { headers } from "../api/headers";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { useForm } from "react-hook-form";
-import { API_AUTH_LOGIN } from "../api/constants";
 import { useToast } from "../context/ToastContext";
+import { loginUser } from "../api/auth/login";
 
 const schema = yup.object({
   email: yup
@@ -18,6 +17,15 @@ const schema = yup.object({
     .required("Please enter your password."),
 });
 
+/**
+ * Modal component for user login.
+ *
+ * @component
+ * @param {Object} props - Component props.
+ * @param {Function} onClose - Function to close the modal.
+ * @param {Function} switchModal - Function to switch to another modal (e.g., registration).
+ * @returns {JSX.Element} The rendered login modal.
+ */
 export default function LoginModal({ onClose, switchModal }) {
   const { showToast } = useToast();
 
@@ -28,26 +36,12 @@ export default function LoginModal({ onClose, switchModal }) {
     reset,
   } = useForm({ resolver: yupResolver(schema) });
 
-  async function loginUser({ email, password }) {
-    const options = {
-      method: "POST",
-      headers: headers("application/json"),
-      body: JSON.stringify({ email, password }),
-    };
-
+  async function onLogin({ email, password }) {
     try {
-      const response = await fetch(API_AUTH_LOGIN, options);
-      const json = await response.json();
+      const data = await loginUser({ email, password });
 
-      if (!response.ok) {
-        const errorMessage = json.errors
-          .map((error) => error.message)
-          .join("\r\n");
-        throw new Error(errorMessage);
-      }
-
-      save("token", json.data.accessToken);
-      save("user", json.data.name);
+      save("token", data.accessToken);
+      save("user", data.name);
 
       showToast({ message: "Login successful!", type: "success" });
       reset();
@@ -67,7 +61,7 @@ export default function LoginModal({ onClose, switchModal }) {
         <p>Don't have an account?</p>
         <p onClick={() => switchModal("register")}>Register here</p>
       </div>
-      <form onSubmit={handleSubmit(loginUser)}>
+      <form onSubmit={handleSubmit(onLogin)}>
         <label htmlFor="email">Email</label>
         <input type="email" id="email" name="email" {...register("email")} />
         <p>{errors.email?.message}</p>
