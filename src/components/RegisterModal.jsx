@@ -2,9 +2,8 @@ import { X } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
-import { headers } from "../api/headers";
-import { API_AUTH_REGISTER } from "../api/constants";
 import { useToast } from "../context/ToastContext";
+import { registerUser } from "../api/auth/register";
 
 const schema = yup.object({
   venueManager: yup.boolean().optional(),
@@ -23,6 +22,15 @@ const schema = yup.object({
     .required("Please enter a password."),
 });
 
+/**
+ * Modal component for user registration.
+ *
+ * @component
+ * @param {Object} props - Component props.
+ * @param {Function} onClose - Function to close the modal.
+ * @param {Function} switchModal - Function to switch to another modal (e.g., login).
+ * @returns {JSX.Element} The rendered registration modal.
+ */
 export default function RegisterModal({ onClose, switchModal }) {
   const { showToast } = useToast();
 
@@ -33,23 +41,14 @@ export default function RegisterModal({ onClose, switchModal }) {
     reset,
   } = useForm({ resolver: yupResolver(schema) });
 
-  async function registerUser({ venueManager, name, email, password }) {
-    const options = {
-      method: "POST",
-      headers: headers("application/json"),
-      body: JSON.stringify({ venueManager, name, email, password }),
-    };
-
+  async function onRegister({ venueManager, name, email, password }) {
     try {
-      const response = await fetch(API_AUTH_REGISTER, options);
-      const json = await response.json();
-
-      if (!response.ok) {
-        const errorMessage = json.errors
-          .map((error) => error.message)
-          .join("\r\n");
-        throw new Error(errorMessage);
-      }
+      await registerUser({
+        venueManager,
+        name,
+        email,
+        password,
+      });
 
       showToast({ message: "Registration successful!", type: "success" });
       reset();
@@ -69,7 +68,7 @@ export default function RegisterModal({ onClose, switchModal }) {
         <p>Already have an account?</p>
         <p onClick={() => switchModal("login")}>Login here</p>
       </div>
-      <form onSubmit={handleSubmit(registerUser)}>
+      <form onSubmit={handleSubmit(onRegister)}>
         <div>
           <input
             type="checkbox"
