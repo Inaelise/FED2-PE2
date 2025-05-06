@@ -38,6 +38,16 @@ export default function Profile() {
     fetchProfile();
   }, [activeUser]);
 
+  /**
+   * Updates the user profile state with the new data and closes the modal.
+   * This function is passed as a callback to the "EditProfileModal" to handle the updated data after editing.
+   *
+   * @param {Object} updatedProfile - The updated profile data returned after editing.
+   * @param {string} name - The name of the user.
+   * @param {Object} avatar - The avatar object containing the URL and alt text.
+   * @param {Object} banner - The banner object containing the URL and alt text.
+   * @param {boolean} venueManager - Whether the user is a venue manager.
+   */
   const handleUpdate = (updatedProfile) => {
     setUser(updatedProfile);
     setOpenModal(false);
