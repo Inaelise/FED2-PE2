@@ -11,11 +11,19 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import ImageGallery from "./ImageGallery";
 import EditVenueModal from "./EditVenueModal";
-import { API_HOLIDAZE_VENUES } from "../api/constants";
 import BookingForm from "./BookingForm";
 import { load } from "../storage/load";
 import LoadingSpinner from "./LoadingSpinner";
+import { getSpecificVenue } from "../api/venue/read";
 
+/**
+ * Displays a specific venue's details, including images, amenities, bookings, and allows booking or editing (if the user is the owner).
+ *
+ * @component
+ * @param {Object} props - The component props.
+ * @param {Function} removeVenue - Callback to remove the venue after deletion.
+ * @returns {JSX.Element} The rendered component.
+ */
 export default function SpecificVenue({ removeVenue }) {
   const { id } = useParams();
   const [venue, setVenue] = useState(null);
@@ -26,22 +34,12 @@ export default function SpecificVenue({ removeVenue }) {
   const activeUser = load("user");
 
   useEffect(() => {
-    const apiUrl = `${API_HOLIDAZE_VENUES}/${id}?_owner=true&_bookings=true&_customer=true`;
     async function fetchVenue() {
       setIsError(false);
       setIsLoading(true);
       try {
-        const response = await fetch(apiUrl);
-        const json = await response.json();
-
-        if (!response.ok) {
-          const errorMessage = json.errors
-            .map((error) => error.message)
-            .join("\r\n");
-          throw new Error(errorMessage);
-        }
-
-        setVenue(json.data);
+        const data = await getSpecificVenue(id);
+        setVenue(data);
       } catch {
         setIsError(true);
       } finally {
