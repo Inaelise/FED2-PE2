@@ -6,10 +6,8 @@ import Profile from "./components/Profile";
 import PageNotFound from "./components/PageNotFound";
 import CreateVenueForm from "./components/CreateVenueForm";
 import { useEffect, useState } from "react";
-import { API_HOLIDAZE_VENUES } from "./api/constants";
 import { useLocation } from "react-router-dom";
-import { CircleAlert } from "lucide-react";
-import LoadingSpinner from "./components/LoadingSpinner";
+import { getVenues } from "./api/venue/read";
 
 function App() {
   const [venues, setVenues] = useState([]);
@@ -21,21 +19,14 @@ function App() {
   const location = useLocation();
 
   useEffect(() => {
-    async function fetchVenues(page = currentPage, query = searchQuery) {
+    async function fetchVenues() {
       setIsLoading(true);
       setIsError(false);
       try {
-        const baseUrl = query
-          ? `${API_HOLIDAZE_VENUES}/search?q=${encodeURIComponent(query)}`
-          : API_HOLIDAZE_VENUES;
-
-        const url = new URL(baseUrl);
-        url.searchParams.append("limit", 9);
-        url.searchParams.append("page", page);
-        url.searchParams.append("sort", "created");
-
-        const response = await fetch(url);
-        const json = await response.json();
+        const json = await getVenues({
+          page: currentPage,
+          query: searchQuery,
+        });
 
         setVenues(json.data);
         setMeta(json.meta);
@@ -45,7 +36,7 @@ function App() {
         setIsLoading(false);
       }
     }
-    fetchVenues(currentPage, searchQuery);
+    fetchVenues();
   }, [searchQuery, currentPage, location.state]);
 
   const removeVenue = (venueId) => {
@@ -69,23 +60,16 @@ function App() {
         <Route
           index
           element={
-            isLoading ? (
-              <LoadingSpinner />
-            ) : isError ? (
-              <div>
-                <CircleAlert />
-                <p>Oops, something went wrong. Could not load data.</p>
-              </div>
-            ) : (
-              <Home
-                venues={venues}
-                onSearch={handleSearch}
-                currentPage={currentPage}
-                setCurrentPage={setCurrentPage}
-                meta={meta}
-                searchQuery={searchQuery}
-              />
-            )
+            <Home
+              venues={venues}
+              onSearch={handleSearch}
+              currentPage={currentPage}
+              setCurrentPage={setCurrentPage}
+              meta={meta}
+              searchQuery={searchQuery}
+              isLoading={isLoading}
+              isError={isError}
+            />
           }
         />
         <Route
