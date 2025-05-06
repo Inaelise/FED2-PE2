@@ -3,10 +3,9 @@ import Rating from "./Rating";
 import * as yup from "yup";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { headers } from "../api/headers";
-import { API_HOLIDAZE_VENUES } from "../api/constants";
 import { useNavigate } from "react-router-dom";
 import { useToast } from "../context/ToastContext";
+import { createVenue } from "../api/venue/create";
 
 const schema = yup.object({
   name: yup
@@ -63,23 +62,24 @@ export default function CreateVenueForm() {
     },
   });
 
-  async function createVenue(data) {
-    const options = {
-      method: "POST",
-      headers: headers("application/json"),
-      body: JSON.stringify(data),
-    };
-
+  /**
+   * Handles the form submission for creating a new venue.
+   *
+   * @param {Object} data - The data submitted through the form.
+   * @param {string} name - The name of the venue.
+   * @param {string} description - The description of the venue.
+   * @param {number} price - The price of the venue.
+   * @param {number} maxGuests - The maximum number of guests for the venue.
+   * @param {number} rating - The rating of the venue.
+   * @param {Array} media - The media (images) associated with the venue.
+   * @param {Object} meta - The amenities associated with the venue.
+   * @param {Object} location - The location details of the venue.
+   * @returns {void} - Redirects to the home page on success.
+   * @throws {Error} - Catches and displays error messages that may appear during submission.
+   */
+  async function onCreate(data) {
     try {
-      const response = await fetch(API_HOLIDAZE_VENUES, options);
-      const json = await response.json();
-
-      if (!response.ok) {
-        const errorMessage = json.errors
-          .map((error) => error.message)
-          .join("\r\n");
-        throw new Error(errorMessage);
-      }
+      await createVenue(data);
 
       showToast({ message: "Venue created successfully!", type: "success" });
       navigate("/", { state: { reload: true } });
@@ -97,7 +97,7 @@ export default function CreateVenueForm() {
       <title>Create venue</title>
       <main>
         <h1>Create venue</h1>
-        <form onSubmit={handleSubmit(createVenue)}>
+        <form onSubmit={handleSubmit(onCreate)}>
           <div>
             <label htmlFor="name">Name</label>
             <input
