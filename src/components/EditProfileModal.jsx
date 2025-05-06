@@ -1,11 +1,9 @@
 import { X } from "lucide-react";
-import { headers } from "../api/headers";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { useForm } from "react-hook-form";
-import { API_HOLIDAZE_PROFILES } from "../api/constants";
-import { load } from "../storage/load";
 import { useToast } from "../context/ToastContext";
+import { updateProfile } from "../api/profile/update";
 
 const schema = yup.object({
   venueManager: yup.boolean().optional(),
@@ -17,9 +15,18 @@ const schema = yup.object({
   }),
 });
 
+/**
+ * Modal component for editing user profile information.
+ *
+ * @component
+ * @param {Object} props - Component props.
+ * @param {Function} props.onClose - Function to close the modal.
+ * @param {Function} props.onUpdate - Optional callback invoked with the updated data after a successful update.
+ * @param {Object} props.user - User object containing the current profile data.
+ * @returns {JSX.Element} The rendered modal component.
+ */
 export default function EditProfileModal({ onClose, onUpdate, user }) {
   const { showToast } = useToast();
-  const activeUser = load("user");
   const {
     register,
     handleSubmit,
@@ -37,29 +44,11 @@ export default function EditProfileModal({ onClose, onUpdate, user }) {
   const avatarPreview = watch("avatar.url");
   const bannerPreview = watch("banner.url");
 
-  async function updateProfile({ venueManager, avatar, banner }) {
-    const options = {
-      method: "PUT",
-      headers: headers("application/json"),
-      body: JSON.stringify({ venueManager, avatar, banner }),
-    };
-
+  async function onSubmit(data) {
     try {
-      const response = await fetch(
-        `${API_HOLIDAZE_PROFILES}/${activeUser}`,
-        options
-      );
-      const json = await response.json();
-
-      if (!response.ok) {
-        const errorMessage = json.errors
-          .map((error) => error.message)
-          .join("\r\n");
-        throw new Error(errorMessage);
-      }
-
+      const updated = await updateProfile(data);
       showToast({ message: "Profile updated successfully!", type: "success" });
-      onUpdate?.(json.data);
+      onUpdate?.(updated);
       onClose();
     } catch (error) {
       showToast({ message: error.message, type: "error" });
@@ -86,7 +75,7 @@ export default function EditProfileModal({ onClose, onUpdate, user }) {
           onError={(e) => (e.target.src = "/images/default-img.png")}
         />
       </div>
-      <form onSubmit={handleSubmit(updateProfile)}>
+      <form onSubmit={handleSubmit(onSubmit)}>
         <div>
           <input
             type="checkbox"
