@@ -5,8 +5,10 @@ export default function SearchBar({ onSearch, query }) {
   const [searchInput, setSearchInput] = useState(query);
 
   useEffect(() => {
-    setSearchInput(query);
-  }, [query]);
+    if (query !== searchInput) {
+      setSearchInput(query);
+    }
+  }, [query, searchInput]);
 
   const handleChange = (e) => {
     const value = e.target.value;
