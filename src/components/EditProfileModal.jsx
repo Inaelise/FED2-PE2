@@ -20,9 +20,9 @@ const schema = yup.object({
  *
  * @component
  * @param {Object} props - Component props.
- * @param {Function} props.onClose - Function to close the modal.
- * @param {Function} props.onUpdate - Optional callback invoked with the updated data after a successful update.
- * @param {Object} props.user - User object containing the current profile data.
+ * @param {Function} onClose - Function to close the modal.
+ * @param {Function} onUpdate - Optional callback invoked with the updated data after a successful update.
+ * @param {Object} user - User object containing the current profile data.
  * @returns {JSX.Element} The rendered modal component.
  */
 export default function EditProfileModal({ onClose, onUpdate, user }) {
