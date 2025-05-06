@@ -31,3 +31,23 @@ export async function getVenues({ page = 1, query = "" }) {
 
   return response.json();
 }
+
+/**
+ * Fetches a single venue by its ID from the API, including owner, bookings, and customer details.
+ *
+ * @param {string} id - The ID of the venue to fetch.
+ * @returns {Promise<Object>} - The venue data object.
+ * @throws {Error} - Throws an error if the API request fails.
+ */
+export async function getSpecificVenue(id) {
+  const url = `${API_HOLIDAZE_VENUES}/${id}?_owner=true&_bookings=true&_customer=true`;
+
+  const response = await fetch(url);
+  const json = await response.json();
+
+  if (!response.ok) {
+    const errorMessage = json.errors.map((error) => error.message).join("\r\n");
+    throw new Error(errorMessage);
+  }
+  return json.data;
+}
