@@ -44,6 +44,13 @@ export default function EditProfileModal({ onClose, onUpdate, user }) {
   const avatarPreview = watch("avatar.url");
   const bannerPreview = watch("banner.url");
 
+  /**
+   * Handles the form submission for updating the user profile.
+   * It sends the updated data to the API and shows a success or error message.
+   *
+   * @param {Object} data - The form data containing updated profile information (avatar, banner).
+   * @returns {Promise<void>} - A promise that resolves when the update is complete.
+   */
   async function onSubmit(data) {
     try {
       const updated = await updateProfile(data);
