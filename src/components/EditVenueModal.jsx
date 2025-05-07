@@ -100,6 +100,13 @@ export default function EditVenueModal({
     }
   }
 
+  /**
+   * Handles the form submission for updating a venue.
+   * It sends the updated venue data to the API and shows a success or error message.
+   *
+   * @param {Object} data - The form data containing updated venue details (name, description, etc.).
+   * @returns {Promise<void>} - A promise that resolves when the venue is updated successfully.
+   */
   async function onUpdateVenue(data) {
     if (isDeleted) return;
 
