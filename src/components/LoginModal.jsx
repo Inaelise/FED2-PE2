@@ -42,6 +42,7 @@ export default function LoginModal({ onClose, switchModal }) {
 
       save("token", data.accessToken);
       save("user", data.name);
+      save("status", data.venueManager);
 
       showToast({ message: "Login successful!", type: "success" });
       reset();
