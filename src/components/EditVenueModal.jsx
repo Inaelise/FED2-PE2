@@ -4,10 +4,8 @@ import { X } from "lucide-react";
 import * as yup from "yup";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { headers } from "../api/headers";
-import { API_HOLIDAZE_VENUES } from "../api/constants";
 import { useEffect, useState } from "react";
-import { deleteVenue } from "../api/deleteVenue";
+import { deleteVenue, updateVenue } from "../api/venue";
 import { useNavigate } from "react-router-dom";
 import ConfirmationModal from "./ConfirmationModal";
 import { useToast } from "../context/ToastContext";
@@ -46,6 +44,16 @@ const schema = yup.object({
   }),
 });
 
+/**
+ * Modal component for editing a venue.
+ *
+ * @param {Object} props - The component props.
+ * @param {Object} venue - The venue object to be edited.
+ * @param {Function} onClose - Function to close the modal.
+ * @param {Function} onUpdate - Function to handle the updated venue data.
+ * @param {Function} removeVenue - Function to delete the venue from the list.
+ * @returns {JSX.Element} - The rendered modal component.
+ */
 export default function EditVenueModal({
   venue,
   onClose,
@@ -92,31 +100,13 @@ export default function EditVenueModal({
     }
   }
 
-  async function updateVenue(data) {
+  async function onUpdateVenue(data) {
     if (isDeleted) return;
 
-    const options = {
-      method: "PUT",
-      headers: headers("application/json"),
-      body: JSON.stringify(data),
-    };
-
     try {
-      const response = await fetch(
-        `${API_HOLIDAZE_VENUES}/${venue.id}`,
-        options
-      );
-      const json = await response.json();
-
-      if (!response.ok) {
-        const errorMessage = json.errors
-          .map((error) => error.message)
-          .join("\r\n");
-        throw new Error(errorMessage);
-      }
-
+      const updatedVenue = await updateVenue(venue.id, data);
       showToast({ message: "Venue updated successfully!", type: "success" });
-      onUpdate?.(json.data);
+      onUpdate?.(updatedVenue);
       onClose();
     } catch (error) {
       showToast({ message: error.message, type: "error" });
@@ -129,7 +119,7 @@ export default function EditVenueModal({
         <X />
       </button>
       <h1>Edit venue</h1>
-      <form onSubmit={handleSubmit(updateVenue)}>
+      <form onSubmit={handleSubmit(onUpdateVenue)}>
         <div>
           <label htmlFor="name">Name</label>
           <input
