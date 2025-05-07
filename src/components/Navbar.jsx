@@ -20,6 +20,7 @@ import { load } from "../storage/load";
 export function Navbar() {
   const [openModal, setOpenModal] = useState(null);
   const activeUser = load("user");
+  const venueManager = load("status");
 
   const switchModal = (modal) => {
     setOpenModal(modal);
@@ -39,11 +40,13 @@ export function Navbar() {
               <CircleUser size={16} strokeWidth={1.5} /> Profile
             </NavLink>
           </li>
-          <li title="Go to create venue">
-            <NavLink to="create-venue">
-              <CirclePlus size={16} strokeWidth={1.5} /> Add venue
-            </NavLink>
-          </li>
+          {venueManager && (
+            <li title="Go to create venue">
+              <NavLink to="create-venue">
+                <CirclePlus size={16} strokeWidth={1.5} /> Add venue
+              </NavLink>
+            </li>
+          )}
         </ul>
       )}
 
