@@ -7,8 +7,7 @@ import "react-date-range/dist/styles.css";
 import "react-date-range/dist/theme/default.css";
 import { addDays } from "date-fns";
 import { Plus, Minus } from "lucide-react";
-import { headers } from "../api/headers";
-import { API_HOLIDAZE_BOOKINGS } from "../api/constants";
+import { createBooking } from "../api/venue/booking";
 import { useToast } from "../context/ToastContext";
 
 const schema = yup.object().shape({
@@ -42,23 +41,8 @@ export default function BookingForm({ venueId, maxGuests, price }) {
       venueId,
     };
 
-    const options = {
-      method: "POST",
-      headers: headers("application/json"),
-      body: JSON.stringify(bookingInfo),
-    };
-
     try {
-      const response = await fetch(API_HOLIDAZE_BOOKINGS, options);
-      const json = await response.json();
-
-      if (!response.ok) {
-        const errorMessage = json.errors
-          .map((error) => error.message)
-          .join("\r\n");
-        throw new Error(errorMessage);
-      }
-
+      await createBooking(bookingInfo);
       showToast({
         message: "Booking successful! Find bookings in your profile.",
         type: "success",
