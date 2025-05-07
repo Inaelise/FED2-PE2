@@ -2,6 +2,11 @@ import instagram from "/images/instagram.png";
 import facebook from "/images/facebook.png";
 import x from "/images/x.png";
 
+/**
+ * Footer component that displays social media links and copyright information.
+ *
+ * @returns {JSX.Element} The rendered component.
+ */
 export default function Footer() {
   return (
     <footer>

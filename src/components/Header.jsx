@@ -8,12 +8,21 @@ import ConfirmationModal from "./ConfirmationModal";
 import { load } from "../storage/load";
 import { useToast } from "../context/ToastContext";
 
+/**
+ * Header component that displays the site logo, user greeting, navbar, and login/register/logout buttons.
+ *
+ * @returns {JSX.Element} - The rendered component.
+ */
 export default function Header() {
   const [showConfirmation, setShowConfirmation] = useState(false);
   const activeUser = load("user");
   const { showToast } = useToast();
   const navigate = useNavigate();
 
+  /**
+   * Handles the logout process by removing the token and user data from storage,
+   * showing a success message, and navigating to the home page.
+   */
   function handleLogout() {
     remove("token");
     remove("user");
@@ -21,6 +30,11 @@ export default function Header() {
     navigate("/");
   }
 
+  /**
+   * Handles the confirmation of the logout action.
+   * It sets the confirmation modal to false and calls the handleLogout function.
+   * This function is passed as a prop to the ConfirmationModal component.
+   */
   function handleConfirmation() {
     setShowConfirmation(false);
     handleLogout();
