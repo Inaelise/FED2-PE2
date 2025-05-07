@@ -33,7 +33,6 @@ export default function Header() {
   /**
    * Handles the confirmation of the logout action.
    * It sets the confirmation modal to false and calls the handleLogout function.
-   * This function is passed as a prop to the ConfirmationModal component.
    */
   function handleConfirmation() {
     setShowConfirmation(false);
@@ -50,21 +49,25 @@ export default function Header() {
             title="Go to home"
           />
         </NavLink>
-        {activeUser && <p>Hello, {activeUser}!</p>}
-        <button
-          onClick={() => setShowConfirmation(true)}
-          title="Click to log out"
-        >
-          Log out
-          <LogOut size={16} />
-        </button>
-        {showConfirmation && (
-          <ConfirmationModal
-            title="Logout confirmation"
-            message="Are you sure you want to logout?"
-            onConfirm={handleConfirmation}
-            onCancel={() => setShowConfirmation(false)}
-          />
+        {activeUser && (
+          <div>
+            <p>Hello, {activeUser}!</p>
+            <button
+              onClick={() => setShowConfirmation(true)}
+              title="Click to log out"
+            >
+              Log out
+              <LogOut size={16} />
+            </button>
+            {showConfirmation && (
+              <ConfirmationModal
+                title="Logout confirmation"
+                message="Are you sure you want to logout?"
+                onConfirm={handleConfirmation}
+                onCancel={() => setShowConfirmation(false)}
+              />
+            )}
+          </div>
         )}
       </div>
       <Navbar />
