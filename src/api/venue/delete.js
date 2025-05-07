@@ -1,5 +1,5 @@
-import { API_HOLIDAZE_VENUES } from "./constants";
-import { headers } from "./headers";
+import { API_HOLIDAZE_VENUES } from "../constants";
+import { headers } from "../headers";
 
 export async function deleteVenue(id) {
   const options = {
