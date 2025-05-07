@@ -2,6 +2,16 @@ import { useState } from "react";
 import { ChevronDown, ChevronUp } from "lucide-react";
 import { Link } from "react-router";
 
+/**
+ * Profile accordion component that displays user bookings and venues in an accordion format.
+ *
+ * @component
+ * @param {Object} props - The component props.
+ * @param {Object} user - The user object containing bookings and venues.
+ * @param {Array} user.bookings - List of bookings made by the user.
+ * @param {Array} user.venues - List of venues owned by the user.
+ * @returns {JSX.Element} - The rendered component.
+ */
 export default function ProfileAccordion({ user }) {
   const [open, setOpen] = useState(null);
 
