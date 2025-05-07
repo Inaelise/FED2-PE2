@@ -85,6 +85,11 @@ export default function EditVenueModal({
     }
   }, [venue, reset, setValue]);
 
+  /**
+   * Handles the deletion of a venue.
+   * It sends a delete request to the API and shows a success or error message.
+   * @returns {Promise<void>} - A promise that resolves when the venue is deleted successfully.
+   */
   async function handleDelete() {
     setIsDeleted(true);
     try {
