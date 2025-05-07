@@ -14,6 +14,15 @@ const schema = yup.object().shape({
   guests: yup.number().required("Please fill out number of guests."),
 });
 
+/**
+ * Booking component for booking a venue.
+ *
+ * @param {Object} props - The component props.
+ * @param {string} venueId - The ID of the venue to be booked.
+ * @param {number} maxGuests - The maximum number of guests allowed.
+ * @param {number} price - The price per night.
+ * @returns {JSX.Element} - The rendered component.
+ */
 export default function BookingForm({ venueId, maxGuests, price }) {
   const { showToast } = useToast();
   const [guests, setGuests] = useState(1);
@@ -54,7 +63,7 @@ export default function BookingForm({ venueId, maxGuests, price }) {
 
   const dayCount =
     (dateRange[0].endDate - dateRange[0].startDate) / (1000 * 60 * 60 * 24);
-  const totalPrice = guests * dayCount * price;
+  const totalPrice = dayCount * price;
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
