@@ -71,6 +71,7 @@ export default function CreateVenueForm() {
 
   /**
    * Handles the form submission for creating a new venue.
+   * It sends the venue data to the API and shows a success or error message.
    *
    * @param {Object} data - The form data containing venue details (name, description, etc.).
    * @returns {Promise<void>} - A promise that resolves when the venue is created successfully.
