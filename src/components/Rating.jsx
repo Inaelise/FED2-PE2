@@ -2,6 +2,16 @@ import starFilled from "/images/filled-star.png";
 import starEmpty from "/images/empty-star.png";
 import { useState, useEffect } from "react";
 
+/**
+ * A star rating component that allows users to select a rating from 1 to 5 stars.
+ * Supports hover effects to preview ratings before selection.
+ *
+ * @component
+ * @param {Object} props - Component props.
+ * @param {Function} onChange - Callback function to handle rating changes.
+ * @param {number} value - Current rating value (default is 0).
+ * @returns {JSX.Element} The rendered component.
+ */
 export default function Rating({ onChange, value = 0 }) {
   const [rating, setRating] = useState(0);
   const [hover, setHover] = useState(0);
@@ -10,6 +20,11 @@ export default function Rating({ onChange, value = 0 }) {
     setRating(value);
   }, [value]);
 
+  /**
+   * Handles the user clicking on a star to set the rating.
+   *
+   * @param {number} val - The rating value selected by the user.
+   */
   function handleClick(val) {
     setRating(val);
     onChange(val);

@@ -1,6 +1,16 @@
 import { X } from "lucide-react";
 import { useEffect } from "react";
 
+/**
+ * Toast notification component that displays a temporary message to the user.
+ *
+ * @component
+ * @param {Object} props - Component props.
+ * @param {string} message - The message to display in the toast.
+ * @param {Function} onClose - Function to call when the toast is closed.
+ * @param {string} [type="success"] - Type of the toast, can be "success" or "error". It determines its css styling.
+ * @returns {JSX.Element} - The rendered component.
+ */
 export default function Toast({ message, onClose, type = "success" }) {
   useEffect(() => {
     const timer = setTimeout(() => {

@@ -10,6 +10,12 @@ import { useState } from "react";
 import LoginModal from "./LoginModal";
 import RegisterModal from "./RegisterModal";
 
+/**
+ * The navbar component that contains links to different pages and modals for login and registration.
+ *
+ * @component
+ * @returns {JSX.Element} The rendered component.
+ */
 export function Navbar() {
   const [openModal, setOpenModal] = useState(null);
 

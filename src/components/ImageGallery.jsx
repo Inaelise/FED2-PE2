@@ -1,5 +1,14 @@
 import { useState } from "react";
 
+/**
+ * Image gallery component that displays a main image and thumbnails.
+ * If there are multiple images, it allows the user to click on thumbnails to change the main image which is displayed in a larger view.
+ *
+ * @component
+ * @param {Object} props - Component props.
+ * @param {Array<Object>} media - Array of media objects containing image URLs and alt text.
+ * @returns {JSX.Element} The rendered component.
+ */
 export default function ImageGallery({ media }) {
   const [mainImage, setMainImage] = useState(media?.[0]);
 

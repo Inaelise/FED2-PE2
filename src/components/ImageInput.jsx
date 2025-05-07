@@ -1,10 +1,26 @@
 import { useState } from "react";
 import { X } from "lucide-react";
 
+/**
+ * A controlled input component for adding and removing images.
+ * Allows users to add image URLs and displays a list of added images, prevents duplicates, and allows removal of images.
+ *
+ * @component
+ * @param {Object} props - Component props.
+ * @param {Function} onChange - Callback function to handle changes in the image list.
+ * @param {Array<Object>} value=[] - Current list of image objects.
+ * @returns {JSX.Element} The rendered component.
+ */
 export default function ImageInput({ onChange, value = [] }) {
   const [imageUrl, setImageUrl] = useState("");
   const [error, setError] = useState(false);
 
+  /**
+   * Handles adding a new image to the list.
+   * Prevents duplicates and validates input.
+   *
+   * @param {Event} e - The event triggered by the add button click.
+   */
   const handleAddImage = (e) => {
     e.preventDefault();
     const url = imageUrl.trim();
@@ -27,6 +43,11 @@ export default function ImageInput({ onChange, value = [] }) {
     setError(false);
   };
 
+  /**
+   * Handles removing an image from the list.
+   *
+   * @param {string} urlToRemove - The URL of the image to be removed.
+   */
   const handleRemoveImage = (urlToRemove) => {
     const updatedImages = value.filter((img) => img.url !== urlToRemove);
     onChange?.(updatedImages);
