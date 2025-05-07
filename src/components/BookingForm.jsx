@@ -42,6 +42,10 @@ export default function BookingForm({ venueId, maxGuests, price }) {
     resolver: yupResolver(schema),
   });
 
+  /**
+   * Handles the form submission for booking a venue.
+   * It sends the booking information to the API and shows a success or error message.
+   */
   async function onSubmit() {
     const bookingInfo = {
       dateFrom: dateRange[0].startDate.toISOString(),
