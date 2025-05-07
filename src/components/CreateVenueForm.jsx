@@ -42,6 +42,13 @@ const schema = yup.object({
   }),
 });
 
+/**
+ * Create venue component for creating a new venue.
+ * Venue managers can create a new venue by filling out the form.
+ * On successful submission, the user is redirected to the home page.
+ *
+ * @returns {JSX.Element} - The rendered component.
+ */
 export default function CreateVenueForm() {
   const navigate = useNavigate();
   const { showToast } = useToast();
@@ -65,17 +72,8 @@ export default function CreateVenueForm() {
   /**
    * Handles the form submission for creating a new venue.
    *
-   * @param {Object} data - The data submitted through the form.
-   * @param {string} name - The name of the venue.
-   * @param {string} description - The description of the venue.
-   * @param {number} price - The price of the venue.
-   * @param {number} maxGuests - The maximum number of guests for the venue.
-   * @param {number} rating - The rating of the venue.
-   * @param {Array} media - The media (images) associated with the venue.
-   * @param {Object} meta - The amenities associated with the venue.
-   * @param {Object} location - The location details of the venue.
-   * @returns {void} - Redirects to the home page on success.
-   * @throws {Error} - Catches and displays error messages that may appear during submission.
+   * @param {Object} data - The form data containing venue details (name, description, etc.).
+   * @returns {Promise<void>} - A promise that resolves when the venue is created successfully.
    */
   async function onCreate(data) {
     try {
