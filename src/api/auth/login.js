@@ -17,7 +17,7 @@ export async function loginUser({ email, password }) {
     body: JSON.stringify({ email, password }),
   };
 
-  const response = await fetch(API_AUTH_LOGIN, options);
+  const response = await fetch(`${API_AUTH_LOGIN}?_holidaze=true`, options);
   const json = await response.json();
 
   if (!response.ok) {
