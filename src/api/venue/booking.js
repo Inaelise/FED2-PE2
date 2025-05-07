@@ -1,5 +1,5 @@
 import { headers } from "../headers";
-import { API_HOLIDAZE_BOOKINGS } from "../api/constants";
+import { API_HOLIDAZE_BOOKINGS } from "../constants";
 
 /**
  * Sends a request to the API to create a booking.
