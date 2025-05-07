@@ -4,6 +4,8 @@ import * as yup from "yup";
 import { useForm } from "react-hook-form";
 import { useToast } from "../context/ToastContext";
 import { updateProfile } from "../api/profile/update";
+import { load } from "../storage/load";
+import { save } from "../storage/save";
 
 const schema = yup.object({
   venueManager: yup.boolean().optional(),
@@ -52,6 +54,8 @@ export default function EditProfileModal({ onClose, onUpdate, user }) {
    * @returns {Promise<void>} - A promise that resolves when the update is complete.
    */
   async function onSubmit(data) {
+    load("status");
+    save("status", data.venueManager);
     try {
       const updated = await updateProfile(data);
       showToast({ message: "Profile updated successfully!", type: "success" });
