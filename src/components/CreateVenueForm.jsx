@@ -100,6 +100,7 @@ export default function CreateVenueForm() {
           <div>
             <label htmlFor="name">Name</label>
             <input
+              className="input"
               id="name"
               placeholder="Enter a venue name"
               {...register("name")}
