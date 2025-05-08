@@ -37,6 +37,18 @@
   }
 
   .animate {
-    @apply transition duration-200 ease-in-out;
+    @apply transition duration-300 ease-in-out;
+  }
+
+  .social-btn {
+    @apply bg-orange inline-block rounded-full p-2 drop-shadow-base;
+  }
+
+  .hover {
+    @apply hover:scale-105;
+  }
+
+  .social-img {
+    @apply w-5 invert-100 hue-rotate-93 brightness-103 contrast-103;
   }
 }
