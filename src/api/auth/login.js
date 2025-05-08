@@ -9,6 +9,9 @@ import { API_AUTH_LOGIN } from "../constants";
  * @param {string} password - The user's password.
  * @returns {Promise<Object>} The logged-in user data.
  * @throws {Error} If the login fails, an error message is thrown.
+ * @example
+ * const user = await loginUser({ email: "example@stud.noroff.no", password: "password123" });
+ * console.log(user);
  */
 export async function loginUser({ email, password }) {
   const options = {

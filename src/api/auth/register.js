@@ -11,6 +11,9 @@ import { API_AUTH_REGISTER } from "../constants";
  * @param {string} password - The user's password.
  * @returns {Promise<Object>} The registered user data.
  * @throws {Error} If the registration fails, an error message is thrown.
+ * @example
+ * const register = await registerUser({ venueManager: true, name: "Kari", email: "kari@stud.noroff.no", password: "password123" });
+ * console.log(register);
  */
 export async function registerUser({ venueManager, name, email, password }) {
   const options = {
