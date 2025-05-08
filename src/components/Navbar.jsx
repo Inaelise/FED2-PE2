@@ -5,7 +5,7 @@ import { useState } from "react";
 import { LogOut } from "lucide-react";
 
 /**
- * The navbar component that contains links to different pages and modals for login and registration.
+ * The navbar component that displays navigation links and a hamburger menu for mobile devices.
  *
  * @component
  * @returns {JSX.Element} The rendered component.
