@@ -1,7 +1,3 @@
-import instagram from "/images/instagram.png";
-import facebook from "/images/facebook.png";
-import x from "/images/x.png";
-
 /**
  * Footer component that displays social media links and copyright information.
  *
@@ -9,36 +5,33 @@ import x from "/images/x.png";
  */
 export default function Footer() {
   return (
-    <footer>
-      <div>
-        <ul>
+    <footer className="fixed bottom-0 w-full">
+      <div className="bg-white">
+        <ul className="flex justify-center items-center gap-8 py-2 sm:gap-14">
           <li>
-            <a href="#" title="Go to instagram">
-              <img
-                src={instagram}
-                className="w-6 invert-100 hue-rotate-93 brightness-103 contrast-103"
-              />
+            <a href="#" title="Go to instagram" className="flex animate hover">
+              <div className="social-btn">
+                <img src="/images/instagram.png" className="social-img" />
+              </div>
             </a>
           </li>
           <li>
-            <a href="#" title="Go to facebook">
-              <img
-                src={facebook}
-                className="w-6 invert-100 hue-rotate-93 brightness-103 contrast-103"
-              />
+            <a href="#" title="Go to facebook" className="flex animate hover">
+              <div className="social-btn">
+                <img src="/images/facebook.png" className="social-img" />
+              </div>
             </a>
           </li>
           <li>
-            <a href="#" title="Go to twitter/x">
-              <img
-                src={x}
-                className="w-6 invert-100 hue-rotate-93 brightness-103 contrast-103"
-              />
+            <a href="#" title="Go to twitter/x" className="flex animate hover">
+              <div className="social-btn">
+                <img src="/images/x.png" className="social-img" />
+              </div>
             </a>
           </li>
         </ul>
       </div>
-      <div>
+      <div className="bg-orange text-white text-sm font-inter text-center py-6">
         <p>Copyright © 2025 Holidaze</p>
       </div>
     </footer>
