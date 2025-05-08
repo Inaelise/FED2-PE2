@@ -5,7 +5,7 @@ import { API_HOLIDAZE_BOOKINGS } from "../constants";
  * Sends a request to the API to create a booking.
  *
  * @param {Object} data - The booking data to be sent to the API.
- * @returns {Promise<Object>} - The created booking data.
+ * @returns {Object} - The data for the created booking is returned.
  * @throws {Error} - Throws an error if the API request fails.
  */
 export async function createBooking(data) {

@@ -6,6 +6,7 @@ import { headers } from "../headers";
  *
  * @param {string} id - The ID of the venue to be updated.
  * @param {Object} data - The updated venue data to be sent to the API.
+ * @returns {Object} - The data for the updated venue is returned.
  * @throws {Error} - Throws an error if the API request fails.
  */
 export async function updateVenue(id, data) {

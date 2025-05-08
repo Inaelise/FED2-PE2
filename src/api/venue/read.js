@@ -36,7 +36,7 @@ export async function getVenues({ page = 1, query = "" }) {
  * Fetches a single venue by its ID from the API, including owner, bookings, and customer details.
  *
  * @param {string} id - The ID of the venue to fetch.
- * @returns {Promise<Object>} - The venue data object.
+ * @returns {Object} - The venue data object.
  * @throws {Error} - Throws an error if the API request fails.
  */
 export async function getSpecificVenue(id) {
