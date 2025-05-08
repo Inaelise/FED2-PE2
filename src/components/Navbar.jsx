@@ -89,7 +89,7 @@ export function Navbar({ activeUser, onMobileLogout }) {
           )}
 
           {/* Desktop menu */}
-          <ul className="hidden md:flex md:justify-center md:gap-18 md:p-2 bg-white drop-shadow-base">
+          <ul className="hidden md:flex md:justify-center md:gap-18 md:p-1 bg-white drop-shadow-base">
             {activeUser && navLinks}
           </ul>
         </div>
