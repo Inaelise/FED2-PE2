@@ -36,23 +36,25 @@ export default function Home({
         content="Holidaze - find your place in the world. Book your stay now!"
       />
       <title>Holidaze</title>
-      <main>
-        <div>
-          <h1>Find your place in the world</h1>
+      <main className="max-w-[1016px] md:mx-auto">
+        <div className="bg-[url('/images/pastel-house-compressed.jpg')] bg-cover h-[200px] sm:h-[350px] md:h-[495px] flex flex-col justify-center items-center">
+          <h1 className="font-poppins text-m drop-shadow-s text-green">
+            Find your place in the world
+          </h1>
           <SearchBar onSearch={onSearch} query={searchQuery} />
         </div>
         {isLoading ? (
           <LoadingSpinner />
         ) : isError ? (
-          <div>
-            <CircleAlert />
+          <div className="flex flex-col items-center justify-center py-28 px-4 gap-2 text-green font-medium text-center">
+            <CircleAlert size={32} color="#f28f6b" />
             <p>Oops, something went wrong. Could not load data.</p>
           </div>
         ) : (
-          <div>
+          <div className="py-8 px-2">
             <div>
               {venues.length > 0 ? (
-                <ul>
+                <ul className="flex flex-wrap justify-center gap-16">
                   {venues.map((venue) => (
                     <li key={venue.id}>
                       <VenueCard
@@ -68,7 +70,9 @@ export default function Home({
                   ))}
                 </ul>
               ) : (
-                <p>No venues found.</p>
+                <p className="text-green font-medium text-center py-28">
+                  No venues found.
+                </p>
               )}
             </div>
             <Pagination
