@@ -1,3 +1,5 @@
+import { ChevronRight, ChevronLeft } from "lucide-react";
+
 /**
  * Pagination component that provides controls for navigating between pages.
  * It displays the current page, total pages, and buttons to go to the previous or next page.
@@ -22,21 +24,21 @@ export default function Pagination({ meta, currentPage, setCurrentPage }) {
     }
   };
   return (
-    <div>
+    <div className="flex justify-center items-center gap-6 p-2 bg-white w-[200px] rounded-xl drop-shadow-base text-green mx-auto">
       <button
         onClick={() => goToPage(currentPage - 1)}
         disabled={meta.isFirstPage}
       >
-        Previous
+        <ChevronLeft size={30} strokeWidth={1.5} />
       </button>
-      <span>
+      <span className="font-semibold font-inter">
         {meta.currentPage} of {meta.pageCount}
       </span>
       <button
         onClick={() => goToPage(currentPage + 1)}
         disabled={meta.isLastPage}
       >
-        Next
+        <ChevronRight size={30} strokeWidth={1.5} />
       </button>
     </div>
   );
