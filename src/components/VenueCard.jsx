@@ -28,6 +28,7 @@ export default function VenueCard({
   return (
     <Link to={`/venue/${id}`} title="View venue details">
       <img
+        className="w-[200px]"
         src={img?.url || "/images/default-img.png"}
         alt={img?.alt || "Venue image"}
       />
