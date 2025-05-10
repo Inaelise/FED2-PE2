@@ -26,6 +26,7 @@ export default function Pagination({ meta, currentPage, setCurrentPage }) {
   return (
     <div className="flex justify-center items-center gap-6 p-2 bg-white w-[200px] rounded-xl drop-shadow-base text-green mx-auto">
       <button
+        className="cursor-pointer hover animate"
         onClick={() => goToPage(currentPage - 1)}
         disabled={meta.isFirstPage}
       >
@@ -35,6 +36,7 @@ export default function Pagination({ meta, currentPage, setCurrentPage }) {
         {meta.currentPage} of {meta.pageCount}
       </span>
       <button
+        className="cursor-pointer hover animate"
         onClick={() => goToPage(currentPage + 1)}
         disabled={meta.isLastPage}
       >
