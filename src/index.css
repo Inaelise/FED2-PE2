@@ -53,4 +53,8 @@
   .social-img {
     @apply w-5 invert-100 hue-rotate-93 brightness-103 contrast-103;
   }
+
+  .card-icon {
+    @apply inline-flex px-[7px] py-[2px] gap-0.5 text-white rounded-2xl items-center drop-shadow-s absolute top-1.5 z-5 text-sm;
+  }
 }
