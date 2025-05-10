@@ -26,31 +26,41 @@ export default function VenueCard({
   rating,
 }) {
   return (
-    <Link to={`/venue/${id}`} title="View venue details">
+    <Link
+      to={`/venue/${id}`}
+      title="View venue details"
+      className="flex flex-col gap-2"
+    >
       <img
-        className="w-[200px]"
+        className="w-full h-[180px] object-cover sm:h-[220px] rounded-xl"
         src={img?.url || "/images/default-img.png"}
         alt={img?.alt || "Venue image"}
       />
-      <div>
-        <Star strokeWidth={1} />
-        <p>{rating}</p>
-      </div>
-      <div>
-        <Users strokeWidth={1} />
+      {rating > 0 && (
+        <div className="card-icon bg-orange left-1">
+          <Star size={19} strokeWidth={2} />
+          <p>{rating}</p>
+        </div>
+      )}
+      <div className="card-icon bg-green right-1">
+        <Users size={19} strokeWidth={2} />
         <p>{maxGuests}</p>
       </div>
-      <div>
-        <MapPin strokeWidth={1} />
-        <p>
-          {location.city}, {location.country}
-        </p>
-      </div>
-      <div>
-        <h2>{name}</h2>
-        <div>
-          <p>{price} kr</p>
-          <p>per night</p>
+      <div className="px-2">
+        <div className="flex items-center gap-1">
+          <MapPin size={19} strokeWidth={1.5} className="text-orange" />
+          <p className="text-sm text-gray-500">
+            {location.city}, {location.country}
+          </p>
+        </div>
+        <div className="flex flex-row items-center justify-between">
+          <h2 className="max-w-[150px] text-green font-semibold truncate">
+            {name}
+          </h2>
+          <div>
+            <p className="font-semibold">{price} kr</p>
+            <p className="text-xs text-gray-500">per night</p>
+          </div>
         </div>
       </div>
     </Link>
