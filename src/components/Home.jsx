@@ -54,11 +54,11 @@ export default function Home({
           <div className="py-8 px-2">
             <div>
               {venues.length > 0 ? (
-                <ul className="flex flex-wrap justify-center gap-16">
+                <ul className="flex flex-wrap justify-center gap-8 mb-10 sm:gap-12">
                   {venues.map((venue) => (
                     <li
                       key={venue.id}
-                      className="w-[260px] sm:w-[300px] font-inter relative"
+                      className="w-[260px] h-[290px] sm:w-[300px] sm:h-[310px] font-inter relative hover animate"
                     >
                       <VenueCard
                         id={venue.id}
