@@ -56,7 +56,10 @@ export default function Home({
               {venues.length > 0 ? (
                 <ul className="flex flex-wrap justify-center gap-16">
                   {venues.map((venue) => (
-                    <li key={venue.id}>
+                    <li
+                      key={venue.id}
+                      className="w-[260px] sm:w-[300px] font-inter relative"
+                    >
                       <VenueCard
                         id={venue.id}
                         img={venue.media?.[0]}
