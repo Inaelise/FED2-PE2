@@ -49,7 +49,7 @@ export default function VenueCard({
       <div className="px-2">
         <div className="flex items-center gap-1">
           <MapPin size={19} strokeWidth={1.5} className="text-orange" />
-          <p className="text-sm text-gray-500">
+          <p className="text-sm opacity-60">
             {location.city}, {location.country}
           </p>
         </div>
@@ -59,7 +59,7 @@ export default function VenueCard({
           </h2>
           <div>
             <p className="font-semibold">{price} kr</p>
-            <p className="text-xs text-gray-500">per night</p>
+            <p className="text-xs opacity-60">per night</p>
           </div>
         </div>
       </div>
