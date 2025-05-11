@@ -38,7 +38,7 @@ export default function Home({
       <title>Holidaze</title>
       <main className="max-w-[1016px] md:mx-auto">
         <div className="bg-[url('/images/pastel-house-compressed.jpg')] bg-cover h-[200px] sm:h-[350px] md:h-[495px] flex flex-col justify-center items-center">
-          <h1 className="font-poppins text-m drop-shadow-s text-green">
+          <h1 className="font-poppins text-m drop-shadow-s text-green sm:text-l md:text-xl">
             Find your place in the world
           </h1>
           <SearchBar onSearch={onSearch} query={searchQuery} />
