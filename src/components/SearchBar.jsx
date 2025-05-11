@@ -26,11 +26,12 @@ export default function SearchBar({ onSearch, query }) {
   };
 
   return (
-    <div>
-      <span>
-        <Search strokeWidth={1.5} />
+    <div className="relative">
+      <span className="absolute top-2 left-1.5 text-orange">
+        <Search size={20} strokeWidth={2.5} />
       </span>
       <input
+        className="bg-white rounded-full py-2 w-[230px] px-6 text-sm font-inter text-center sm:w-[350px] focus:outline-green"
         type="text"
         value={searchInput}
         onChange={handleChange}
