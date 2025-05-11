@@ -49,7 +49,7 @@ export default function Header() {
   };
 
   return (
-    <header className="bg-beige text-green fixed top-0 left-0 right-0 z-10 shadow-md flex items-center justify-between md:block">
+    <header className="bg-beige text-green fixed top-0 left-0 right-0 z-10 shadow-md flex items-center justify-between font-poppins md:block">
       {activeUser ? (
         <div className="flex items-center justify-between py-1 px-4 w-full">
           <NavLink to="/" title="Go to home">
