@@ -22,12 +22,12 @@ export default function ImageGallery({ media }) {
         <img
           src={mainImage.url}
           alt={mainImage.alt}
-          className="w-full h-96 object-cover rounded-xl"
+          className="w-full h-76 object-cover max-w-[754px] mx-auto sm:h-96 md:h-[540px] md:rounded-xl"
         />
       </div>
 
       {media.length > 1 && (
-        <div>
+        <div className="flex flex-wrap justify-center gap-4 py-4 px-2">
           {media.map(
             (img) =>
               img.url && (
@@ -36,9 +36,9 @@ export default function ImageGallery({ media }) {
                   src={img.url}
                   alt={img.alt}
                   onClick={() => setMainImage(img)}
-                  className={`h-24 w-32 object-cover rounded cursor-pointer transition-transform duration-300 ${
+                  className={`h-20 w-20 object-cover rounded-xl cursor-pointer animate ${
                     mainImage.url === img.url
-                      ? "ring-4 ring-blue-500 scale-105"
+                      ? "ring-3 ring-orange scale-110 animate"
                       : ""
                   }`}
                 />
