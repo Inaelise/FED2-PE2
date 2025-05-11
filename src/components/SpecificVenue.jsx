@@ -77,77 +77,74 @@ export default function SpecificVenue({ removeVenue }) {
           <p>Oops, something went wrong. Couldn't find venue.</p>
         </div>
       ) : venue ? (
-        <main>
-          <h1>{venue.name}</h1>
-          <div>
-            <MapPin />
-            <p>
-              {venue.location.city}, {venue.location.country}
-            </p>
-          </div>
-          <div>
-            <div>
-              <Star /> <p>{venue.rating}</p>
+        <main className="font-inter">
+          <div className="px-4 py-6">
+            <h1 className="font-poppins text-orange font-semibold text-l">
+              {venue.name}
+            </h1>
+            <div className="flex items-center gap-1">
+              <MapPin size={18} className="text-orange" />
+              <p className="text-xs opacity-60">
+                {venue.location.city}, {venue.location.country}
+              </p>
             </div>
-            <ImageGallery media={venue.media} />
           </div>
-          <section>
-            <h2>Description</h2>
-            {activeUser === venue.owner.name && (
-              <button onClick={() => setOpenModal(true)}>
-                <SquarePen />
-              </button>
-            )}
-            {openModal && (
-              <EditVenueModal
-                venue={venue}
-                onClose={() => setOpenModal(false)}
-                onUpdate={handleUpdate}
-                removeVenue={removeVenue}
-              />
-            )}
+          <div className="relative">
+            <ImageGallery media={venue.media} />
+            <div className="absolute top-2 left-1 z-5 card-icon bg-orange">
+              <Star size={19} strokeWidth={2} />
+              <p>{venue.rating}</p>
+            </div>
+          </div>
+          <section className="venue-sections">
+            <div className="flex justify-between">
+              <h2 className="venue-h2">Description</h2>
+              {activeUser === venue.owner.name && (
+                <button onClick={() => setOpenModal(true)}>
+                  <SquarePen className="text-green" />
+                </button>
+              )}
+              {openModal && (
+                <EditVenueModal
+                  venue={venue}
+                  onClose={() => setOpenModal(false)}
+                  onUpdate={handleUpdate}
+                  removeVenue={removeVenue}
+                />
+              )}
+            </div>
+            <hr className="hr" />
             <p>{venue.description}</p>
           </section>
-          <section>
-            <h2>Amenities</h2>
-            <ul>
+          <section className="venue-sections">
+            <h2 className="venue-h2">Amenities</h2>
+            <hr className="hr" />
+            <ul className="grid grid-cols-2 grid-rows-2 gap-4">
               {venue.meta &&
                 Object.entries(venue.meta).map(([key, value]) => (
-                  <li key={key}>
-                    {value ? <Check strokeWidth={1} /> : <X strokeWidth={1} />}
+                  <li key={key} className="flex gap-2">
+                    {value ? (
+                      <Check strokeWidth={1.5} className="text-orange" />
+                    ) : (
+                      <X strokeWidth={1.5} className="text-green" />
+                    )}
                     <p>{key}</p>
                   </li>
                 ))}
             </ul>
           </section>
-          <section>
-            <h2>Bookings</h2>
-            <ul>
-              {venue.bookings?.map((booking) => (
-                <li key={booking.id}>
-                  <img
-                    src={booking.customer?.avatar?.url}
-                    alt={booking.customer?.avatar?.alt}
-                  />
-                  <div>
-                    <p>{booking.customer?.name}</p>
-                    <p>{booking.guests} guests</p>
-                  </div>
-                  <p>
-                    {new Date(booking.dateFrom).toLocaleDateString("no-NO")}
-                    <MoveRight />
-                    {new Date(booking.dateTo).toLocaleDateString("no-NO")}
-                  </p>
-                </li>
-              ))}
-            </ul>
-          </section>
-          <section>
-            <h2>Book your stay</h2>
-            <p>Max {venue.maxGuests} guests</p>
-            <div>
-              <p>{venue.price} kr</p>
-              <p>per night</p>
+          <section className="venue-sections">
+            <h2 className="venue-h2">Book your stay</h2>
+            <div className="flex justify-between">
+              <div className="bg-[#42584430] inline-block py-1.5 px-3 text-green font-semibold rounded-full my-2">
+                <p>Max {venue.maxGuests} guests</p>
+              </div>
+              <div>
+                <p className="text-orange font-semibold text-2xl">
+                  {venue.price} kr
+                </p>
+                <p className="text-xs opacity-60">per night</p>
+              </div>
             </div>
             {activeUser ? (
               <BookingForm
@@ -159,8 +156,9 @@ export default function SpecificVenue({ removeVenue }) {
               <p>Login to make a booking.</p>
             )}
           </section>
-          <section>
-            <h2>Location & owner</h2>
+          <section className="venue-sections">
+            <h2 className="venue-h2">Location & owner</h2>
+            <hr className="hr" />
             <div>
               <p>{venue.location?.address}</p>
               <p>
@@ -180,6 +178,29 @@ export default function SpecificVenue({ removeVenue }) {
                 </div>
               </div>
             )}
+          </section>
+          <section className="venue-sections">
+            <h2 className="venue-h2">Bookings</h2>
+            <hr className="hr" />
+            <ul>
+              {venue.bookings?.map((booking) => (
+                <li key={booking.id}>
+                  <img
+                    src={booking.customer?.avatar?.url}
+                    alt={booking.customer?.avatar?.alt}
+                  />
+                  <div>
+                    <p>{booking.customer?.name}</p>
+                    <p>{booking.guests} guests</p>
+                  </div>
+                  <p>
+                    {new Date(booking.dateFrom).toLocaleDateString("no-NO")}
+                    <MoveRight />
+                    {new Date(booking.dateTo).toLocaleDateString("no-NO")}
+                  </p>
+                </li>
+              ))}
+            </ul>
           </section>
         </main>
       ) : null}
