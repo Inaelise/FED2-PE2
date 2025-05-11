@@ -98,6 +98,8 @@ export default function BookingForm({ venueId, maxGuests, price }) {
           moveRangeOnFirstSelection={false}
           ranges={dateRange}
           minDate={new Date()}
+          months={window.innerWidth < 640 ? 1 : 2}
+          direction="horizontal"
         />
       </div>
       <div>
