@@ -70,27 +70,38 @@ export default function BookingForm({ venueId, maxGuests, price }) {
   const totalPrice = dayCount * price;
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
-      <p>Select guests</p>
-      <div>
-        <button
-          type="button"
-          onClick={() => setGuests((prev) => Math.max(1, prev - 1))}
-          disabled={guests === 1}
-        >
-          <Minus />
-        </button>
-        <input value={guests} readOnly {...register("guests")} />
-        <button
-          type="button"
-          onClick={() => setGuests((prev) => Math.min(maxGuests, prev + 1))}
-          disabled={guests === maxGuests}
-        >
-          <Plus />
-        </button>
-        {errors.guests && <p>{errors.guests.message}</p>}
+    <form
+      onSubmit={handleSubmit(onSubmit)}
+      className="flex flex-col items-center"
+    >
+      <div className="flex items-center w-full justify-between pt-8 pb-4">
+        <p className="text-sm">Select guests</p>
+        <div className="flex items-center gap-4">
+          <button
+            className="guestSelectorBtn animate"
+            type="button"
+            onClick={() => setGuests((prev) => Math.max(1, prev - 1))}
+            disabled={guests === 1}
+          >
+            <Minus size={14} />
+          </button>
+          <input
+            className="max-w-8 text-center"
+            value={guests}
+            readOnly
+            {...register("guests")}
+          />
+          <button
+            className="guestSelectorBtn"
+            type="button"
+            onClick={() => setGuests((prev) => Math.min(maxGuests, prev + 1))}
+            disabled={guests === maxGuests}
+          >
+            <Plus size={14} />
+          </button>
+          {errors.guests && <p>{errors.guests.message}</p>}
+        </div>
       </div>
-
       <div>
         <DateRange
           editableDateInputs={true}
@@ -102,11 +113,18 @@ export default function BookingForm({ venueId, maxGuests, price }) {
           direction="horizontal"
         />
       </div>
-      <div>
-        <p>Total:</p>
+      <div className="flex justify-center gap-4 py-6">
+        <p className="font-bold text-green">Total:</p>
         <p>{totalPrice} kr</p>
       </div>
-      <button>Book now</button>
+      <div className="flex justify-center">
+        <button
+          type="submit"
+          className="text-sm font-semibold bg-orange text-white py-2 px-3 rounded-xl hover animate cursor-pointer"
+        >
+          Book now
+        </button>
+      </div>
     </form>
   );
 }
