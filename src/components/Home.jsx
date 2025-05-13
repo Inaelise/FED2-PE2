@@ -46,7 +46,7 @@ export default function Home({
         {isLoading ? (
           <LoadingSpinner />
         ) : isError ? (
-          <div className="flex flex-col items-center justify-center py-28 px-4 gap-2 text-green font-medium text-center">
+          <div className="oopsMsg">
             <CircleAlert size={32} color="#f28f6b" />
             <p>Oops, something went wrong. Could not load data.</p>
           </div>
