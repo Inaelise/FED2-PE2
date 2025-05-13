@@ -64,36 +64,51 @@ export default function Profile() {
       {isLoading ? (
         <LoadingSpinner />
       ) : isError ? (
-        <div>
-          <CircleAlert />
+        <div className="oopsMsg">
+          <CircleAlert size={32} color="#f28f6b" />
           <p>Oops, something went wrong. Could not find profile.</p>
         </div>
       ) : (
-        <main>
-          <img className="w-50" src={user.banner?.url} alt={user.banner?.alt} />
+        <main className="font-inter">
           <div>
             <img
-              className="w-50"
-              src={user.avatar?.url}
-              alt={user.avatar?.alt}
+              className="w-full h-42 object-cover sm:h-62 xl:h-82"
+              src={user.banner?.url}
+              alt={user.banner?.alt}
             />
-            <div>
-              <h1>{user.name}</h1>
-              <p>{user.venueManager ? "Venue manager" : "Customer"}</p>
+            <div className="bg-beige relative flex">
+              <div className="relative w-[1000px] mx-auto">
+                <img
+                  className="absolute bottom-4 ml-2 w-26 h-26 object-cover rounded-full border-3 border-beige drop-shadow-base z-5 sm:ml-6"
+                  src={user.avatar?.url}
+                  alt={user.avatar?.alt}
+                />
+                <div className="flex justify-between gap-3 pl-30 pr-2 py-4 items-center sm:pl-36">
+                  <div>
+                    <h1 className="font-bold">{user.name}</h1>
+                    <p className="text-xs opacity-30 font-semibold">
+                      {user.venueManager ? "Venue manager" : "Customer"}
+                    </p>
+                  </div>
+                  <div className="absolute right-2 sm:right-6">
+                    <button
+                      className="text-xs font-semibold text-orange border-1 p-2 rounded-xl animate hover:bg-orange hover:text-white hover cursor-pointer"
+                      title="Click to edit profile"
+                      onClick={() => setOpenModal(true)}
+                    >
+                      Edit profile
+                    </button>
+                  </div>
+                </div>
+                {openModal && (
+                  <EditProfileModal
+                    onClose={() => setOpenModal(false)}
+                    onUpdate={handleUpdate}
+                    user={user}
+                  />
+                )}
+              </div>
             </div>
-            <button
-              title="Click to edit profile"
-              onClick={() => setOpenModal(true)}
-            >
-              Edit profile
-            </button>
-            {openModal && (
-              <EditProfileModal
-                onClose={() => setOpenModal(false)}
-                onUpdate={handleUpdate}
-                user={user}
-              />
-            )}
           </div>
           <div>{<ProfileAccordion user={user} />}</div>
         </main>
