@@ -73,9 +73,22 @@
   .oopsMsg {
     @apply flex flex-col items-center justify-center py-28 px-4 gap-2 text-green font-medium text-center;
   }
+
+  .guestSelectorBtn {
+    @apply w-8 h-8 bg-white flex items-center justify-center rounded-full drop-shadow-s cursor-pointer hover:bg-[#42584430];
+  }
 }
 
 /* React date range calendar */
+
+.rdrDateDisplayWrapper {
+  border-radius: 10px 10px 0 0;
+}
+
+.rdrCalendarWrapper {
+  border-radius: 10px;
+}
+
 .rdrCalendarWrapper {
   max-width: 320px;
   width: 100%;
