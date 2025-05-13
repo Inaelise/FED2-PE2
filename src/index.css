@@ -77,6 +77,10 @@
   .guestSelectorBtn {
     @apply w-8 h-8 bg-white flex items-center justify-center rounded-full drop-shadow-s cursor-pointer hover:bg-[#42584430];
   }
+
+  .accordionDiv {
+    @apply px-2 py-4 flex justify-between cursor-pointer font-semibold text-green text-sm sm:px-6;
+  }
 }
 
 /* React date range calendar */
