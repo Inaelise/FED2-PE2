@@ -165,7 +165,7 @@ export default function SpecificVenue({ removeVenue }) {
               </section>
             </div>
             <div className="md:space-y-8">
-              <section className="venue-sections">
+              <section className="venue-sections mb-0">
                 <h2 className="venue-h2">Book your stay</h2>
                 <div className="flex justify-between">
                   <div className="bg-[#42584430] inline-block py-1.5 px-3 text-green font-semibold rounded-full my-2">
