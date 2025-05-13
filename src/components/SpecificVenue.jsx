@@ -205,14 +205,14 @@ export default function SpecificVenue({ removeVenue }) {
                               src={booking.customer?.avatar?.url}
                               alt={booking.customer?.avatar?.alt}
                             />
-                            <div className="text-xs">
+                            <div className="text-xs sm:text-sm">
                               <p>{booking.customer?.name}</p>
                               <p className="opacity-60">
                                 {booking.guests} guests
                               </p>
                             </div>
                           </div>
-                          <div className="flex text-xs gap-1">
+                          <div className="flex text-xs gap-1 sm:text-[13px]">
                             <p>
                               {new Date(booking.dateFrom).toLocaleDateString(
                                 "no-NO"
