@@ -4,6 +4,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { useToast } from "../context/ToastContext";
 import { registerUser } from "../api/auth/register";
+import { useEffect, useRef } from "react";
 
 const schema = yup.object({
   venueManager: yup.boolean().optional(),
@@ -33,6 +34,17 @@ const schema = yup.object({
  */
 export default function RegisterModal({ onClose, switchModal }) {
   const { showToast } = useToast();
+  const modalRef = useRef(null);
+
+  useEffect(() => {
+    function handleClickOutside(e) {
+      if (modalRef.current && !modalRef.current.contains(e.target)) {
+        onClose();
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, [onClose]);
 
   const {
     register,
@@ -60,7 +72,7 @@ export default function RegisterModal({ onClose, switchModal }) {
 
   return (
     <div className="overlay">
-      <div className="header-modal-div">
+      <div ref={modalRef} className="header-modal-div">
         <button onClick={onClose} className="btn-close">
           <X />
         </button>
