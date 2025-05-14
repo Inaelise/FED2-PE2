@@ -89,6 +89,7 @@ export default function LoginModal({ onClose, switchModal }) {
               type="email"
               id="email"
               name="email"
+              placeholder="example@stud.noroff.no"
               {...register("email")}
               className="input-primary"
             />
@@ -102,6 +103,7 @@ export default function LoginModal({ onClose, switchModal }) {
               type="password"
               id="password"
               name="password"
+              placeholder="********"
               {...register("password")}
               className="input-primary"
             />

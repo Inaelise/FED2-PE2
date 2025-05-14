@@ -75,14 +75,16 @@ export default function RegisterModal({ onClose, switchModal }) {
           </p>
         </div>
         <form onSubmit={handleSubmit(onRegister)} className="header-modal-form">
-          <div>
+          <div className="flex gap-1 text-xs">
             <input
               type="checkbox"
               id="manager"
               name="manager"
               {...register("venueManager")}
             />
-            <label htmlFor="manager">Venue manager</label>
+            <label htmlFor="manager" className="font-semibold">
+              Venue manager
+            </label>
           </div>
           <div className="flex flex-col gap-1">
             <label htmlFor="name" className="label-primary">
@@ -105,6 +107,7 @@ export default function RegisterModal({ onClose, switchModal }) {
               type="email"
               id="email"
               name="email"
+              placeholder="example@stud.noroff.no"
               {...register("email")}
               className="input-primary"
             />
@@ -118,6 +121,7 @@ export default function RegisterModal({ onClose, switchModal }) {
               type="password"
               id="password"
               name="password"
+              placeholder="********"
               {...register("password")}
               className="input-primary"
             />
