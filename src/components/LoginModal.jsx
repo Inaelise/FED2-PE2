@@ -66,29 +66,21 @@ export default function LoginModal({ onClose, switchModal }) {
 
   return (
     <div className="overlay">
-      <div
-        ref={modalRef}
-        className="absolute top-20 bg-beige w-full font-inter text-black drop-shadow-base max-w-[400px] rounded-xl"
-      >
+      <div ref={modalRef} className="header-modal-div">
         <button onClick={onClose} className="btn-close">
           <X strokeWidth={2.5} />
         </button>
-        <h1 className="font-poppins text-[24px] font-semibold text-center py-10 text-green">
-          Login
-        </h1>
+        <h1 className="header-modal-h1 text-green">Login</h1>
         <div className="flex flex-col gap-1 items-center text-sm">
           <p>Don't have an account?</p>
           <p
             onClick={() => switchModal("register")}
-            className="font-semibold text-orange underline underline-offset-2 cursor-pointer"
+            className="header-modal-link text-orange"
           >
             Register here
           </p>
         </div>
-        <form
-          onSubmit={handleSubmit(onLogin)}
-          className="py-12 px-8 flex flex-col gap-6"
-        >
+        <form onSubmit={handleSubmit(onLogin)} className="header-modal-form">
           <div className="flex flex-col gap-1">
             <label htmlFor="email" className="label-primary">
               Email
