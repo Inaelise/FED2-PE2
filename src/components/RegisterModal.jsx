@@ -59,43 +59,79 @@ export default function RegisterModal({ onClose, switchModal }) {
   }
 
   return (
-    <div>
-      <button onClick={onClose}>
-        <X />
-      </button>
-      <h1>Register</h1>
-      <div>
-        <p>Already have an account?</p>
-        <p onClick={() => switchModal("login")}>Login here</p>
-      </div>
-      <form onSubmit={handleSubmit(onRegister)}>
-        <div>
-          <input
-            type="checkbox"
-            id="manager"
-            name="manager"
-            {...register("venueManager")}
-          />
-          <label htmlFor="manager">Venue manager</label>
-        </div>
-        <label htmlFor="name">name</label>
-        <input type="name" id="name" name="name" {...register("name")} />
-        <p>{errors.name?.message}</p>
-        <label htmlFor="email">Email</label>
-        <input type="email" id="email" name="email" {...register("email")} />
-        <p>{errors.email?.message}</p>
-        <label htmlFor="password">Password</label>
-        <input
-          type="password"
-          id="password"
-          name="password"
-          {...register("password")}
-        />
-        <p>{errors.password?.message}</p>
-        <button type="submit" title="Register account">
-          Register
+    <div className="overlay">
+      <div className="header-modal-div">
+        <button onClick={onClose} className="btn-close">
+          <X />
         </button>
-      </form>
+        <h1 className="header-modal-h1 text-orange">Register</h1>
+        <div className="flex flex-col gap-1 items-center text-sm">
+          <p>Already have an account?</p>
+          <p
+            onClick={() => switchModal("login")}
+            className="header-modal-link text-green"
+          >
+            Login here
+          </p>
+        </div>
+        <form onSubmit={handleSubmit(onRegister)} className="header-modal-form">
+          <div>
+            <input
+              type="checkbox"
+              id="manager"
+              name="manager"
+              {...register("venueManager")}
+            />
+            <label htmlFor="manager">Venue manager</label>
+          </div>
+          <div className="flex flex-col gap-1">
+            <label htmlFor="name" className="label-primary">
+              name
+            </label>
+            <input
+              type="name"
+              id="name"
+              name="name"
+              {...register("name")}
+              className="input-primary"
+            />
+            <p className="errorMsgForm">{errors.name?.message}</p>
+          </div>
+          <div className="flex flex-col gap-1">
+            <label htmlFor="email" className="label-primary">
+              Email
+            </label>
+            <input
+              type="email"
+              id="email"
+              name="email"
+              {...register("email")}
+              className="input-primary"
+            />
+            <p className="errorMsgForm">{errors.email?.message}</p>
+          </div>
+          <div className="flex flex-col gap-1">
+            <label htmlFor="password" className="label-primary">
+              Password
+            </label>
+            <input
+              type="password"
+              id="password"
+              name="password"
+              {...register("password")}
+              className="input-primary"
+            />
+            <p className="errorMsgForm">{errors.password?.message}</p>
+          </div>
+          <button
+            type="submit"
+            title="Register account"
+            className="btn-form bg-green hover animate"
+          >
+            Register
+          </button>
+        </form>
+      </div>
     </div>
   );
 }
