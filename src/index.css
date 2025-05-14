@@ -31,7 +31,39 @@
 
 @layer components {
   .input-primary {
-    @apply border-1 border-black rounded-3xl p-1;
+    @apply border-1 border-black rounded-3xl py-2 px-4 text-sm focus:outline-orange;
+  }
+
+  .label-primary {
+    @apply font-poppins font-semibold;
+  }
+
+  .header-modal-div {
+    @apply absolute top-20 bg-beige w-full font-inter text-black drop-shadow-base max-w-[400px] rounded-xl;
+  }
+
+  .header-modal-h1 {
+    @apply font-poppins text-[24px] font-semibold text-center py-10;
+  }
+
+  .header-modal-link {
+    @apply font-semibold underline underline-offset-2 cursor-pointer;
+  }
+
+  .header-modal-form {
+    @apply py-12 px-8 flex flex-col gap-6;
+  }
+
+  .errorMsgForm {
+    @apply text-sm pt-1 text-red font-semibold;
+  }
+
+  .btn-form {
+    @apply w-full text-white font-semibold drop-shadow-base py-2 rounded-full cursor-pointer;
+  }
+
+  .btn-close {
+    @apply absolute right-2 top-2 cursor-pointer;
   }
 
   .btn-auth {
@@ -48,6 +80,10 @@
 
   .hover {
     @apply hover:scale-105;
+  }
+
+  .overlay {
+    @apply fixed inset-0 bg-black/40 backdrop-blur-sm flex justify-center items-start pt-20 z-50;
   }
 
   .social-img {
