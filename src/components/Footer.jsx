@@ -5,7 +5,7 @@
  */
 export default function Footer() {
   return (
-    <footer className="fixed bottom-0 w-full z-20">
+    <footer className="fixed bottom-0 w-full z-5">
       <div className="bg-white">
         <ul className="flex justify-center items-center gap-8 py-2 sm:gap-14">
           <li>
