@@ -5,6 +5,7 @@ import * as yup from "yup";
 import { useForm } from "react-hook-form";
 import { useToast } from "../context/ToastContext";
 import { loginUser } from "../api/auth/login";
+import { useEffect, useRef } from "react";
 
 const schema = yup.object({
   email: yup
@@ -28,6 +29,17 @@ const schema = yup.object({
  */
 export default function LoginModal({ onClose, switchModal }) {
   const { showToast } = useToast();
+  const modalRef = useRef(null);
+
+  useEffect(() => {
+    function handleClickOutside(e) {
+      if (modalRef.current && !modalRef.current.contains(e.target)) {
+        onClose();
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, [onClose]);
 
   const {
     register,
@@ -53,38 +65,76 @@ export default function LoginModal({ onClose, switchModal }) {
   }
 
   return (
-    <div>
-      <button onClick={onClose}>
-        <X />
-      </button>
-      <h1>Login</h1>
-      <div>
-        <p>Don't have an account?</p>
-        <p onClick={() => switchModal("register")}>Register here</p>
-      </div>
-      <form onSubmit={handleSubmit(onLogin)}>
-        <label htmlFor="email">Email</label>
-        <input type="email" id="email" name="email" {...register("email")} />
-        <p>{errors.email?.message}</p>
-        <label htmlFor="password">Password</label>
-        <input
-          type="password"
-          id="password"
-          name="password"
-          {...register("password")}
-        />
-        <p>{errors.password?.message}</p>
-        <div>
-          <div>
-            <input type="checkbox" id="remember" name="remember" />
-            <label htmlFor="remember">Remember me</label>
-          </div>
-          <a href="#">Forgot your password?</a>
-        </div>
-        <button type="submit" title="Login">
-          Login
+    <div className="overlay">
+      <div
+        ref={modalRef}
+        className="absolute top-20 bg-beige w-full font-inter text-black drop-shadow-base max-w-[400px] rounded-xl"
+      >
+        <button onClick={onClose} className="btn-close">
+          <X strokeWidth={2.5} />
         </button>
-      </form>
+        <h1 className="font-poppins text-[24px] font-semibold text-center py-10 text-green">
+          Login
+        </h1>
+        <div className="flex flex-col gap-1 items-center text-sm">
+          <p>Don't have an account?</p>
+          <p
+            onClick={() => switchModal("register")}
+            className="font-semibold text-orange underline underline-offset-2 cursor-pointer"
+          >
+            Register here
+          </p>
+        </div>
+        <form
+          onSubmit={handleSubmit(onLogin)}
+          className="py-12 px-8 flex flex-col gap-6"
+        >
+          <div className="flex flex-col gap-1">
+            <label htmlFor="email" className="label-primary">
+              Email
+            </label>
+            <input
+              type="email"
+              id="email"
+              name="email"
+              {...register("email")}
+              className="input-primary"
+            />
+            <p className="errorMsgForm">{errors.email?.message}</p>
+          </div>
+          <div className="flex flex-col gap-1">
+            <label htmlFor="password" className="label-primary">
+              Password
+            </label>
+            <input
+              type="password"
+              id="password"
+              name="password"
+              {...register("password")}
+              className="input-primary"
+            />
+            <p className="errorMsgForm">{errors.password?.message}</p>
+          </div>
+          <div className="flex justify-between text-xs">
+            <div className="flex gap-1">
+              <input type="checkbox" id="remember" name="remember" />
+              <label htmlFor="remember" className="font-semibold">
+                Remember me
+              </label>
+            </div>
+            <a href="#" className="text-orange underline underline-offset-2">
+              Forgot your password?
+            </a>
+          </div>
+          <button
+            type="submit"
+            title="Login"
+            className="btn-form bg-orange hover animate"
+          >
+            Login
+          </button>
+        </form>
+      </div>
     </div>
   );
 }
