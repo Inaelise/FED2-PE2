@@ -104,7 +104,10 @@ export default function SpecificVenue({ removeVenue }) {
                 <div className="flex justify-between">
                   <h2 className="venue-h2">Description</h2>
                   {activeUser === venue.owner.name && (
-                    <button onClick={() => setOpenModal(true)}>
+                    <button
+                      onClick={() => setOpenModal(true)}
+                      className="cursor-pointer"
+                    >
                       <SquarePen className="text-green" />
                     </button>
                   )}
