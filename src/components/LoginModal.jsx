@@ -66,11 +66,11 @@ export default function LoginModal({ onClose, switchModal }) {
 
   return (
     <div className="overlay">
-      <div ref={modalRef} className="header-modal-div">
+      <div ref={modalRef} className="modal-div top-20 max-w-[400px]">
         <button onClick={onClose} className="btn-close">
           <X strokeWidth={2.5} />
         </button>
-        <h1 className="header-modal-h1 text-green">Login</h1>
+        <h1 className="modal-h1 text-green">Login</h1>
         <div className="flex flex-col gap-1 items-center text-sm">
           <p>Don't have an account?</p>
           <p
