@@ -3,7 +3,7 @@
 
 @layer base {
   body {
-    @apply bg-light-beige pt-[49.8px] md:pt-[91px] pb-[120px];
+    @apply bg-light-beige pt-[49.8px] md:pt-[66px] pb-[120px];
   }
 }
 
