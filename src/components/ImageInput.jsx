@@ -62,7 +62,7 @@ export default function ImageInput({ onChange, value = [] }) {
           </label>
           <p className="opacity-40">(URL)</p>
         </div>
-        <div className="flex flex-col gap-4">
+        <div className="flex flex-col gap-4 sm:flex-row sm:gap-6">
           <input
             id="images"
             placeholder="https://exampleurl.com"
@@ -71,11 +71,11 @@ export default function ImageInput({ onChange, value = [] }) {
               setImageUrl(e.target.value);
               if (error) setError(false);
             }}
-            className="input-primary"
+            className="input-primary sm:w-full"
           />
           <button
             onClick={handleAddImage}
-            className="bg-green text-white font-poppins font-semibold w-20 py-2 mx-auto rounded-2xl hover:bg-[#2c3a2d] animate cursor-pointer"
+            className="bg-green text-white font-poppins font-semibold w-20 py-2 mx-auto rounded-2xl hover:bg-[#2c3a2d] animate cursor-pointer sm:mx-0 sm:px-6"
           >
             Add
           </button>
@@ -89,7 +89,7 @@ export default function ImageInput({ onChange, value = [] }) {
             <img
               src={img.url}
               alt={img.alt}
-              className="w-32 h-32 object-cover rounded-2xl drop-shadow-base"
+              className="w-31 h-31 object-cover rounded-2xl drop-shadow-base"
             />
             <button
               onClick={() => handleRemoveImage(img.url)}
