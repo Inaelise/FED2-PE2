@@ -16,7 +16,10 @@ export async function updateVenue(id, data) {
     body: JSON.stringify(data),
   };
 
-  const response = await fetch(`${API_HOLIDAZE_VENUES}/${id}`, options);
+  const response = await fetch(
+    `${API_HOLIDAZE_VENUES}/${id}?_owner=true&_bookings=true`,
+    options
+  );
   const json = await response.json();
 
   if (!response.ok) {
