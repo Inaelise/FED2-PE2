@@ -15,10 +15,18 @@ const schema = yup.object({
   description: yup.string().required("Please enter a description."),
   price: yup
     .number()
+    .transform((value, originalValue) =>
+      originalValue === "" ? undefined : value
+    )
+    .typeError("Please enter a number.")
     .positive("Please enter a positive number.")
     .required("Please enter a price."),
   maxGuests: yup
     .number()
+    .transform((value, originalValue) =>
+      originalValue === "" ? undefined : value
+    )
+    .typeError("Please enter a number.")
     .positive("Please enter a positive number.")
     .required("Please enter the max number of guests."),
   rating: yup.number().max(5),
@@ -112,7 +120,7 @@ export default function CreateVenueForm() {
               placeholder="Enter a venue name"
               {...register("name")}
             />
-            <p>{errors.name?.message}</p>
+            <p className="errorMsgForm">{errors.name?.message}</p>
           </div>
           <div className="flex flex-col gap-1">
             <label htmlFor="description" className="label-primary">
@@ -124,7 +132,7 @@ export default function CreateVenueForm() {
               className="input-primary h-40"
               {...register("description")}
             />
-            <p>{errors.description?.message}</p>
+            <p className="errorMsgForm">{errors.description?.message}</p>
           </div>
           <div className="flex items-center justify-between">
             <div className="flex flex-col gap-1">
@@ -139,7 +147,9 @@ export default function CreateVenueForm() {
                 className="input-primary max-w-30"
                 {...register("price")}
               />
-              <p>{errors.price?.message}</p>
+              <p className="errorMsgForm max-w-30 h-[50px]">
+                {errors.price?.message}
+              </p>
             </div>
             <div className="flex flex-col gap-1">
               <label htmlFor="guests" className="label-primary">
@@ -150,7 +160,9 @@ export default function CreateVenueForm() {
                 className="input-primary max-w-30"
                 {...register("maxGuests")}
               />
-              <p>{errors.guests?.message}</p>
+              <p className="errorMsgForm max-w-30 h-[50px]">
+                {errors.maxGuests?.message}
+              </p>
             </div>
           </div>
           <fieldset>
@@ -188,7 +200,9 @@ export default function CreateVenueForm() {
                 className="input-primary"
                 {...register("location.country")}
               />
-              <p>{errors.country?.message}</p>
+              <p className="errorMsgForm">
+                {errors.location?.country?.message}
+              </p>
             </div>
             <div className="flex flex-col gap-1">
               <label htmlFor="city" className="label-primary">
@@ -199,7 +213,7 @@ export default function CreateVenueForm() {
                 className="input-primary"
                 {...register("location.city")}
               />
-              <p>{errors.city?.message}</p>
+              <p className="errorMsgForm">{errors.location?.city?.message}</p>
             </div>
           </div>
           <div className="flex flex-col gap-1">
@@ -211,7 +225,7 @@ export default function CreateVenueForm() {
               className="input-primary"
               {...register("location.address")}
             />
-            <p>{errors.address?.message}</p>
+            <p className="errorMsgForm">{errors.location?.address?.message}</p>
           </div>
           <div className="flex flex-col gap-1">
             <label htmlFor="zip" className="label-primary">
@@ -222,7 +236,7 @@ export default function CreateVenueForm() {
               className="input-primary"
               {...register("location.zip")}
             />
-            <p>{errors.zip?.message}</p>
+            <p className="errorMsgForm">{errors.location?.zip?.message}</p>
           </div>
           <ImageInput
             value={watch("media")}
