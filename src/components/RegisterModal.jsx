@@ -72,11 +72,11 @@ export default function RegisterModal({ onClose, switchModal }) {
 
   return (
     <div className="overlay">
-      <div ref={modalRef} className="header-modal-div">
+      <div ref={modalRef} className="modal-div top-20 max-w-[400px]">
         <button onClick={onClose} className="btn-close">
           <X />
         </button>
-        <h1 className="header-modal-h1 text-orange">Register</h1>
+        <h1 className="modal-h1 text-orange">Register</h1>
         <div className="flex flex-col gap-1 items-center text-sm">
           <p>Already have an account?</p>
           <p
