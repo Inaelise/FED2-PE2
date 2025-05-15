@@ -77,7 +77,7 @@ export default function SpecificVenue({ removeVenue }) {
           <p>Oops, something went wrong. Couldn't find venue.</p>
         </div>
       ) : venue ? (
-        <main className="font-inter">
+        <main className="font-inter md:pt-10">
           <div className="max-w-[754px] mx-auto">
             <div className="py-6">
               <h1 className="font-poppins text-orange font-semibold text-l">
