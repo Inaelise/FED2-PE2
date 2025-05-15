@@ -4,7 +4,7 @@ import { X } from "lucide-react";
 import * as yup from "yup";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { updateVenue } from "../api/venue/update";
 import { deleteVenue } from "../api/venue/delete";
 import { useNavigate } from "react-router-dom";
@@ -71,8 +71,20 @@ export default function EditVenueModal({
 }) {
   const [showConfirmation, setShowConfirmation] = useState(false);
   const [isDeleted, setIsDeleted] = useState(false);
+
   const navigate = useNavigate();
   const { showToast } = useToast();
+  const modalRef = useRef(null);
+
+  useEffect(() => {
+    function handleClickOutside(e) {
+      if (modalRef.current && !modalRef.current.contains(e.target)) {
+        onClose();
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, [onClose]);
 
   const {
     register,
@@ -136,7 +148,10 @@ export default function EditVenueModal({
 
   return (
     <div className="overlay">
-      <div className="modal-div top-10 max-w-[750px] max-h-[90vh] overflow-y-auto">
+      <div
+        ref={modalRef}
+        className="modal-div top-10 max-w-[750px] max-h-[90vh] overflow-y-auto"
+      >
         <button onClick={onClose} className="btn-close">
           <X />
         </button>
