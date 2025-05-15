@@ -47,7 +47,7 @@ export default function Rating({ onChange, value = 0 }) {
           />
         );
       })}
-      <p>({rating})</p>
+      <p className="font-poppins px-2">{rating}</p>
     </div>
   );
 }
