@@ -54,7 +54,7 @@ export default function ImageInput({ onChange, value = [] }) {
   };
 
   return (
-    <div className="flex flex-col gap-6 py-4">
+    <div className="flex flex-col gap-6">
       <div className="flex flex-col gap-1">
         <div className="flex gap-2">
           <label htmlFor="images" className="label-primary">
@@ -89,7 +89,7 @@ export default function ImageInput({ onChange, value = [] }) {
             <img
               src={img.url}
               alt={img.alt}
-              className="w-28 h-28 object-cover rounded-2xl drop-shadow-base"
+              className="w-32 h-32 object-cover rounded-2xl drop-shadow-base"
             />
             <button
               onClick={() => handleRemoveImage(img.url)}
