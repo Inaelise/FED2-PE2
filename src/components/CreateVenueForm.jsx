@@ -94,7 +94,7 @@ export default function CreateVenueForm() {
         content="Create a venue by filling out the form."
       />
       <title>Create venue</title>
-      <main className="px-6 py-10">
+      <main className="px-6 py-10 max-w-[486px] mx-auto md:pt-16">
         <h1 className="text-green text-l font-semibold font-poppins pb-8 text-center">
           Create venue
         </h1>
@@ -121,7 +121,7 @@ export default function CreateVenueForm() {
             <textarea
               id="description"
               placeholder="Enter a description"
-              className="input-primary"
+              className="input-primary h-40"
               {...register("description")}
             />
             <p>{errors.description?.message}</p>
@@ -178,27 +178,29 @@ export default function CreateVenueForm() {
             <p className="label-primary pb-2">Rating</p>
             <Rating onChange={(value) => setValue("rating", value)} />
           </div>
-          <div className="flex flex-col gap-1">
-            <label htmlFor="country" className="label-primary">
-              Country
-            </label>
-            <input
-              id="country"
-              className="input-primary"
-              {...register("location.country")}
-            />
-            <p>{errors.country?.message}</p>
-          </div>
-          <div className="flex flex-col gap-1">
-            <label htmlFor="city" className="label-primary">
-              City
-            </label>
-            <input
-              id="city"
-              className="input-primary"
-              {...register("location.city")}
-            />
-            <p>{errors.city?.message}</p>
+          <div className="flex flex-col gap-10 justify-between md:flex-row">
+            <div className="flex flex-col gap-1">
+              <label htmlFor="country" className="label-primary">
+                Country
+              </label>
+              <input
+                id="country"
+                className="input-primary"
+                {...register("location.country")}
+              />
+              <p>{errors.country?.message}</p>
+            </div>
+            <div className="flex flex-col gap-1">
+              <label htmlFor="city" className="label-primary">
+                City
+              </label>
+              <input
+                id="city"
+                className="input-primary"
+                {...register("location.city")}
+              />
+              <p>{errors.city?.message}</p>
+            </div>
           </div>
           <div className="flex flex-col gap-1">
             <label htmlFor="address" className="label-primary">
