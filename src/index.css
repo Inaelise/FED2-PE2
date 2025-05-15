@@ -38,11 +38,11 @@
     @apply font-poppins font-semibold;
   }
 
-  .header-modal-div {
-    @apply absolute top-20 bg-beige w-full font-inter text-black drop-shadow-base max-w-[400px] rounded-xl;
+  .modal-div {
+    @apply absolute bg-beige w-full font-inter text-black drop-shadow-base max-w-[400px] rounded-xl;
   }
 
-  .header-modal-h1 {
+  .modal-h1 {
     @apply font-poppins text-[24px] font-semibold text-center py-10;
   }
 
