@@ -67,53 +67,82 @@ export default function EditProfileModal({ onClose, onUpdate, user }) {
   }
 
   return (
-    <div>
-      <button onClick={onClose}>
-        <X />
-      </button>
-      <h1>Edit profile</h1>
-      <div>
-        <img
-          src={bannerPreview?.trim() || "/images/default-img.png"}
-          onError={(e) => (e.target.src = "/images/default-img.png")}
-          alt="Banner preview"
-        />
-      </div>
-      <div>
-        <img
-          src={avatarPreview?.trim() || "/images/default-img-png"}
-          alt="Avatar preview"
-          onError={(e) => (e.target.src = "/images/default-img.png")}
-        />
-      </div>
-      <form onSubmit={handleSubmit(onSubmit)}>
+    <div className="overlay">
+      <div className="modal-div font-poppins">
+        <button onClick={onClose} className="btn-close">
+          <X />
+        </button>
+        <h1 className="font-poppins text-l font-semibold text-center py-6 text-green">
+          Edit profile
+        </h1>
         <div>
-          <input
-            type="checkbox"
-            id="manager"
-            name="manager"
-            {...register("venueManager")}
+          <img
+            src={bannerPreview?.trim() || "/images/default-img.png"}
+            onError={(e) => (e.target.src = "/images/default-img.png")}
+            alt="Banner preview"
+            className="w-full h-50 object-cover"
           />
-          <label htmlFor="manager">Venue manager</label>
         </div>
         <div>
-          <div>
-            <label htmlFor="avatar">Avatar</label>
-            <p>(URL)</p>
-          </div>
-          <input id="avatar" {...register("avatar.url")} />
-          <p>{errors.avatar?.message}</p>
+          <img
+            src={avatarPreview?.trim() || "/images/default-img-png"}
+            alt="Avatar preview"
+            onError={(e) => (e.target.src = "/images/default-img.png")}
+            className="absolute top-59 left-6 w-26 h-26 object-cover rounded-full border-3 border-beige drop-shadow-base"
+          />
         </div>
-        <div>
-          <div>
-            <label htmlFor="banner">Banner</label>
-            <p>(URL)</p>
+        <form
+          onSubmit={handleSubmit(onSubmit)}
+          className="px-4 flex flex-col gap-8 py-4"
+        >
+          <div className="flex gap-2 mt-10 text-sm">
+            <input
+              type="checkbox"
+              id="manager"
+              name="manager"
+              className="cursor-pointer"
+              {...register("venueManager")}
+            />
+            <label htmlFor="manager" className="cursor-pointer">
+              Venue manager
+            </label>
           </div>
-          <input id="banner" {...register("banner.url")} />
-          <p>{errors.banner?.message}</p>
-        </div>
-        <button type="submit">Save</button>
-      </form>
+          <div className="flex flex-col gap-1">
+            <div className="flex gap-2 items-center">
+              <label htmlFor="avatar" className="label-primary">
+                Avatar
+              </label>
+              <p className="text-sm opacity-40">(URL)</p>
+            </div>
+            <input
+              id="avatar"
+              {...register("avatar.url")}
+              className="input-primary"
+            />
+            <p>{errors.avatar?.message}</p>
+          </div>
+          <div className="flex flex-col gap-1">
+            <div className="flex gap-2 items-center">
+              <label htmlFor="banner" className="label-primary">
+                Banner
+              </label>
+              <p className="text-sm opacity-40">(URL)</p>
+            </div>
+            <input
+              id="banner"
+              {...register("banner.url")}
+              className="input-primary"
+            />
+            <p>{errors.banner?.message}</p>
+          </div>
+          <button
+            type="submit"
+            className="btn-form bg-orange animate hover mb-4 w-[100px] mx-auto"
+          >
+            Save
+          </button>
+        </form>
+      </div>
     </div>
   );
 }
