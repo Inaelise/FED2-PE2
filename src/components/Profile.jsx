@@ -39,18 +39,26 @@ export default function Profile() {
   }, [activeUser]);
 
   /**
-   * Updates the user profile state with the new data and closes the modal.
-   * This function is passed as a callback to the "EditProfileModal" to handle the updated data after editing.
+   * Handles the profile updates after submit. It merges the updated profile data into the local state, and refetch the full profile from the API. It also updates the user state with the full, fresh profile, and closes the modal.
    *
    * @param {Object} updatedProfile - The updated profile data returned after editing.
-   * @param {string} name - The name of the user.
    * @param {Object} avatar - The avatar object containing the URL and alt text.
    * @param {Object} banner - The banner object containing the URL and alt text.
-   * @param {boolean} venueManager - Whether the user is a venue manager.
+   * @param {boolean} venueManager - Updated venue manager status.
    */
-  const handleUpdate = (updatedProfile) => {
-    setUser(updatedProfile);
-    setOpenModal(false);
+  const handleUpdate = async (updatedProfile) => {
+    try {
+      setIsLoading(true);
+      setUser((prev) => ({ ...prev, ...updatedProfile }));
+
+      const fullProfile = await getProfile(activeUser);
+      setUser(fullProfile);
+    } catch {
+      setIsError(true);
+    } finally {
+      setIsLoading(false);
+      setOpenModal(false);
+    }
   };
 
   return (
