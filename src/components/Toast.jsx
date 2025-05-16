@@ -15,7 +15,7 @@ export default function Toast({ message, onClose, type = "success" }) {
   useEffect(() => {
     const timer = setTimeout(() => {
       onClose();
-    }, 4000); //Disappears after 3 seconds.
+    }, 4000);
 
     return () => clearTimeout(timer);
   }, [onClose]);
@@ -24,12 +24,12 @@ export default function Toast({ message, onClose, type = "success" }) {
 
   return (
     <div
-      className={`fixed top-4 right-4 z-50 text-white px-4 py-2 rounded shadow ${bgColor}`}
+      className={`fixed top-4 right-0 left-0 mx-auto max-w-[300px] z-50 text-white px-6 py-2 rounded drop-shadow-s ${bgColor}`}
     >
-      <button onClick={onClose}>
+      <button onClick={onClose} className="btn-close">
         <X />
       </button>
-      <p>{message}</p>
+      <p className="py-2 mt-2">{message}</p>
     </div>
   );
 }
