@@ -6,6 +6,7 @@ import { useToast } from "../context/ToastContext";
 import { updateProfile } from "../api/profile/update";
 import { load } from "../storage/load";
 import { save } from "../storage/save";
+import { useEffect, useRef } from "react";
 
 const schema = yup.object({
   venueManager: yup.boolean().optional(),
@@ -29,6 +30,8 @@ const schema = yup.object({
  */
 export default function EditProfileModal({ onClose, onUpdate, user }) {
   const { showToast } = useToast();
+  const modalRef = useRef(null);
+
   const {
     register,
     handleSubmit,
@@ -42,6 +45,16 @@ export default function EditProfileModal({ onClose, onUpdate, user }) {
       banner: { url: user.banner?.url, alt: "Profile banner" },
     },
   });
+
+  useEffect(() => {
+    function handleClickOutside(e) {
+      if (modalRef.current && !modalRef.current.contains(e.target)) {
+        onClose();
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, [onClose]);
 
   const avatarPreview = watch("avatar.url");
   const bannerPreview = watch("banner.url");
@@ -68,7 +81,7 @@ export default function EditProfileModal({ onClose, onUpdate, user }) {
 
   return (
     <div className="overlay">
-      <div className="modal-div font-poppins">
+      <div ref={modalRef} className="modal-div font-poppins">
         <button onClick={onClose} className="btn-close">
           <X />
         </button>
@@ -119,7 +132,7 @@ export default function EditProfileModal({ onClose, onUpdate, user }) {
               {...register("avatar.url")}
               className="input-primary"
             />
-            <p>{errors.avatar?.message}</p>
+            <p className="errorMsgForm">{errors.avatar?.url?.message}</p>
           </div>
           <div className="flex flex-col gap-1">
             <div className="flex gap-2 items-center">
@@ -133,7 +146,7 @@ export default function EditProfileModal({ onClose, onUpdate, user }) {
               {...register("banner.url")}
               className="input-primary"
             />
-            <p>{errors.banner?.message}</p>
+            <p className="errorMsgForm">{errors.banner?.url?.message}</p>
           </div>
           <button
             type="submit"
