@@ -309,17 +309,17 @@ export default function EditVenueModal({
             >
               Delete venue
             </button>
-            {showConfirmation && (
-              <ConfirmationModal
-                title="Delete venue"
-                message={`Are you sure you want to delete venue with id:${venue.id}? This action cannot be undone.`}
-                onConfirm={handleDelete}
-                onCancel={() => setShowConfirmation(false)}
-              />
-            )}
           </div>
         </form>
       </div>
+      {showConfirmation && (
+        <ConfirmationModal
+          title="Delete venue"
+          message={`Are you sure you want to delete venue with id:${venue.id}? This action cannot be undone.`}
+          onConfirm={handleDelete}
+          onCancel={() => setShowConfirmation(false)}
+        />
+      )}
     </div>
   );
 }
