@@ -20,7 +20,11 @@ export function Navbar({ activeUser, onMobileLogout }) {
         <NavLink
           to="/"
           onClick={() => setOpenMenu(false)}
-          className="flex items-center gap-1 hover:text-orange animate"
+          className={({ isActive }) =>
+            `flex items-center gap-1 hover:text-orange animate ${
+              isActive ? "text-orange" : "text-green"
+            }`
+          }
         >
           <Hotel size={16} strokeWidth={2.5} /> Venues
         </NavLink>
@@ -29,7 +33,11 @@ export function Navbar({ activeUser, onMobileLogout }) {
         <NavLink
           to="profile"
           onClick={() => setOpenMenu(false)}
-          className="flex items-center gap-1 hover:text-orange animate"
+          className={({ isActive }) =>
+            `flex items-center gap-1 hover:text-orange animate ${
+              isActive ? "text-orange" : "text-green"
+            }`
+          }
         >
           <CircleUser size={16} strokeWidth={2.5} /> Profile
         </NavLink>
@@ -39,7 +47,11 @@ export function Navbar({ activeUser, onMobileLogout }) {
           <NavLink
             to="create-venue"
             onClick={() => setOpenMenu(false)}
-            className="flex items-center gap-1 hover:text-orange animate"
+            className={({ isActive }) =>
+              `flex items-center gap-1 hover:text-orange animate ${
+                isActive ? "text-orange" : "text-green"
+              }`
+            }
           >
             <CirclePlus size={16} strokeWidth={2.5} /> Add venue
           </NavLink>
