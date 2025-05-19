@@ -79,7 +79,7 @@ export default function SpecificVenue({ removeVenue }) {
       ) : venue ? (
         <main className="font-inter md:pt-10">
           <div className="max-w-[754px] mx-auto">
-            <div className="py-6">
+            <div className="py-6 px-2 md:px-0">
               <h1 className="font-poppins text-orange font-semibold text-l">
                 {venue.name}
               </h1>
