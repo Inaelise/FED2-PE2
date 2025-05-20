@@ -33,6 +33,7 @@ export default function SearchBar({ onSearch, query }) {
       <input
         className="bg-white rounded-full py-2 w-[230px] px-6 text-sm font-inter text-center sm:w-[350px] focus:outline-green"
         type="text"
+        id="search"
         value={searchInput}
         onChange={handleChange}
         placeholder="Search..."
