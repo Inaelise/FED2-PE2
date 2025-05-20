@@ -1,12 +1,4 @@
-import {
-  MapPin,
-  SquarePen,
-  MoveRight,
-  Check,
-  X,
-  Star,
-  CircleAlert,
-} from "lucide-react";
+import { MapPin, SquarePen, Check, X, Star } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import ImageGallery from "./ImageGallery";
@@ -183,18 +175,13 @@ export default function SpecificVenue({ removeVenue }) {
                     <p className="text-xs opacity-60">per night</p>
                   </div>
                 </div>
-                {activeUser ? (
-                  <BookingForm
-                    venueId={venue.id}
-                    maxGuests={venue.maxGuests}
-                    price={venue.price}
-                  />
-                ) : (
-                  <p className="mt-8 border-1 border-red py-1.5 bg-[#f28f6b48] text-red font-semibold text-sm flex items-center justify-center gap-2">
-                    <CircleAlert size={18} />
-                    Login to make a booking.
-                  </p>
-                )}
+                <BookingForm
+                  venueId={venue.id}
+                  maxGuests={venue.maxGuests}
+                  price={venue.price}
+                  activeUser={activeUser}
+                  bookings={venue.bookings}
+                />
               </section>
               {activeUser === venue.owner.name && (
                 <section className="venue-sections">
