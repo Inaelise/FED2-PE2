@@ -141,7 +141,7 @@ export default function BookingForm({
             Book now
           </button>
         ) : (
-          <p className="mt-8 border-1 border-red py-1.5 bg-[#f28f6b48] text-red font-semibold text-sm flex items-center justify-center gap-2">
+          <p className="border-1 border-red p-1.5 bg-[#f28f6b48] text-red font-semibold text-sm flex items-center justify-center gap-2">
             <CircleAlert size={18} />
             Login to make a booking.
           </p>
