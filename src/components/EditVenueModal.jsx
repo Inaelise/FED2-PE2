@@ -77,6 +77,7 @@ export default function EditVenueModal({
   const modalRef = useRef(null);
 
   useEffect(() => {
+    if (showConfirmation) return;
     function handleClickOutside(e) {
       if (modalRef.current && !modalRef.current.contains(e.target)) {
         onClose();
@@ -84,7 +85,7 @@ export default function EditVenueModal({
     }
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, [onClose]);
+  }, [onClose, showConfirmation]);
 
   const {
     register,
@@ -147,191 +148,198 @@ export default function EditVenueModal({
   }
 
   return (
-    <div className="overlay">
-      <div
-        ref={modalRef}
-        className="modal-div top-10 max-w-[750px] max-h-[90vh] overflow-y-auto"
-      >
-        <button onClick={onClose} className="btn-close">
-          <X />
-        </button>
-        <h1 className="modal-h1 text-green">Edit venue</h1>
-        <form
-          onSubmit={handleSubmit(onUpdateVenue)}
-          className="flex flex-col gap-10 px-6 max-w-[500px] mx-auto pb-16"
+    <>
+      <div className="overlay z-40">
+        <div
+          ref={modalRef}
+          className="modal-div top-10 max-w-[750px] max-h-[90vh] overflow-y-auto"
         >
-          <div className="flex flex-col gap-1">
-            <label htmlFor="name" className="label-primary">
-              Name
-            </label>
-            <input
-              id="name"
-              autoComplete="on"
-              placeholder="Enter a venue name"
-              className="input-primary"
-              {...register("name")}
-            />
-            <p className="errorMsgForm">{errors.name?.message}</p>
-          </div>
-          <div className="flex flex-col gap-1">
-            <label htmlFor="description" className="label-primary">
-              Description
-            </label>
-            <textarea
-              id="description"
-              placeholder="Enter a description"
-              className="input-primary h-40"
-              {...register("description")}
-            />
-            <p className="errorMsgForm">{errors.description?.message}</p>
-          </div>
-          <div className="flex items-center justify-between">
+          <button onClick={onClose} className="btn-close">
+            <X />
+          </button>
+          <h1 className="modal-h1 text-green">Edit venue</h1>
+          <form
+            onSubmit={handleSubmit(onUpdateVenue)}
+            className="flex flex-col gap-10 px-6 max-w-[500px] mx-auto pb-16"
+          >
             <div className="flex flex-col gap-1">
-              <div className="flex gap-2">
-                <label htmlFor="price" className="label-primary">
-                  Price
-                </label>
-                <p className="text-sm opacity-40">(Per night)</p>
-              </div>
-              <input
-                id="price"
-                className="input-primary max-w-30"
-                {...register("price")}
-              />
-              <p className="errorMsgForm max-w-30 h-[50px]">
-                {errors.price?.message}
-              </p>
-            </div>
-            <div className="flex flex-col gap-1">
-              <label htmlFor="guests" className="label-primary">
-                Max guests
+              <label htmlFor="name" className="label-primary">
+                Name
               </label>
               <input
-                id="guests"
-                className="input-primary max-w-30"
-                {...register("maxGuests")}
-              />
-              <p className="errorMsgForm max-w-30 h-[50px]">
-                {errors.maxGuests?.message}
-              </p>
-            </div>
-          </div>
-          <fieldset>
-            <legend className="label-primary">Amenities</legend>
-            <div className="grid grid-cols-2 grid-rows-2 gap-8 text-sm py-4">
-              <label htmlFor="wifi" className="flex gap-2">
-                <input id="wifi" type="checkbox" {...register("meta.wifi")} />
-                Free wifi
-              </label>
-              <label htmlFor="breakfast" className="flex gap-2">
-                <input
-                  id="breakfast"
-                  type="checkbox"
-                  {...register("meta.breakfast")}
-                />
-                Breakfast
-              </label>
-              <label htmlFor="parking" className="flex gap-2">
-                <input
-                  id="parking"
-                  type="checkbox"
-                  {...register("meta.parking")}
-                />
-                Parking
-              </label>
-              <label htmlFor="pets" className="flex gap-2">
-                <input id="pets" type="checkbox" {...register("meta.pets")} />
-                Pets
-              </label>
-            </div>
-          </fieldset>
-          <div className="flex flex-col gap-1">
-            <p className="label-primary pb-2">Rating</p>
-            <Rating
-              value={watch("rating")}
-              onChange={(val) => setValue("rating", val)}
-            />
-          </div>
-          <div className="flex flex-col gap-10 justify-between md:flex-row">
-            <div className="flex flex-col gap-1">
-              <label htmlFor="country" className="label-primary">
-                Country
-              </label>
-              <input
-                id="country"
+                id="name"
                 autoComplete="on"
-                className="input-primary md:w-[193px]"
-                {...register("location.country")}
+                placeholder="Enter a venue name"
+                className="input-primary"
+                {...register("name")}
+              />
+              <p className="errorMsgForm">{errors.name?.message}</p>
+            </div>
+            <div className="flex flex-col gap-1">
+              <label htmlFor="description" className="label-primary">
+                Description
+              </label>
+              <textarea
+                id="description"
+                placeholder="Enter a description"
+                className="input-primary h-40"
+                {...register("description")}
+              />
+              <p className="errorMsgForm">{errors.description?.message}</p>
+            </div>
+            <div className="flex items-center justify-between">
+              <div className="flex flex-col gap-1">
+                <div className="flex gap-2">
+                  <label htmlFor="price" className="label-primary">
+                    Price
+                  </label>
+                  <p className="text-sm opacity-40">(Per night)</p>
+                </div>
+                <input
+                  id="price"
+                  className="input-primary max-w-30"
+                  {...register("price")}
+                />
+                <p className="errorMsgForm max-w-30 h-[50px]">
+                  {errors.price?.message}
+                </p>
+              </div>
+              <div className="flex flex-col gap-1">
+                <label htmlFor="guests" className="label-primary">
+                  Max guests
+                </label>
+                <input
+                  id="guests"
+                  className="input-primary max-w-30"
+                  {...register("maxGuests")}
+                />
+                <p className="errorMsgForm max-w-30 h-[50px]">
+                  {errors.maxGuests?.message}
+                </p>
+              </div>
+            </div>
+            <fieldset>
+              <legend className="label-primary">Amenities</legend>
+              <div className="grid grid-cols-2 grid-rows-2 gap-8 text-sm py-4">
+                <label htmlFor="wifi" className="flex gap-2">
+                  <input id="wifi" type="checkbox" {...register("meta.wifi")} />
+                  Free wifi
+                </label>
+                <label htmlFor="breakfast" className="flex gap-2">
+                  <input
+                    id="breakfast"
+                    type="checkbox"
+                    {...register("meta.breakfast")}
+                  />
+                  Breakfast
+                </label>
+                <label htmlFor="parking" className="flex gap-2">
+                  <input
+                    id="parking"
+                    type="checkbox"
+                    {...register("meta.parking")}
+                  />
+                  Parking
+                </label>
+                <label htmlFor="pets" className="flex gap-2">
+                  <input id="pets" type="checkbox" {...register("meta.pets")} />
+                  Pets
+                </label>
+              </div>
+            </fieldset>
+            <div className="flex flex-col gap-1">
+              <p className="label-primary pb-2">Rating</p>
+              <Rating
+                value={watch("rating")}
+                onChange={(val) => setValue("rating", val)}
+              />
+            </div>
+            <div className="flex flex-col gap-10 justify-between md:flex-row">
+              <div className="flex flex-col gap-1">
+                <label htmlFor="country" className="label-primary">
+                  Country
+                </label>
+                <input
+                  id="country"
+                  autoComplete="on"
+                  className="input-primary md:w-[193px]"
+                  {...register("location.country")}
+                />
+                <p className="errorMsgForm">
+                  {errors.location?.country?.message}
+                </p>
+              </div>
+              <div className="flex flex-col gap-1">
+                <label htmlFor="city" className="label-primary">
+                  City
+                </label>
+                <input
+                  id="city"
+                  autoComplete="on"
+                  className="input-primary md:w-[193px]"
+                  {...register("location.city")}
+                />
+                <p className="errorMsgForm">{errors.location?.city?.message}</p>
+              </div>
+            </div>
+            <div className="flex flex-col gap-1">
+              <label htmlFor="address" className="label-primary">
+                Address
+              </label>
+              <input
+                id="address"
+                autoComplete="on"
+                className="input-primary"
+                {...register("location.address")}
               />
               <p className="errorMsgForm">
-                {errors.location?.country?.message}
+                {errors.location?.address?.message}
               </p>
             </div>
             <div className="flex flex-col gap-1">
-              <label htmlFor="city" className="label-primary">
-                City
+              <label htmlFor="zip" className="label-primary">
+                Zip code
               </label>
               <input
-                id="city"
-                autoComplete="on"
-                className="input-primary md:w-[193px]"
-                {...register("location.city")}
+                id="zip"
+                className="input-primary"
+                {...register("location.zip")}
               />
-              <p className="errorMsgForm">{errors.location?.city?.message}</p>
+              <p className="errorMsgForm">{errors.location?.zip?.message}</p>
             </div>
-          </div>
-          <div className="flex flex-col gap-1">
-            <label htmlFor="address" className="label-primary">
-              Address
-            </label>
-            <input
-              id="address"
-              autoComplete="on"
-              className="input-primary"
-              {...register("location.address")}
+            <ImageInput
+              value={watch("media")}
+              onChange={(imgs) => setValue("media", imgs)}
             />
-            <p className="errorMsgForm">{errors.location?.address?.message}</p>
-          </div>
-          <div className="flex flex-col gap-1">
-            <label htmlFor="zip" className="label-primary">
-              Zip code
-            </label>
-            <input
-              id="zip"
-              className="input-primary"
-              {...register("location.zip")}
-            />
-            <p className="errorMsgForm">{errors.location?.zip?.message}</p>
-          </div>
-          <ImageInput
-            value={watch("media")}
-            onChange={(imgs) => setValue("media", imgs)}
-          />
-          <div className="flex justify-between gap-4 pt-6">
-            <button
-              type="submit"
-              className="btn-form bg-green max-w-[170px] hover animate"
-            >
-              Update
-            </button>
-            <button
-              type="button"
-              className="btn-form bg-red max-w-[170px] hover animate"
-              onClick={() => setShowConfirmation(true)}
-            >
-              Delete venue
-            </button>
-          </div>
-        </form>
+            <div className="flex justify-between gap-4 pt-6">
+              <button
+                type="submit"
+                className="btn-form bg-green max-w-[170px] hover animate"
+              >
+                Update
+              </button>
+              <button
+                type="button"
+                className="btn-form bg-red max-w-[170px] hover animate"
+                onClick={() => setShowConfirmation(true)}
+              >
+                Delete venue
+              </button>
+            </div>
+          </form>
+        </div>
       </div>
       {showConfirmation && (
         <ConfirmationModal
-          title="Delete venue"
-          message={`Are you sure you want to delete venue with id:${venue.id}? This action cannot be undone.`}
-          onConfirm={handleDelete}
+          title="Delete Venue?"
+          message={`Are you sure you want to delete venue with id: ${venue.id}?`}
           onCancel={() => setShowConfirmation(false)}
+          onConfirm={() => {
+            setShowConfirmation(false);
+            handleDelete();
+          }}
         />
       )}
-    </div>
+    </>
   );
 }
