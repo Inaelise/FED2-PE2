@@ -166,6 +166,7 @@ export default function EditVenueModal({
             </label>
             <input
               id="name"
+              autoComplete="on"
               placeholder="Enter a venue name"
               className="input-primary"
               {...register("name")}
@@ -218,20 +219,28 @@ export default function EditVenueModal({
           <fieldset>
             <legend className="label-primary">Amenities</legend>
             <div className="grid grid-cols-2 grid-rows-2 gap-8 text-sm py-4">
-              <label className="flex gap-2">
-                <input type="checkbox" {...register("meta.wifi")} />
+              <label htmlFor="wifi" className="flex gap-2">
+                <input id="wifi" type="checkbox" {...register("meta.wifi")} />
                 Free wifi
               </label>
-              <label className="flex gap-2">
-                <input type="checkbox" {...register("meta.breakfast")} />
+              <label htmlFor="breakfast" className="flex gap-2">
+                <input
+                  id="breakfast"
+                  type="checkbox"
+                  {...register("meta.breakfast")}
+                />
                 Breakfast
               </label>
-              <label className="flex gap-2">
-                <input type="checkbox" {...register("meta.parking")} />
+              <label htmlFor="parking" className="flex gap-2">
+                <input
+                  id="parking"
+                  type="checkbox"
+                  {...register("meta.parking")}
+                />
                 Parking
               </label>
-              <label className="flex gap-2">
-                <input type="checkbox" {...register("meta.pets")} />
+              <label htmlFor="pets" className="flex gap-2">
+                <input id="pets" type="checkbox" {...register("meta.pets")} />
                 Pets
               </label>
             </div>
@@ -250,6 +259,7 @@ export default function EditVenueModal({
               </label>
               <input
                 id="country"
+                autoComplete="on"
                 className="input-primary md:w-[193px]"
                 {...register("location.country")}
               />
@@ -263,6 +273,7 @@ export default function EditVenueModal({
               </label>
               <input
                 id="city"
+                autoComplete="on"
                 className="input-primary md:w-[193px]"
                 {...register("location.city")}
               />
@@ -275,6 +286,7 @@ export default function EditVenueModal({
             </label>
             <input
               id="address"
+              autoComplete="on"
               className="input-primary"
               {...register("location.address")}
             />

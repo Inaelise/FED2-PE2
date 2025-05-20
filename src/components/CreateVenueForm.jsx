@@ -116,6 +116,7 @@ export default function CreateVenueForm() {
             </label>
             <input
               className="input-primary"
+              autoComplete="on"
               id="name"
               placeholder="Enter a venue name"
               {...register("name")}
@@ -168,20 +169,28 @@ export default function CreateVenueForm() {
           <fieldset>
             <legend className="label-primary">Amenities</legend>
             <div className="grid grid-cols-2 grid-rows-2 gap-8 text-sm py-4">
-              <label className="flex gap-2">
-                <input type="checkbox" {...register("meta.wifi")} />
+              <label htmlFor="wifi" className="flex gap-2">
+                <input id="wifi" type="checkbox" {...register("meta.wifi")} />
                 Free wifi
               </label>
-              <label className="flex gap-2">
-                <input type="checkbox" {...register("meta.breakfast")} />
+              <label htmlFor="breakfast" className="flex gap-2">
+                <input
+                  id="breakfast"
+                  type="checkbox"
+                  {...register("meta.breakfast")}
+                />
                 Breakfast
               </label>
-              <label className="flex gap-2">
-                <input type="checkbox" {...register("meta.parking")} />
+              <label htmlFor="parking" className="flex gap-2">
+                <input
+                  id="parking"
+                  type="checkbox"
+                  {...register("meta.parking")}
+                />
                 Parking
               </label>
-              <label className="flex gap-2">
-                <input type="checkbox" {...register("meta.pets")} />
+              <label htmlFor="pets" className="flex gap-2">
+                <input id="pets" type="checkbox" {...register("meta.pets")} />
                 Pets
               </label>
             </div>
@@ -197,6 +206,7 @@ export default function CreateVenueForm() {
               </label>
               <input
                 id="country"
+                autoComplete="on"
                 className="input-primary"
                 {...register("location.country")}
               />
@@ -210,6 +220,7 @@ export default function CreateVenueForm() {
               </label>
               <input
                 id="city"
+                autoComplete="on"
                 className="input-primary"
                 {...register("location.city")}
               />
@@ -222,6 +233,7 @@ export default function CreateVenueForm() {
             </label>
             <input
               id="address"
+              autoComplete="on"
               className="input-primary"
               {...register("location.address")}
             />
