@@ -3,10 +3,11 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { useState } from "react";
 import { DateRange } from "react-date-range";
+import { eachDayOfInterval, parseISO } from "date-fns";
 import "react-date-range/dist/styles.css";
 import "react-date-range/dist/theme/default.css";
 import { addDays } from "date-fns";
-import { Plus, Minus } from "lucide-react";
+import { Plus, Minus, CircleAlert } from "lucide-react";
 import { createBooking } from "../api/venue/booking";
 import { useToast } from "../context/ToastContext";
 
@@ -23,7 +24,13 @@ const schema = yup.object().shape({
  * @param {number} price - The price per night.
  * @returns {JSX.Element} - The rendered component.
  */
-export default function BookingForm({ venueId, maxGuests, price }) {
+export default function BookingForm({
+  venueId,
+  maxGuests,
+  price,
+  activeUser,
+  bookings = [],
+}) {
   const { showToast } = useToast();
   const [guests, setGuests] = useState(1);
   const [dateRange, setDateRange] = useState([
@@ -33,6 +40,13 @@ export default function BookingForm({ venueId, maxGuests, price }) {
       key: "selection",
     },
   ]);
+
+  const disabledDates = bookings?.flatMap((booking) =>
+    eachDayOfInterval({
+      start: parseISO(booking.dateFrom),
+      end: parseISO(booking.dateTo),
+    })
+  );
 
   const {
     register,
@@ -111,6 +125,7 @@ export default function BookingForm({ venueId, maxGuests, price }) {
           minDate={new Date()}
           months={1}
           direction="horizontal"
+          disabledDates={disabledDates}
         />
       </div>
       <div className="flex justify-center gap-4 py-6">
@@ -118,12 +133,19 @@ export default function BookingForm({ venueId, maxGuests, price }) {
         <p>{totalPrice} kr</p>
       </div>
       <div className="flex justify-center">
-        <button
-          type="submit"
-          className="text-sm font-semibold bg-orange text-white py-2 px-3 rounded-xl hover animate cursor-pointer"
-        >
-          Book now
-        </button>
+        {activeUser ? (
+          <button
+            type="submit"
+            className="text-sm font-semibold bg-orange text-white py-2 px-3 rounded-xl hover animate cursor-pointer"
+          >
+            Book now
+          </button>
+        ) : (
+          <p className="mt-8 border-1 border-red py-1.5 bg-[#f28f6b48] text-red font-semibold text-sm flex items-center justify-center gap-2">
+            <CircleAlert size={18} />
+            Login to make a booking.
+          </p>
+        )}
       </div>
     </form>
   );
