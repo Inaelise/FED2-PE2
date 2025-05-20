@@ -49,13 +49,15 @@ export default function VenueCard({
       <div className="px-2">
         <div className="flex items-center gap-1">
           <MapPin size={19} strokeWidth={1.5} className="text-orange" />
-          <p className="text-sm opacity-60">
-            {location.city}, {location.country}
+          <p className="text-sm opacity-60 max-w-[200px] truncate">
+            {location.city && location.country
+              ? `${location.city}, ${location.country}`
+              : "undefined"}
           </p>
         </div>
         <div className="flex flex-row items-center justify-between">
           <h2 className="max-w-[150px] text-green font-semibold truncate">
-            {name}
+            {!name ? "Undefined" : name}
           </h2>
           <div>
             <p className="font-semibold">{price} kr</p>
