@@ -71,7 +71,7 @@ export default function RegisterModal({ onClose, switchModal }) {
   }
 
   return (
-    <div className="overlay">
+    <div className="overlay z-60">
       <div ref={modalRef} className="modal-div top-20 max-w-[400px]">
         <button onClick={onClose} className="btn-close">
           <X />

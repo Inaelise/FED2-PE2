@@ -87,7 +87,7 @@
   }
 
   .overlay {
-    @apply fixed inset-0 bg-black/40 backdrop-blur-sm flex justify-center items-start pt-20 z-50;
+    @apply fixed inset-0 bg-black/40 backdrop-blur-sm flex justify-center items-start pt-20;
   }
 
   .social-img {
