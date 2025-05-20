@@ -80,7 +80,7 @@ export default function EditProfileModal({ onClose, onUpdate, user }) {
   }
 
   return (
-    <div className="overlay">
+    <div className="overlay z-50">
       <div ref={modalRef} className="modal-div font-poppins">
         <button onClick={onClose} className="btn-close">
           <X />
