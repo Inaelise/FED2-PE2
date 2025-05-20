@@ -29,7 +29,7 @@ export default function Toast({ message, onClose, type = "success" }) {
       <button onClick={onClose} className="btn-close">
         <X />
       </button>
-      <p className="py-2 mt-2">{message}</p>
+      <p className="py-2 mt-2 font-semibold">{message}</p>
     </div>
   );
 }
