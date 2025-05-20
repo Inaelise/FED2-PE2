@@ -17,7 +17,7 @@ export default function ConfirmationModal({
   onConfirm,
 }) {
   return (
-    <div className="overlay items-center">
+    <div className="overlay items-center z-50">
       <div className="relative p-4 sm:px-8 bg-white font-inter drop-shadow-base max-w-[500px] rounded-xl text-center text-black">
         <div>
           <button onClick={onCancel} className="btn-close">
