@@ -86,7 +86,9 @@ export default function SpecificVenue({ removeVenue }) {
               <div className="flex items-center gap-1">
                 <MapPin size={18} className="text-orange" />
                 <p className="text-xs opacity-60">
-                  {venue.location.city}, {venue.location.country}
+                  {venue.location.city && venue.location.country
+                    ? `${venue.location.city}, ${venue.location.country}`
+                    : "undefined"}
                 </p>
               </div>
             </div>
