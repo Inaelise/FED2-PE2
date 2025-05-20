@@ -50,9 +50,19 @@ function App() {
     setCurrentPage(1);
   };
 
+  {
+    /* Scrolls to top on pagination or venue list change */
+  }
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   }, [currentPage, venues]);
+
+  {
+    /* Scrolls to top on route change */
+  }
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [location.pathname]);
 
   return (
     <Routes>
