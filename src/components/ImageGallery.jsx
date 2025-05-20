@@ -13,8 +13,10 @@ export default function ImageGallery({ media }) {
   const [mainImage, setMainImage] = useState(media?.[0]);
 
   if (!media || media.length === 0) {
-    return <p>No images available</p>;
+    return <img src="/images/default-img.png" alt="Default venue image" />;
   }
+
+  const uniqueMedia = [...new Map(media.map((img) => [img.url, img])).values()];
 
   return (
     <div>
@@ -25,25 +27,22 @@ export default function ImageGallery({ media }) {
           className="w-full h-76 object-cover max-w-[754px] mx-auto sm:h-96 md:h-[540px] md:rounded-xl"
         />
       </div>
-
-      {media.length > 1 && (
+      {/* Filters media to only include unique urls in the thumbnails */}
+      {uniqueMedia.length > 1 && (
         <div className="flex flex-wrap justify-center gap-4 py-4 px-2">
-          {media.map(
-            (img) =>
-              img.url && (
-                <img
-                  key={img.url}
-                  src={img.url}
-                  alt={img.alt}
-                  onClick={() => setMainImage(img)}
-                  className={`h-20 w-20 object-cover rounded-xl cursor-pointer animate ${
-                    mainImage.url === img.url
-                      ? "ring-3 ring-orange scale-110 animate"
-                      : ""
-                  }`}
-                />
-              )
-          )}
+          {uniqueMedia.map((img, index) => (
+            <img
+              key={`${img.url}-${index}`}
+              src={img.url}
+              alt={img.alt}
+              onClick={() => setMainImage(img)}
+              className={`h-20 w-20 object-cover rounded-xl cursor-pointer animate ${
+                mainImage.url === img.url
+                  ? "ring-3 ring-orange scale-110 animate"
+                  : ""
+              }`}
+            />
+          ))}
         </div>
       )}
     </div>
