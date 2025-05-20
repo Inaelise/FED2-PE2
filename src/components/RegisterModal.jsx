@@ -106,6 +106,7 @@ export default function RegisterModal({ onClose, switchModal }) {
               type="name"
               id="name"
               name="name"
+              autoComplete="on"
               {...register("name")}
               className="input-primary"
             />
@@ -119,6 +120,7 @@ export default function RegisterModal({ onClose, switchModal }) {
               type="email"
               id="email"
               name="email"
+              autoComplete="on"
               placeholder="example@stud.noroff.no"
               {...register("email")}
               className="input-primary"

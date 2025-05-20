@@ -89,6 +89,7 @@ export default function LoginModal({ onClose, switchModal }) {
               type="email"
               id="email"
               name="email"
+              autoComplete="on"
               placeholder="example@stud.noroff.no"
               {...register("email")}
               className="input-primary"
