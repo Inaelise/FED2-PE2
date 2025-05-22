@@ -1,6 +1,9 @@
 import { useState } from "react";
-import { ChevronDown, ChevronUp } from "lucide-react";
+import { ChevronDown, ChevronUp, X } from "lucide-react";
 import { Link } from "react-router";
+import { deleteBooking } from "../api/profile/deleteBooking";
+import { useToast } from "../context/ToastContext";
+import ConfirmationModal from "./ConfirmationModal";
 
 /**
  * Profile accordion component that displays user bookings and venues in an accordion format.
@@ -14,10 +17,40 @@ import { Link } from "react-router";
  */
 export default function ProfileAccordion({ user }) {
   const [open, setOpen] = useState(null);
+  const [bookings, setBookings] = useState(user.bookings || []);
+  const [selectedBookingId, setSelectedBookingId] = useState(null);
+  const [showConfirmation, setShowConfirmation] = useState(false);
+  const { showToast } = useToast();
 
   const toggleSection = (section) => {
     setOpen((prev) => (prev === section ? null : section));
   };
+
+  function handleCancel() {
+    setShowConfirmation(false);
+    setSelectedBookingId(null);
+  }
+
+  /**
+   * Handles the confirmation of cancelling a booking.
+   * Calls the API to delete the booking and updates the local state.
+   *
+   * @returns {Promise<void>} A promise that resolves when the booking is deleted successfully.
+   */
+  async function handleConfirm() {
+    setShowConfirmation(false);
+    setSelectedBookingId(null);
+
+    try {
+      await deleteBooking(selectedBookingId);
+      setBookings((prev) =>
+        prev.filter((booking) => booking.id !== selectedBookingId)
+      );
+      showToast({ message: "Booking cancelled!", type: "success" });
+    } catch (error) {
+      showToast({ message: error.message, type: "error" });
+    }
+  }
 
   return (
     <div className="mx-2">
@@ -26,7 +59,7 @@ export default function ProfileAccordion({ user }) {
           onClick={() => toggleSection("bookings")}
           className="accordionDiv animate"
         >
-          <h2>Your bookings ({user.bookings?.length})</h2>
+          <h2>Your bookings ({bookings?.length})</h2>
           {open === "bookings" ? (
             <ChevronUp className="text-orange" />
           ) : (
@@ -37,10 +70,10 @@ export default function ProfileAccordion({ user }) {
 
         {open === "bookings" && (
           <div>
-            {user.bookings?.length > 0 ? (
+            {bookings?.length > 0 ? (
               <div>
                 <ul className="py-4 px-2 text-xs flex flex-col gap-6 sm:gap-8 sm:px-6 sm:py-6">
-                  {user.bookings.map((booking) => (
+                  {bookings.map((booking) => (
                     <li
                       key={booking.id}
                       className="flex flex-row justify-between"
@@ -68,6 +101,17 @@ export default function ProfileAccordion({ user }) {
                         <p className="font-semibold opacity-40">Guests:</p>
                         <p>{booking.guests}</p>
                       </div>
+                      <button
+                        type="button"
+                        title="Cancel booking"
+                        className="cursor-pointer mr-0.5"
+                        onClick={() => {
+                          setSelectedBookingId(booking.id);
+                          setShowConfirmation(true);
+                        }}
+                      >
+                        <X size={18} />
+                      </button>
                     </li>
                   ))}
                 </ul>
@@ -139,6 +183,14 @@ export default function ProfileAccordion({ user }) {
           </div>
         )}
       </div>
+      {showConfirmation && (
+        <ConfirmationModal
+          title="Cancel booking?"
+          message={`Are you sure you want to cancel the booking with id: ${bookings.id}?`}
+          onCancel={handleCancel}
+          onConfirm={handleConfirm}
+        />
+      )}
     </div>
   );
 }
