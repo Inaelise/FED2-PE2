@@ -2,11 +2,10 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { useState } from "react";
-import { DateRange } from "react-date-range";
 import { eachDayOfInterval, parseISO } from "date-fns";
-import "react-date-range/dist/styles.css";
-import "react-date-range/dist/theme/default.css";
-import { addDays } from "date-fns";
+import { format } from "date-fns";
+import { DayPicker } from "react-day-picker";
+import "react-day-picker/dist/style.css";
 import { Plus, Minus, CircleAlert } from "lucide-react";
 import { createBooking } from "../api/venue/booking";
 import { useToast } from "../context/ToastContext";
@@ -33,13 +32,7 @@ export default function BookingForm({
 }) {
   const { showToast } = useToast();
   const [guests, setGuests] = useState(1);
-  const [dateRange, setDateRange] = useState([
-    {
-      startDate: new Date(),
-      endDate: addDays(new Date(), 1),
-      key: "selection",
-    },
-  ]);
+  const [dateRange, setDateRange] = useState(undefined);
 
   const disabledDates = bookings?.flatMap((booking) =>
     eachDayOfInterval({
@@ -61,10 +54,18 @@ export default function BookingForm({
    * It sends the booking information to the API and shows a success or error message.
    */
   async function onSubmit() {
+    if (!dateRange?.from || !dateRange?.to) {
+      showToast({
+        message: "Please select a valid date range.",
+        type: "error",
+      });
+      return;
+    }
+
     const bookingInfo = {
-      dateFrom: dateRange[0].startDate.toISOString(),
-      dateTo: dateRange[0].endDate.toISOString(),
-      guests: guests,
+      dateFrom: dateRange.from.toISOString(),
+      dateTo: dateRange.to.toISOString(),
+      guests,
       venueId,
     };
 
@@ -80,7 +81,9 @@ export default function BookingForm({
   }
 
   const dayCount =
-    (dateRange[0].endDate - dateRange[0].startDate) / (1000 * 60 * 60 * 24);
+    dateRange?.from && dateRange?.to
+      ? (dateRange.to - dateRange.from) / (1000 * 60 * 60 * 24)
+      : 0;
   const totalPrice = dayCount * price;
 
   return (
@@ -117,16 +120,22 @@ export default function BookingForm({
         </div>
       </div>
       <div>
-        <DateRange
-          editableDateInputs={true}
-          onChange={(item) => setDateRange([item.selection])}
-          moveRangeOnFirstSelection={false}
-          ranges={dateRange}
-          minDate={new Date()}
-          months={1}
-          direction="horizontal"
-          disabledDates={disabledDates}
+        <DayPicker
+          mode="range"
+          selected={dateRange}
+          onSelect={setDateRange}
+          disabled={[{ before: new Date() }, ...disabledDates]}
+          numberOfMonths={1}
         />
+        <div className="mt-4 text-center">
+          {dateRange?.from && dateRange?.to ? (
+            <p>
+              {format(dateRange.from, "PPP")} - {format(dateRange.to, "PPP")}
+            </p>
+          ) : (
+            <p>No dates selected</p>
+          )}
+        </div>
       </div>
       <div className="flex justify-center gap-4 py-6">
         <p className="font-bold text-green">Total:</p>
