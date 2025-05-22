@@ -1,15 +1,14 @@
 import { LogOut, LogIn, UserRoundPlus } from "lucide-react";
 import { Navbar } from "./Navbar";
-import { NavLink, useNavigate } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import { remove } from "../storage/remove";
-import { Suspense, lazy, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useState } from "react";
 import ConfirmationModal from "./ConfirmationModal";
 import { load } from "../storage/load";
 import { useToast } from "../context/ToastContext";
-import LoadingSpinner from "./LoadingSpinner";
-
-const LoginModal = lazy(() => import("./LoginModal"));
-const RegisterModal = lazy(() => import("./RegisterModal"));
+import LoginModal from "./LoginModal";
+import RegisterModal from "./RegisterModal";
 
 /**
  * Header component that displays the site logo, user greeting, navbar, and login/register/logout buttons.
@@ -111,21 +110,17 @@ export default function Header() {
       )}
 
       {openModal === "login" && (
-        <Suspense fallback={<LoadingSpinner />}>
-          <LoginModal
-            onClose={() => setOpenModal(null)}
-            switchModal={switchModal}
-          />
-        </Suspense>
+        <LoginModal
+          onClose={() => setOpenModal(null)}
+          switchModal={switchModal}
+        />
       )}
 
       {openModal === "register" && (
-        <Suspense fallback={<LoadingSpinner />}>
-          <RegisterModal
-            onClose={() => setOpenModal(null)}
-            switchModal={switchModal}
-          />
-        </Suspense>
+        <RegisterModal
+          onClose={() => setOpenModal(null)}
+          switchModal={switchModal}
+        />
       )}
       <Navbar
         activeUser={activeUser}
