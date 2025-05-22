@@ -6,6 +6,7 @@ import { useForm } from "react-hook-form";
 import { useToast } from "../context/ToastContext";
 import { loginUser } from "../api/auth/login";
 import { useEffect, useRef } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
 
 const schema = yup.object({
   email: yup
@@ -30,6 +31,9 @@ const schema = yup.object({
 export default function LoginModal({ onClose, switchModal }) {
   const { showToast } = useToast();
   const modalRef = useRef(null);
+
+  const navigate = useNavigate();
+  const location = useLocation();
 
   useEffect(() => {
     function handleClickOutside(e) {
@@ -59,6 +63,8 @@ export default function LoginModal({ onClose, switchModal }) {
       showToast({ message: "Login successful!", type: "success" });
       reset();
       onClose();
+
+      navigate(location.pathname, { replace: true });
     } catch (error) {
       showToast({ message: error.message, type: "error" });
     }
