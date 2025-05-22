@@ -2,7 +2,7 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { useState } from "react";
-import { eachDayOfInterval, parseISO } from "date-fns";
+import { eachDayOfInterval, parseISO, startOfMonth } from "date-fns";
 import { format } from "date-fns";
 import { DayPicker } from "react-day-picker";
 import "react-day-picker/dist/style.css";
@@ -28,11 +28,21 @@ export default function BookingForm({
   maxGuests,
   price,
   activeUser,
-  bookings = [],
+  bookings: initialBookings = [],
 }) {
   const { showToast } = useToast();
+
   const [guests, setGuests] = useState(1);
   const [dateRange, setDateRange] = useState(undefined);
+  const [bookings, setBookings] = useState(initialBookings);
+  const [displayMonth, setDisplayMonth] = useState(() => new Date());
+
+  function handleSelect(range) {
+    setDateRange(range);
+    if (range?.from) {
+      setDisplayMonth(startOfMonth(range.from));
+    }
+  }
 
   const disabledDates = bookings?.flatMap((booking) =>
     eachDayOfInterval({
@@ -70,11 +80,13 @@ export default function BookingForm({
     };
 
     try {
-      await createBooking(bookingInfo);
+      const newBooking = await createBooking(bookingInfo);
       showToast({
         message: "Booking successful! Find bookings in your profile.",
         type: "success",
       });
+      setBookings((prev) => [...prev, newBooking]);
+      setDateRange(undefined);
     } catch (error) {
       showToast({ message: error.message, type: "error" });
     }
@@ -121,9 +133,12 @@ export default function BookingForm({
       </div>
       <div>
         <DayPicker
+          key={dateRange ? dateRange.from?.toISOString() : "empty"}
           mode="range"
           selected={dateRange}
-          onSelect={setDateRange}
+          onSelect={handleSelect}
+          month={displayMonth}
+          onMonthChange={setDisplayMonth}
           disabled={[{ before: new Date() }, ...disabledDates]}
           numberOfMonths={1}
         />
