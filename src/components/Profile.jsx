@@ -1,10 +1,11 @@
-import { useEffect, useState } from "react";
+import { Suspense, lazy, useEffect, useState } from "react";
 import { load } from "../storage/load";
-import EditProfileModal from "./EditProfileModal";
 import ProfileAccordion from "./ProfileAccordion";
 import LoadingSpinner from "./LoadingSpinner";
 import { CircleAlert } from "lucide-react";
 import { getProfile } from "../api/profile/read";
+
+const EditProfileModal = lazy(() => import("./EditProfileModal"));
 
 /**
  * Profile component that displays user information and allows editing.
@@ -109,11 +110,13 @@ export default function Profile() {
                   </div>
                 </div>
                 {openModal && (
-                  <EditProfileModal
-                    onClose={() => setOpenModal(false)}
-                    onUpdate={handleUpdate}
-                    user={user}
-                  />
+                  <Suspense fallback={<LoadingSpinner />}>
+                    <EditProfileModal
+                      onClose={() => setOpenModal(false)}
+                      onUpdate={handleUpdate}
+                      user={user}
+                    />
+                  </Suspense>
                 )}
               </div>
             </div>
