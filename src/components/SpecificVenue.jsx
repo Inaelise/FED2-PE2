@@ -1,13 +1,12 @@
 import { MapPin, SquarePen, Check, X, Star } from "lucide-react";
-import { Suspense, lazy, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import ImageGallery from "./ImageGallery";
+import EditVenueModal from "./EditVenueModal";
 import BookingForm from "./BookingForm";
 import { load } from "../storage/load";
 import LoadingSpinner from "./LoadingSpinner";
 import { getSpecificVenue } from "../api/venue/read";
-
-const EditVenueModal = lazy(() => import("./EditVenueModal"));
 
 /**
  * Displays a specific venue's details, including images, amenities, bookings, and allows booking or editing (if the user is the owner).
@@ -107,14 +106,12 @@ export default function SpecificVenue({ removeVenue }) {
                     </button>
                   )}
                   {openModal && (
-                    <Suspense fallback={<LoadingSpinner />}>
-                      <EditVenueModal
-                        venue={venue}
-                        onClose={() => setOpenModal(false)}
-                        onUpdate={handleUpdate}
-                        removeVenue={removeVenue}
-                      />
-                    </Suspense>
+                    <EditVenueModal
+                      venue={venue}
+                      onClose={() => setOpenModal(false)}
+                      onUpdate={handleUpdate}
+                      removeVenue={removeVenue}
+                    />
                   )}
                 </div>
                 <hr className="hr" />
