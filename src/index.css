@@ -123,52 +123,26 @@
   }
 }
 
-/* React date range calendar */
+/* React day picker calendar */
 
-.rdrDateDisplayWrapper {
-  border-radius: 10px 10px 0 0;
+.rdp-root {
+  --rdp-accent-color: var(--color-orange) !important;
+  --rdp-accent-background-color: #f28f6b63 !important;
+  background: #ffffff;
+  padding: 10px;
+  width: full;
+  border-radius: 15px;
 }
 
-.rdrCalendarWrapper {
-  border-radius: 10px;
+.rdp-selected {
+  font-weight: 400 !important;
+  font-size: 16px !important;
 }
 
-.rdrCalendarWrapper {
-  max-width: 320px;
-  width: 100%;
-  font-size: 14px;
+.rdp-today:not(.rdp-outside) {
+  font-weight: 800;
 }
 
-.rdrDayToday .rdrDayNumber span {
-  &:after {
-    background: var(--color-orange) !important;
-  }
-}
-
-.rdrDayToday:not(.rdrDayPassive) {
-  .rdrInRange,
-  .rdrStartEdge,
-  .rdrEndEdge,
-  .rdrSelected {
-    & ~ .rdrDayNumber span:after {
-      background: #fff !important;
-    }
-  }
-}
-
-.rdrStartEdge,
-.rdrEndEdge,
-.rdrInRange {
-  background-color: var(--color-orange) !important;
-}
-
-.rdrDay:not(.rdrDayPassive):hover .rdrDayNumber::after {
-  border: 1px solid var(--color-orange) !important;
-}
-
-.rdrDayStartPreview,
-.rdrDayInPreview,
-.rdrDayEndPreview,
-.rdrDateDisplayItemActive {
-  border-color: var(--color-orange) !important;
+.rdp-day_button:disabled {
+  cursor: not-allowed !important;
 }
