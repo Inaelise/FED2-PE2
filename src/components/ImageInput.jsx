@@ -93,7 +93,7 @@ export default function ImageInput({ onChange, value = [] }) {
             />
             <button
               onClick={() => handleRemoveImage(img.url)}
-              className="absolute top-1 right-1 bg-white rounded-full p-1 drop-shadow-s"
+              className="absolute top-1 right-1 bg-white rounded-full p-1 drop-shadow-s cursor-pointer"
             >
               <X size={18} />
             </button>
