@@ -6,6 +6,8 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { useNavigate } from "react-router-dom";
 import { useToast } from "../context/ToastContext";
 import { createVenue } from "../api/venue/create";
+import { useState } from "react";
+import LoadingSpinner from "./LoadingSpinner";
 
 const schema = yup.object({
   name: yup
@@ -58,6 +60,8 @@ const schema = yup.object({
  * @returns {JSX.Element} - The rendered component.
  */
 export default function CreateVenueForm() {
+  const [isLoading, setIsLoading] = useState(false);
+
   const navigate = useNavigate();
   const { showToast } = useToast();
 
@@ -85,6 +89,7 @@ export default function CreateVenueForm() {
    * @returns {Promise<void>} - A promise that resolves when the venue is created successfully.
    */
   async function onCreate(data) {
+    setIsLoading(true);
     try {
       await createVenue(data);
 
@@ -92,6 +97,8 @@ export default function CreateVenueForm() {
       navigate("/", { state: { reload: true } });
     } catch (error) {
       showToast({ message: error.message, type: "error" });
+    } finally {
+      setIsLoading(false);
     }
   }
 
@@ -106,6 +113,7 @@ export default function CreateVenueForm() {
         <h1 className="text-green text-l font-semibold font-poppins pb-8 text-center">
           Create venue
         </h1>
+        {isLoading && <LoadingSpinner />}
         <form
           onSubmit={handleSubmit(onCreate)}
           className="flex flex-col gap-10"
@@ -254,8 +262,12 @@ export default function CreateVenueForm() {
             value={watch("media")}
             onChange={(images) => setValue("media", images)}
           />
-          <button type="submit" className="btn-form bg-green hover animate">
-            Create venue
+          <button
+            type="submit"
+            className="btn-form bg-green hover animate"
+            disabled={isLoading}
+          >
+            {isLoading ? "Creating..." : "Create venue"}
           </button>
         </form>
       </main>
