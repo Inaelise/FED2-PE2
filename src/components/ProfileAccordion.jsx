@@ -194,7 +194,7 @@ export default function ProfileAccordion({ user }) {
       {showConfirmation && (
         <ConfirmationModal
           title="Cancel booking?"
-          message={`Are you sure you want to cancel the booking with id: ${bookings.id}?`}
+          message={`Are you sure you want to cancel this booking?`}
           onCancel={handleCancel}
           onConfirm={handleConfirm}
         />
