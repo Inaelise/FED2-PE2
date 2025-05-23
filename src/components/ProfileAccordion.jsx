@@ -92,8 +92,7 @@ export default function ProfileAccordion({ user }) {
                         <p>
                           {new Date(booking.dateFrom).toLocaleDateString(
                             "no-NO"
-                          )}{" "}
-                          -{" "}
+                          )}
                           {new Date(booking.dateTo).toLocaleDateString("no-NO")}
                         </p>
                       </div>
@@ -170,14 +169,23 @@ export default function ProfileAccordion({ user }) {
               </ul>
             ) : (
               <div className="text-center pt-4 pb-8 text-sm">
-                <p>No venues found.</p>
-                <Link
-                  to={"/create-venue"}
-                  title="Go to create venue page"
-                  className="text-orange font-semibold underline underline-offset-2"
-                >
-                  Create venue here
-                </Link>
+                {user.venueManager ? (
+                  <>
+                    <p>No venues found.</p>
+                    <Link
+                      to={"/create-venue"}
+                      title="Go to create venue page"
+                      className="text-orange font-semibold underline underline-offset-2"
+                    >
+                      Create venue here
+                    </Link>
+                  </>
+                ) : (
+                  <div className="flex flex-col gap-1">
+                    <p> Only for venue managers.</p>
+                    <p>You can change your status by editing your profile.</p>
+                  </div>
+                )}
               </div>
             )}
           </div>
