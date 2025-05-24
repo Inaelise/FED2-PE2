@@ -1,7 +1,7 @@
 import { CirclePlus, CircleUser, Hotel, X, Menu } from "lucide-react";
 import { NavLink } from "react-router-dom";
 import { load } from "../storage/load";
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { LogOut } from "lucide-react";
 
 /**
@@ -13,6 +13,7 @@ import { LogOut } from "lucide-react";
 export function Navbar({ activeUser, onMobileLogout }) {
   const [openMenu, setOpenMenu] = useState(false);
   const venueManager = load("status");
+  const menuRef = useRef(null);
 
   const navLinks = (
     <>
@@ -60,6 +61,17 @@ export function Navbar({ activeUser, onMobileLogout }) {
     </>
   );
 
+  /* Closes dropdown menu on click outside */
+  useEffect(() => {
+    function handleClickOutside(e) {
+      if (menuRef.current && !menuRef.current.contains(e.target)) {
+        setOpenMenu(false);
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, [openMenu]);
+
   return (
     <nav className="relative text-green font-semibold md:font-normal">
       {activeUser && (
@@ -79,26 +91,31 @@ export function Navbar({ activeUser, onMobileLogout }) {
           </div>
 
           {/* Mobile dropdown menu */}
-          {openMenu && (
-            <div className="absolute right-0 top-10 w-[190px] bg-beige rounded-b-xl shadow-md z-50 md:hidden">
-              <ul className="flex flex-col gap-6 py-4 px-10 md:hidden">
-                {activeUser && navLinks}
-                {activeUser && (
-                  <li>
-                    <button
-                      onClick={() => {
-                        setOpenMenu(false);
-                        onMobileLogout();
-                      }}
-                      className="flex items-center gap-1"
-                    >
-                      <LogOut size={16} strokeWidth={2.5} /> Log out
-                    </button>
-                  </li>
-                )}
-              </ul>
-            </div>
-          )}
+          <div
+            ref={menuRef}
+            className={`fixed right-0 top-12 w-[190px] bg-beige rounded-bl-xl shadow-md z-50 md:hidden transition-all duration-400 ease-in-out transform ${
+              openMenu
+                ? "translate-x-0"
+                : "translate-x-full pointer-events-none"
+            }`}
+          >
+            <ul className="flex flex-col gap-6 py-4 px-10 md:hidden">
+              {activeUser && navLinks}
+              {activeUser && (
+                <li>
+                  <button
+                    onClick={() => {
+                      setOpenMenu(false);
+                      onMobileLogout();
+                    }}
+                    className="flex items-center gap-1"
+                  >
+                    <LogOut size={16} strokeWidth={2.5} /> Log out
+                  </button>
+                </li>
+              )}
+            </ul>
+          </div>
 
           {/* Desktop menu */}
           <ul className="hidden md:flex md:justify-center md:gap-18 md:p-1 bg-white drop-shadow-base">
