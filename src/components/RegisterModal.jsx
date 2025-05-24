@@ -36,6 +36,7 @@ export default function RegisterModal({ onClose, switchModal }) {
   const { showToast } = useToast();
   const modalRef = useRef(null);
 
+  /* Closes modal on click outside */
   useEffect(() => {
     function handleClickOutside(e) {
       if (modalRef.current && !modalRef.current.contains(e.target)) {

@@ -76,6 +76,7 @@ export default function EditVenueModal({
   const { showToast } = useToast();
   const modalRef = useRef(null);
 
+  /* Closes modal on click outside */
   useEffect(() => {
     if (showConfirmation) return;
     function handleClickOutside(e) {

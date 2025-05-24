@@ -35,6 +35,7 @@ export default function LoginModal({ onClose, switchModal }) {
   const navigate = useNavigate();
   const location = useLocation();
 
+  /* Closes modal on click outside */
   useEffect(() => {
     function handleClickOutside(e) {
       if (modalRef.current && !modalRef.current.contains(e.target)) {

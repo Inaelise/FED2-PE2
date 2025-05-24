@@ -46,6 +46,7 @@ export default function EditProfileModal({ onClose, onUpdate, user }) {
     },
   });
 
+  /* Closes modal on click outside */
   useEffect(() => {
     function handleClickOutside(e) {
       if (modalRef.current && !modalRef.current.contains(e.target)) {
