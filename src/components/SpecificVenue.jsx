@@ -115,7 +115,7 @@ export default function SpecificVenue({ removeVenue }) {
                   )}
                 </div>
                 <hr className="hr" />
-                <p>{venue.description}</p>
+                <p className="break-words">{venue.description}</p>
               </section>
               <section className="venue-sections">
                 <h2 className="venue-h2">Amenities</h2>
@@ -137,7 +137,7 @@ export default function SpecificVenue({ removeVenue }) {
               <section className="venue-sections">
                 <h2 className="venue-h2">Location & owner</h2>
                 <hr className="hr" />
-                <div className="flex flex-col gap-2">
+                <div className="flex flex-col gap-2 break-words">
                   <p>{venue.location?.address}</p>
                   <p>
                     {venue.location?.zip} {venue.location?.city}
