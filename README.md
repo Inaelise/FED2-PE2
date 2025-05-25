@@ -1,6 +1,6 @@
 # Project Exam 2 - Holidaze
 
-- Add image here.
+![image](/public/images/holidaze-screenshot.jpg)
 
 ## Description
 
