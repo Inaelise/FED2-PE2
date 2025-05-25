@@ -12,7 +12,7 @@ import LoadingSpinner from "./LoadingSpinner";
 const schema = yup.object({
   name: yup
     .string()
-    .max(30, "The venue name can't be longer than 30 characters.")
+    .max(50, "The venue name can't be longer than 50 characters.")
     .required("Please enter a venue name."),
   description: yup.string().required("Please enter a description."),
   price: yup
